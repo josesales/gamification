@@ -1,0 +1,82 @@
+<!-- generated: 23/08/2016 08:32:12 -->
+<!-- Modal Questao´s form -->
+<div class="modal fade" id="dialogQuestao" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+					<span class="sr-only">Close</span>
+				</button>
+				<h4 class="modal-title" id="myModalLabel">Pesquisa de Questão</h4>
+			</div>
+			<div class="modal-body">
+				<form id="formSearchQuestao">
+							<div id="groupInputModalPergunta" class="form-group">
+								<label class="control-label" for="inputModalPergunta">Pergunta</label>
+								<input type="text" id="inputModalPergunta" placeholder="Pergunta"  class="form-control">
+							</div>
+							
+							<div id="groupInputModalItemA" class="form-group">
+								<label class="control-label" for="inputModalItemA">Item_a</label>
+								<input type="text" id="inputModalItemA" placeholder="Item_a"  class="form-control">
+							</div>
+							
+							<div id="groupInputModalItemB" class="form-group">
+								<label class="control-label" for="inputModalItemB">Item_b</label>
+								<input type="text" id="inputModalItemB" placeholder="Item_b"  class="form-control">
+							</div>
+							
+							<div id="groupInputModalItemC" class="form-group">
+								<label class="control-label" for="inputModalItemC">Item_c</label>
+								<input type="text" id="inputModalItemC" placeholder="Item_c"  class="form-control">
+							</div>
+							
+							<div id="groupInputModalItemD" class="form-group">
+								<label class="control-label" for="inputModalItemD">Item_d</label>
+								<input type="text" id="inputModalItemD" placeholder="Item_d"  class="form-control">
+							</div>
+							
+							<div id="groupInputModalItemCorreto" class="form-group">
+								<label class="control-label" for="inputModalItemCorreto">Item correto</label>
+								<input type="text" id="inputModalItemCorreto" placeholder="Item correto"  class="form-control">
+							</div>
+							
+							<div id="groupInputModalPontos" class="form-group">
+								<label class="control-label" for="inputModalPontos">Pontos</label>
+								<input type="text" id="inputModalPontos" placeholder="Pontos"  class="form-control">
+							</div>
+							
+		
+					<div class="form-actions spinner" id="spinQuestao">
+						<a href="javascript:void(0)" id="btnSearchQuestao" class="btn btn-primary btn-large" >
+							<i class="fa fa-search"></i>
+							Pesquisar
+						</a>
+						<a href="javascript:void(0)" id="btnClearQuestao" class="btn btn-info btn-large">
+							<i class="fa fa-trash"></i>
+							Nova Pesquisa
+						</a>
+					</div>
+					
+				<div class="row">
+				<div class="col-xs-12">
+					<h3 class="header smaller lighter blue">Resultados</h3>
+					<div class="divTableResults" id="resultadoQuestaoDiv" >
+						<div id="sample-table-2_wrapper" class="dataTables_wrapper form-inline no-footer">
+							<div id="messages_div"></div>
+							<div id="grid-questao" class="table-responsive"></div>
+							<div class="">
+								<div id="counter-questao" class=" pull-left"></div>
+								<div id="paginator-questao" class="pull-right"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+				</div>
+				</form>				
+			</div>
+		</div>
+	</div>
+</div>
+

@@ -1,0 +1,52 @@
+<!-- generated: 23/08/2016 08:32:12 -->
+<!-- Modal Ranking´s form -->
+<div class="modal fade" id="dialogRanking" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span>
+					<span class="sr-only">Close</span>
+				</button>
+				<h4 class="modal-title" id="myModalLabel">Pesquisa de Ranking</h4>
+			</div>
+			<div class="modal-body">
+				<form id="formSearchRanking">
+							<div id="groupInputModalPontos" class="form-group">
+								<label class="control-label" for="inputModalPontos">Pontos</label>
+								<input type="text" id="inputModalPontos" placeholder="Pontos"  class="form-control">
+							</div>
+							
+		
+					<div class="form-actions spinner" id="spinRanking">
+						<a href="javascript:void(0)" id="btnSearchRanking" class="btn btn-primary btn-large" >
+							<i class="fa fa-search"></i>
+							Pesquisar
+						</a>
+						<a href="javascript:void(0)" id="btnClearRanking" class="btn btn-info btn-large">
+							<i class="fa fa-trash"></i>
+							Nova Pesquisa
+						</a>
+					</div>
+					
+				<div class="row">
+				<div class="col-xs-12">
+					<h3 class="header smaller lighter blue">Resultados</h3>
+					<div class="divTableResults" id="resultadoRankingDiv" >
+						<div id="sample-table-2_wrapper" class="dataTables_wrapper form-inline no-footer">
+							<div id="messages_div"></div>
+							<div id="grid-ranking" class="table-responsive"></div>
+							<div class="">
+								<div id="counter-ranking" class=" pull-left"></div>
+								<div id="paginator-ranking" class="pull-right"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+				</div>
+				</form>				
+			</div>
+		</div>
+	</div>
+</div>
+

@@ -1,0 +1,99 @@
+<!-- generated: 23/08/2016 08:32:12 -->
+<!-- Questao´s page -->
+<div class="main-content-inner">
+	<div class="breadcrumbs" id="breadcrumbs">
+		<ul class="breadcrumb">
+			<li>
+				<i class="ace-icon fa fa-home home-icon"></i>
+				<a href="#">Home</a>
+			</li>
+			<li class="active">Pesquisar Questão</li>
+		</ul>
+	</div>
+	<div class="page-content">
+		<div class="page-header">
+			<h1>Pesquisar Questão</h1>
+		</div>
+		<div class="main-content">
+			<div class="row">
+				<div class="col-xs-12 col-sm-12">
+					<h3 class="header smaller lighter blue">Filtros da pesquisa</h3>
+					<div class="panel panel-default plain profile-widget">
+						<!-- Start .panel -->
+						<div class="panel-body">
+							<form role="form" id="formQuestaoFilter">
+								<div id="groupInputPergunta" class="form-group">
+									<label class="control-label" for="inputPergunta">Pergunta</label>
+									<input type="text" id="inputPergunta" placeholder="Pesquise pelo Pergunta"  class="form-control">
+								</div>
+								<div id="groupInputItemA" class="form-group">
+									<label class="control-label" for="inputItemA">Item_a</label>
+									<input type="text" id="inputItemA" placeholder="Pesquise pelo Item_a"  class="form-control">
+								</div>
+								<div id="groupInputItemB" class="form-group">
+									<label class="control-label" for="inputItemB">Item_b</label>
+									<input type="text" id="inputItemB" placeholder="Pesquise pelo Item_b"  class="form-control">
+								</div>
+								<div id="groupInputItemC" class="form-group">
+									<label class="control-label" for="inputItemC">Item_c</label>
+									<input type="text" id="inputItemC" placeholder="Pesquise pelo Item_c"  class="form-control">
+								</div>
+								<div id="groupInputItemD" class="form-group">
+									<label class="control-label" for="inputItemD">Item_d</label>
+									<input type="text" id="inputItemD" placeholder="Pesquise pelo Item_d"  class="form-control">
+								</div>
+								<div id="groupInputItemCorreto" class="form-group">
+									<label class="control-label" for="inputItemCorreto">Item correto</label>
+									<input type="text" id="inputItemCorreto" placeholder="Pesquise pelo Item correto"  class="form-control">
+								</div>
+								<div id="groupInputPontos" class="form-group">
+									<label class="control-label" for="inputPontos">Pontos</label>
+									<input type="text" id="inputPontos" placeholder="Pesquise pelo Pontos"  class="form-control">
+								</div>
+								<div id="groupInputListaContainer" class="form-group">
+									<label class="control-label" for="inputLista">Lista</label>
+									<div id="groupInputLista" class="input-group">
+										<input id="inputListaId" type="hidden" class="form-control append-left"  />
+										<input id="inputListaNome" placeholder="Pesquise pelo Lista"  type="text" class="form-control append-left" />
+										<div class="input-group-addon append-right" id="searchListaModal" data-toggle="modal">
+											<span class="fa fa-search"></span>
+										</div>
+									</div>
+								</div>		
+							</form>
+						</div>
+						<div class="clearfix form-actions">
+							<a href="javascript:void(0)" id="query" class="btn btn-primary">
+								<i class="fa fa-search"></i>
+								Pesquisar
+							</a>
+							&nbsp; &nbsp; &nbsp;
+							<a href="#app/newQuestao" class="btn btn-info">
+								<i class="fa fa-plus "></i>
+								Novo
+							</a>
+							&nbsp; &nbsp; &nbsp;
+							<a href="javascript:void(0)" id="reset" class="btn">Limpar</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<h3 class="header smaller lighter blue">Resultados</h3>
+					<div>
+						<div id="sample-table-2_wrapper" class="dataTables_wrapper form-inline no-footer">
+							<div id="messages_div"></div>
+							<div id="grid" class="table-responsive"></div>
+							<div class="row">
+								<div id="counter" class="col-xs-6 pull-left"></div>
+								<div id="paginator" class="col-xs-6 pull-right"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div id='listaModal'></div>

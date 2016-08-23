@@ -1,0 +1,71 @@
+<!-- generated: 23/08/2016 08:32:11 -->
+<!-- Lista´s form -->
+<div class="main-content-inner">
+	<div class="breadcrumbs" id="breadcrumbs">
+		<ul class="breadcrumb">
+			<li>
+				<i class="ace-icon fa fa-home home-icon"></i>
+				<a href="#">Home</a>
+			</li>
+			<li class="active">Cadastrar Lista</li>
+		</ul>
+	</div>
+	<div class="page-content">
+		<div class="page-header">
+			<h1>Cadastrar Lista</h1>
+		</div>
+		<div class="main-principal">
+			<div class="row">
+				<div class="col-xs-12 col-sm-12">
+					<div id="messages_div"></div>
+				</div>
+			</div>
+			<div class="hr-24"></div>
+			<div class="row">
+				<div class="col-xs-12 col-sm-12">
+					<div class="panel panel-default plain profile-widget">
+						<!-- Start .panel -->
+						<div class="panel-body">
+							<form role="form" id="formLista">
+								<input type="hidden" id="inputId" value="{{id}}">
+								<div id="groupInputNome" class="form-group">
+									<label class="control-label" for="inputNome">Nome  </label>
+									<input type="text" id="inputNome" placeholder="Nome" value="{{nome}}" class="form-control  ">
+								</div>
+								<div class="questaos-container panel"></div>					
+								<div class="questaoDesafios-container panel"></div>					
+								<div id="groupInputDisciplinaContainer" class="form-group">
+									<label class="control-label" for="inputDisciplina">Disciplina</label>
+									<div id="groupInputDisciplina" class="input-group">
+										<input id="inputDisciplinaId" type="hidden" class="form-control append-left" value="{{disciplina && disciplina.id}}" />
+										<input id="inputDisciplinaNome" placeholder="Escolha um Disciplina"  type="text" class="form-control append-left" value="{{disciplina && disciplina.nome}}" />
+										<div class="input-group-addon append-right" id="searchDisciplinaModal" data-toggle="modal">
+											<span class="fa fa-search"></span>
+										</div>
+									</div>
+								</div>		
+							</form>
+						</div>
+						<div class="clearfix form-actions">
+							<a href="javascript:void(0)" id="save"  class="save btn btn-primary">
+								<i class="ace-icon save fa fa-check bigger-110"></i>
+								Salvar
+							</a>
+							&nbsp; &nbsp; &nbsp;
+							<a href="javascript:void(0)" class=" saveAndContinue  btn btn-info" style="display: {{ id ? 'none' : 'inline-block' }} ">
+								<i class="ace-icon fa fa-check bigger-110"></i>
+								Salvar e Continuar
+							</a>
+							&nbsp; &nbsp; &nbsp;
+							<a class="go-back-link btn btn-light" href="#app/listas">
+								<i class="ace-icon fa fa-undo bigger-110"></i>
+								Voltar para a listagem
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div id='disciplinaModal'></div>

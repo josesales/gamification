@@ -1,0 +1,77 @@
+<!-- generated: 23/08/2016 08:32:12 -->
+<!-- QuestaoDesafio´s form -->
+<div class="main-content-inner">
+	<div class="breadcrumbs" id="breadcrumbs">
+		<ul class="breadcrumb">
+			<li>
+				<i class="ace-icon fa fa-home home-icon"></i>
+				<a href="#">Home</a>
+			</li>
+			<li class="active">Cadastrar Questão Desafio</li>
+		</ul>
+	</div>
+	<div class="page-content">
+		<div class="page-header">
+			<h1>Cadastrar Questão Desafio</h1>
+		</div>
+		<div class="main-principal">
+			<div class="row">
+				<div class="col-xs-12 col-sm-12">
+					<div id="messages_div"></div>
+				</div>
+			</div>
+			<div class="hr-24"></div>
+			<div class="row">
+				<div class="col-xs-12 col-sm-12">
+					<div class="panel panel-default plain profile-widget">
+						<!-- Start .panel -->
+						<div class="panel-body">
+							<form role="form" id="formQuestaoDesafio">
+								<input type="hidden" id="inputId" value="{{id}}">
+								<div id="groupInputPontos" class="form-group">
+									<label class="control-label" for="inputPontos">Pontos  *</label>
+									<input type="text" id="inputPontos" placeholder="Pontos" value="{{pontos}}" class="form-control  validate[required]">
+								</div>
+								<div id="groupInputPergunta" class="form-group">
+									<label class="control-label" for="inputPergunta">Pergunta  *</label>
+									<input type="text" id="inputPergunta" placeholder="Pergunta" value="{{pergunta}}" class="form-control  validate[required]">
+								</div>
+								<div id="groupInputResposta" class="form-group">
+									<label class="control-label" for="inputResposta">Resposta  </label>
+									<input type="text" id="inputResposta" placeholder="Resposta" value="{{resposta}}" class="form-control  ">
+								</div>
+								<div id="groupInputListaContainer" class="form-group">
+									<label class="control-label" for="inputLista">Lista</label>
+									<div id="groupInputLista" class="input-group">
+										<input id="inputListaId" type="hidden" class="form-control append-left" value="{{lista && lista.id}}" />
+										<input id="inputListaNome" placeholder="Escolha um Lista"  type="text" class="form-control append-left" value="{{lista && lista.nome}}" />
+										<div class="input-group-addon append-right" id="searchListaModal" data-toggle="modal">
+											<span class="fa fa-search"></span>
+										</div>
+									</div>
+								</div>		
+							</form>
+						</div>
+						<div class="clearfix form-actions">
+							<a href="javascript:void(0)" id="save"  class="save btn btn-primary">
+								<i class="ace-icon save fa fa-check bigger-110"></i>
+								Salvar
+							</a>
+							&nbsp; &nbsp; &nbsp;
+							<a href="javascript:void(0)" class=" saveAndContinue  btn btn-info" style="display: {{ id ? 'none' : 'inline-block' }} ">
+								<i class="ace-icon fa fa-check bigger-110"></i>
+								Salvar e Continuar
+							</a>
+							&nbsp; &nbsp; &nbsp;
+							<a class="go-back-link btn btn-light" href="#app/questaoDesafios">
+								<i class="ace-icon fa fa-undo bigger-110"></i>
+								Voltar para a listagem
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div id='listaModal'></div>
