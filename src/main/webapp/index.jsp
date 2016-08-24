@@ -140,21 +140,21 @@
 				<b class="arrow"></b>
 			</li>
 			
-			<li id="rankings" class="">
-				<a href="#app/rankings">
-					<i class="menu-icon fa fa-caret-right"></i>
-					Ranking
-				</a>
-				<b class="arrow"></b>
-			</li>
+<!-- 			<li id="rankings" class=""> -->
+<!-- 				<a href="#app/rankings"> -->
+<!-- 					<i class="menu-icon fa fa-caret-right"></i> -->
+<!-- 					Ranking -->
+<!-- 				</a> -->
+<!-- 				<b class="arrow"></b> -->
+<!-- 			</li> -->
 			
-			<li id="roles" class="">
-				<a href="#app/roles">
-					<i class="menu-icon fa fa-caret-right"></i>
-					Papel
-				</a>
-				<b class="arrow"></b>
-			</li>
+<!-- 			<li id="roles" class=""> -->
+<!-- 				<a href="#app/roles"> -->
+<!-- 					<i class="menu-icon fa fa-caret-right"></i> -->
+<!-- 					Papel -->
+<!-- 				</a> -->
+<!-- 				<b class="arrow"></b> -->
+<!-- 			</li> -->
 			
 			<li id="users" class="">
 				<a href="#app/users">
@@ -198,8 +198,8 @@
 			<div class="footer-inner">
 				<div class="footer-content">
 					<span class="bigger-120">
-						<span class="blue bolder">Novo</span>
-						Projeto &copy; 2014-2015
+						<span class="blue bolder">Gamification</span>
+						2016.2
 					</span>
 				</div>
 			</div>

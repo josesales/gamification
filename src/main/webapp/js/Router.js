@@ -13,6 +13,9 @@ define(function(require) {
 	var FormDisciplina = require('views/disciplina/FormDisciplina');
 	var DisciplinaModel = require('models/DisciplinaModel');
 	
+	//Paginas da aplicacao
+	var perfilAluno = require('views/perfilAluno/PerfilAluno');
+	
 	var PageLista = require('views/lista/PageLista');
 	var FormLista = require('views/lista/FormLista');
 	var ListaModel = require('models/ListaModel');
@@ -115,6 +118,8 @@ define(function(require) {
 	var AppRouter = Backbone.Router.extend({
 		routes : {
 			'' : 'index',
+			//hashs da Aplicacao
+			'app/perfilAluno/:id' : 'perfilAluno',
 			// hashs de Aluno
 			'app/alunos' : 'alunos',
 			'app/newAluno' : 'newAluno',
@@ -215,6 +220,15 @@ define(function(require) {
 			setTimeout(function() {
 				util.NProgress.done(false, true);
 			}, 500);
+		},
+		
+		//configuracoes da aplicacao
+		perfilAluno : function(id) {
+			util.markActiveItem('perfilAluno');
+			this.painelAtendimento = new PerfilAluno({
+				id : id,
+			});
+			this.App.bodyRegion.show(this.perfilAluno);
 		},
 		
 		//configuração das rotas de Aluno

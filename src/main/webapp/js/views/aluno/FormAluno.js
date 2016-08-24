@@ -32,6 +32,7 @@ define(function(require) {
 			'click 	.save' : 'save',
 			'click 	.saveAndContinue' : 'saveAndContinue',
 			'click #searchUsuarioModal' : '_showSearchUsuarioModal',
+			'click 	#linkPerfilAluno' : 'exibirPerfilAluno',
 		},
 		
 		ui : {
@@ -58,6 +59,10 @@ define(function(require) {
 					validationEventTrigger : "change"
 				});
 			});
+		},
+		
+		exibirPerfilAluno : function() {
+			util.openNewWindow("#app/perfilAluno/" + this.ui.inputId.val());
 		},
 
 		saveAndContinue : function() {

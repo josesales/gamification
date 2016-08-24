@@ -611,6 +611,10 @@ define([ 'nprogress', 'moment', 'spin', 'adapters/col-adapter', 'bootbox', 'adap
 			var _number = number || 0;
 			return _number.formatMoney(places, ',', '.')
 		},
+		
+		openNewWindow : function(url) {
+			window.open(location.origin+location.pathname + url,'_blank');
+		},
 
 		logError : function(_resp) {
 			var entry = '';
