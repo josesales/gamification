@@ -14,7 +14,7 @@ define(function(require) {
 	var DisciplinaModel = require('models/DisciplinaModel');
 	
 	//Paginas da aplicacao
-	var perfilAluno = require('views/perfilAluno/PerfilAluno');
+	var PerfilAluno = require('views/perfilAluno/PerfilAluno');
 	
 	var PageLista = require('views/lista/PageLista');
 	var FormLista = require('views/lista/FormLista');
@@ -225,10 +225,10 @@ define(function(require) {
 		//configuracoes da aplicacao
 		perfilAluno : function(id) {
 			util.markActiveItem('perfilAluno');
-			this.painelAtendimento = new PerfilAluno({
+			this.perfilAluno = new PerfilAluno({
 				id : id,
 			});
-			this.App.bodyRegion.show(this.perfilAluno);
+			this.App.mainRegion.show(this.perfilAluno);
 		},
 		
 		//configuração das rotas de Aluno

@@ -1,8 +1,8 @@
 -- Ajustes na estrutura criada para o many-to-many de usuário e papel 
  ALTER TABLE user_role ADD PRIMARY KEY (role_id, user_id);
 
- INSERT INTO role( id, authority, description)  VALUES (1, 'ROLE_USER', 'Usuário do sistema');
- INSERT INTO role( id, authority, description)  VALUES (2, 'ROLE_ADMIN', 'Administrador do sistema');
+ INSERT INTO role( id, authority, description)  VALUES (1, 'ALUNO', 'Usuário do sistema');
+ INSERT INTO role( id, authority, description)  VALUES (2, 'PROFESSOR', 'Administrador do sistema');
  
  INSERT INTO client (id, cnpj, corporate_name,  phone_number, logo, name) values (1,'','Grupo MR', '87833007','','Grupo MR');
 -- Tabela de usuários

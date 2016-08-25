@@ -7,20 +7,26 @@ define(function(require) {
 	var Backbone = require('adapters/backbone-adapter');
 	var Marionette = require('marionette');
 	var Backgrid = require('adapters/backgrid-adapter');
+	var Counter = require('views/components/Counter');
+	var RowClick = require('views/components/CustomClickedRow');
 	var util = require('utilities/utils');
-//	var PainelAtendimentoModel = require('models/PainelAtendimentoModel');
-//	var ConfiguracaoCollection = require('collections/ConfiguracaoCollection');
-//	var PainelAtendimentoCollection = require('collections/PainelAtendimentoCollection');
 	var PerfilAlunoTemplate = require('text!views/perfilAluno/tpl/PerfilAlunoTemplate.html');
-//	var InformacoesPainel = require('views/painelAtendimento/InformacoesPainel');
-//	var VideoPainel = require('views/painelAtendimento/VideoPainel');
-//	var exibeVideo = true;
+	var DisciplinaPageCollection = require('collections/DisciplinaPageCollection');
+	var ActionsCell = require('views/components/ActionsCell');
+	var CustomStringCell = require('views/components/CustomStringCell');
+	var CustomNumberCell = require('views/components/CustomNumberCell');
+	var GeneralActionsCell = require('views/components/GeneralActionsCell');
 	
 	var PerfilAluno = Marionette.LayoutView.extend({
 		template : _.template(PerfilAlunoTemplate),
 
 		regions : {
-//			painelAtendimentoRegion : '#painelAtendimento',
+			disciplinaCadastradaCounterRegion : 	 '#counter_disciplina_cadastrada',
+			disciplinaCadastradaGridRegion : 		 '#grid_disciplina_cadastrada',
+			disciplinaCadastradaPaginatorRegion : 	 '#paginator_disciplina_cadastrada',
+			disciplinaNaoCadastradaCounterRegion : 	 '#counter_disciplina_nao_cadastrada',
+			disciplinaNaoCadastradaGridRegion : 	 '#grid_disciplina_nao_cadastrada',
+			disciplinaNaoCadastradaPaginatorRegion : '#paginator_disciplina_nao_cadastrada',
 		},
 
 		events : {
@@ -39,98 +45,215 @@ define(function(require) {
 		},
 
 		initialize : function(opt) {
+			var that = this;
+			
+			//disciplinas cadastradas
+			this.disciplinaCadastradaCollection = new DisciplinaPageCollection();
+			this.disciplinaCadastradaCollection.state.pageSize = 5;
+			this.disciplinaCadastradaCollection.on('fetching', this._startFetch, this);
+			this.disciplinaCadastradaCollection.on('fetched', this._stopFetch, this);
+			
+			this.disciplinaCadastradaCollection.fetch({
+				resetState : true,
+				success : function(_coll, _resp, _opt) {
+					//caso queira algum tratamento de sucesso adicional
+				},
+				error : function(_coll, _resp, _opt) {
+					console.error(_coll, _resp, _opt)
+				}
+			});
 
-//			var that = this;
-//			this.cnes = opt.cnes
-//			this.idSetor = opt.idSetor;
-//			this.painelAtendimentoModel = new PainelAtendimentoModel();
-//			this.configuracaoInicialPainel = new PainelAtendimentoModel();
-//			this.configuracaoInicialPainel.urlRoot = 'rs/crud/painelAtendimento/carregarConfiguracaoInicial'
-////aquipainel
-//				
-//			this.videoPainel = new VideoPainel();
-//			this.informacoesPainel = new InformacoesPainel();
-//			this.consultasRealizadas = 0;
-//			this.reiniciaVideo = false;
-//			this.urlTextToSpeech = null;
-//
-//			var configuracaoCollection = new ConfiguracaoCollection();
-//			configuracaoCollection.fetch({
-//				resetState : true,
-//
-//				success : function(_coll, _resp, _opt) {
-//					if (_resp) {
-//						that.urlTextToSpeech = _.first(_resp).urlTextToSpeech;
-//					}
-//				},
-//				error : function(_coll, _resp, _opt) {
-//					util.Bootbox.alert("Erro ao buscar configuração. Certifique-se de ter preenchido todos os valores");
-//					util.logError(_resp);
-//				}
-//			});
-
-//			this.buscaConfiguracaoInicial();
-
-			this.on('show', function() {
-
-//				var isExibeVideo = new PainelAtendimentoModel();
-//				isExibeVideo.urlRoot = 'rs/crud/painelAtendimento/isExibeVideo';
-//				
-//				isExibeVideo.fetch({
-//					resetState : true,
-//					success : function(_coll, _resp, _opt) {
-//						if (_resp) {
-//							that.painelAtendimentoRegion.show(that.videoPainel);
-//						} else {
-//							exibeVideo = false;
-//						}
-//					},
-//					error : function(_coll, _resp, _opt) {
-//						util.showMessage('error', 'Problema ao buscar por parâmetro que define se o video será exibido');
-//						util.logError(_resp);
-//					}
-//				});
-//				
-//				this.exibeDataCorrente();
-//
-//				this.buscaInformacoesPainel = function() {
-//
-//					console.info("Número de acesso ao serviço do Aghos: " + that.consultasRealizadas);
-//
-//					that.consultasRealizadas++;
-//					// that.idHospital = 165;
-//					// that.idSetor = 255;
-//
-//					that.painelAtendimentoModel.set({
-//						cnes : that.cnes,
-//						idSetor : that.idSetor,
-//					});
-//
-//					that.painelAtendimentoModel.fetch({
-//						resetState : true,
-//						data : {
-//							'cnes' : that.cnes,
-//							'idSetor' : that.idSetor,
-//						},
-//						success : function(_coll, _resp, _opt) {
-//							that.exibeDataCorrente();
-//							if (_resp) {
-//								var painelAtendimento = that.painelAtendimentoModel;
-//								that.exibeConfiguracao(painelAtendimento);
-//								that.exibePaciente(painelAtendimento);
-//							}
-//						},
-//						error : function(_coll, _resp, _opt) {
-////							console.error(_coll, _resp, _opt);
-//							util.logError(_resp);
-//						}
-//					});
-//				};
-//
-//				// Executa de 5 em 5 segundos a funcao passada
-//				util.resfresh(5, this.buscaInformacoesPainel);
+			this.disciplinaCadastradaGrid = new Backgrid.Grid({
+				row : RowClick,
+				className : 'table backgrid table-striped table-bordered table-hover dataTable no-footer  ',
+				columns : this._getDisciplinaCadastradaColumns(),
+				emptyText : "Sem registros",
+				collection : this.disciplinaCadastradaCollection,
+				emptyText : "Sem registros para exibir."
 
 			});
+			
+			this.disciplinaCadastradaCounter = new Counter({
+				collection : this.disciplinaCadastradaCollection ,
+			});
+			
+
+			this.disciplinaCadastradaPaginator = new Backgrid.Extension.Paginator({
+				columns : this._getDisciplinaCadastradaColumns(),
+				collection : this.disciplinaCadastradaCollection,
+				className : 'dataTables_paginate paging_simple_numbers',
+				uiClassName : 'pagination',
+			});
+			
+			//disciplinas nao cadastradas
+			this.disciplinaNaoCadastradaCollection = new DisciplinaPageCollection();
+			this.disciplinaNaoCadastradaCollection.state.pageSize = 5;
+			this.disciplinaNaoCadastradaCollection.on('fetching', this._startFetch, this);
+			this.disciplinaNaoCadastradaCollection.on('fetched', this._stopFetch, this);
+			
+			this.disciplinaNaoCadastradaCollection.fetch({
+				resetState : true,
+				success : function(_coll, _resp, _opt) {
+					//caso queira algum tratamento de sucesso adicional
+				},
+				error : function(_coll, _resp, _opt) {
+					console.error(_coll, _resp, _opt)
+				}
+			});
+
+			this.disciplinaNaoCadastradaGrid = new Backgrid.Grid({
+				row : RowClick,
+				className : 'table backgrid table-striped table-bordered table-hover dataTable no-footer  ',
+				columns : this._getDisciplinaNaoCadastradaColumns(),
+				emptyText : "Sem registros",
+				collection : this.disciplinaNaoCadastradaCollection,
+				emptyText : "Sem registros para exibir."
+
+			});
+			
+			this.disciplinaNaoCadastradaCounter = new Counter({
+				collection : this.disciplinaNaoCadastradaCollection ,
+			});
+			
+
+			this.disciplinaNaoCadastradaPaginator = new Backgrid.Extension.Paginator({
+				columns : this._getDisciplinaNaoCadastradaColumns(),
+				collection : this.disciplinaNaoCadastradaCollection,
+				className : 'dataTables_paginate paging_simple_numbers',
+				uiClassName : 'pagination',
+			});
+
+			this.on('show', function() {
+				//disciplinas cadastradas
+				that.disciplinaCadastradaGridRegion.show(that.disciplinaCadastradaGrid);
+				that.disciplinaCadastradaCounterRegion.show(that.disciplinaCadastradaCounter);
+				that.disciplinaCadastradaPaginatorRegion.show(that.disciplinaCadastradaPaginator);
+				
+				//disciplinas nao cadastradas
+				that.disciplinaNaoCadastradaGridRegion.show(that.disciplinaNaoCadastradaGrid);
+				that.disciplinaNaoCadastradaCounterRegion.show(that.disciplinaNaoCadastradaCounter);
+				that.disciplinaNaoCadastradaPaginatorRegion.show(that.disciplinaNaoCadastradaPaginator);
+			});
+
+
+			
+		},
+		
+		_getDisciplinaCadastradaColumns : function() {
+			var columns = [	
+
+			{
+				name : "nome",
+				editable : false,
+				sortable : true,
+				label 	 : "Nome",
+				cell 	 : "string",
+			}, 
+			{
+				name : "professor.nome",
+				editable : false,
+				sortable : true,
+				label : "Professor",
+				cell : CustomStringCell.extend({
+					fieldName : 'professor.nome',
+				}),
+			},	
+			{
+				name : "acoes",
+				label : "Listas, Descadastrar",
+				sortable : false,
+				cell : GeneralActionsCell.extend({
+					buttons : this._getDisciplinasCadastradasCellButtons(),
+					context : this,
+				})
+			}
+			];
+			return columns;
+		},
+		
+		_getDisciplinaNaoCadastradaColumns : function() {
+			var columns = [	
+
+			{
+				name : "nome",
+				editable : false,
+				sortable : true,
+				label 	 : "Nome",
+				cell 	 : "string",
+			}, 
+			{
+				name : "professor.nome",
+				editable : false,
+				sortable : true,
+				label : "Professor",
+				cell : CustomStringCell.extend({
+					fieldName : 'professor.nome',
+				}),
+			},	
+			{
+				name : "acoes",
+				label : "Cadastrar",
+				sortable : false,
+				cell : GeneralActionsCell.extend({
+					buttons : this._getDisciplinasNaoCadastradasCellButtons(),
+					context : this,
+				})
+			}
+			];
+			return columns;
+		},
+		
+		_getDisciplinasCadastradasCellButtons : function() {
+			var that = this;
+			var buttons = [];
+			buttons.push({
+				id : 'lista_button',
+				type : 'sucess',
+				icon : 'fa-pencil',
+				hint : 'Listas de Exercício',
+				onClick : that._getListasExercicios,
+
+			});
+			buttons.push({
+				id : 'regular_button',
+				type : 'danger',
+				icon : 'fa fa-toggle-down',
+				hint : 'Descadastrar Disciplina',
+				onClick : that._descadastrar,
+
+			});
+
+			return buttons;
+		},
+		
+		_getListasExercicios : function(model) {
+			//ir para lista de exercicios da disciplina
+			//util.goPage("app/editAtendimento/" + model.get('id'), true);
+		},
+
+		_descadastrar : function(model) {
+			//descadastrar disciplina
+			//util.goPage("app/historicoAtendimentos/" + model.get('id'), true);
+		},
+		
+		_getDisciplinasNaoCadastradasCellButtons : function() {
+			var that = this;
+			var buttons = [];
+			buttons.push({
+				id : 'regular_button',
+				type : 'sucess',
+				icon : 'fa fa-toggle-up',
+				hint : 'Cadastrar Disciplina',
+				onClick : that._cadastrar,
+
+			});
+
+			return buttons;
+		},
+
+		_cadastrar : function(model) {
+			//descadastrar disciplina
+			//util.goPage("app/historicoAtendimentos/" + model.get('id'), true);
 		},
 
 		// Busca a mensagem a ser exibida e o logo gestor

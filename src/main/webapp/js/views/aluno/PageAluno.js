@@ -130,14 +130,6 @@ define(function(require) {
 				
 		_getColumns : function() {
 			var columns = [
-			//{
-			//	name : "id",
-			//	label : "id",
-			//	editable : false,
-			//	cell : Backgrid.IntegerCell.extend({
-			//		orderSeparator : ''
-			//	})
-			//}, 
 			{
 				name : "nome",
 				editable : false,

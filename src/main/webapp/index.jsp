@@ -140,21 +140,22 @@
 				<b class="arrow"></b>
 			</li>
 			
-<!-- 			<li id="rankings" class=""> -->
-<!-- 				<a href="#app/rankings"> -->
-<!-- 					<i class="menu-icon fa fa-caret-right"></i> -->
-<!-- 					Ranking -->
-<!-- 				</a> -->
-<!-- 				<b class="arrow"></b> -->
-<!-- 			</li> -->
-			
-<!-- 			<li id="roles" class=""> -->
-<!-- 				<a href="#app/roles"> -->
-<!-- 					<i class="menu-icon fa fa-caret-right"></i> -->
-<!-- 					Papel -->
-<!-- 				</a> -->
-<!-- 				<b class="arrow"></b> -->
-<!-- 			</li> -->
+			<li id="rankings" class="">
+				<a href="#app/rankings">
+					<i class="menu-icon fa fa-caret-right"></i>
+					Ranking
+				</a>
+				<b class="arrow"></b>
+			</li>
+			<security:authorize access="hasAnyRole('PROFESSOR')">
+				<li id="roles" class="">
+					<a href="#app/roles">
+						<i class="menu-icon fa fa-caret-right"></i>
+						Papel
+					</a>
+					<b class="arrow"></b>
+				</li>
+			</security:authorize>
 			
 			<li id="users" class="">
 				<a href="#app/users">
