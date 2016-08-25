@@ -2,17 +2,6 @@ package br.com.gamification.model.filter;
 
 import java.io.Serializable;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import org.joda.time.LocalDate;
-import org.joda.time.LocalDateTime;
-
-
-import br.com.gamification.core.serialization.CustomLocalDateSerializer;
-import br.com.gamification.core.serialization.CustomLocalDateDeserializer;
-import br.com.gamification.core.serialization.CustomLocalDateTimeSerializer;
-import br.com.gamification.core.serialization.CustomLocalDateTimeDeserializer;
-
 
 /**
 *  generated: 23/08/2016 08:32:11
@@ -22,7 +11,11 @@ public class FilterDisciplina implements Serializable {
 	
 	private String nome;  			
 
-	private Integer professor;		
+	private Integer professor;
+	
+	private Integer aluno;
+	
+	private Boolean isAlunoIncluso;
 	
 	public  FilterDisciplina() {
 		
@@ -43,6 +36,26 @@ public class FilterDisciplina implements Serializable {
 	
 	public void setProfessor(Integer professor) {
 		this.professor = professor;
+	}
+
+
+	public Integer getAluno() {
+		return aluno;
+	}
+
+
+	public void setAluno(Integer aluno) {
+		this.aluno = aluno;
+	}
+
+
+	public Boolean getIsAlunoIncluso() {
+		return isAlunoIncluso;
+	}
+
+
+	public void setIsAlunoIncluso(Boolean isAlunoIncluso) {
+		this.isAlunoIncluso = isAlunoIncluso;
 	}
 	
 }

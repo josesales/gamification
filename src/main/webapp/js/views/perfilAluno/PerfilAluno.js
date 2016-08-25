@@ -53,6 +53,10 @@ define(function(require) {
 			this.disciplinaCadastradaCollection.on('fetching', this._startFetch, this);
 			this.disciplinaCadastradaCollection.on('fetched', this._stopFetch, this);
 			
+			this.disciplinaCadastradaCollection.filterQueryParams = {
+				aluno : opt.id,
+				isAlunoIncluso : true,
+			}
 			this.disciplinaCadastradaCollection.fetch({
 				resetState : true,
 				success : function(_coll, _resp, _opt) {
@@ -90,6 +94,11 @@ define(function(require) {
 			this.disciplinaNaoCadastradaCollection.state.pageSize = 5;
 			this.disciplinaNaoCadastradaCollection.on('fetching', this._startFetch, this);
 			this.disciplinaNaoCadastradaCollection.on('fetched', this._stopFetch, this);
+			
+			this.disciplinaNaoCadastradaCollection.filterQueryParams = {
+				aluno : opt.id,
+				isAlunoIncluso : false,
+			}
 			
 			this.disciplinaNaoCadastradaCollection.fetch({
 				resetState : true,
@@ -208,7 +217,7 @@ define(function(require) {
 			var buttons = [];
 			buttons.push({
 				id : 'lista_button',
-				type : 'sucess',
+				type : 'primary',
 				icon : 'fa-pencil',
 				hint : 'Listas de Exercício',
 				onClick : that._getListasExercicios,
@@ -216,8 +225,8 @@ define(function(require) {
 			});
 			buttons.push({
 				id : 'regular_button',
-				type : 'danger',
-				icon : 'fa fa-toggle-down',
+				type : 'warning',
+				icon : 'fa fa-thumbs-down',
 				hint : 'Descadastrar Disciplina',
 				onClick : that._descadastrar,
 
@@ -241,8 +250,8 @@ define(function(require) {
 			var buttons = [];
 			buttons.push({
 				id : 'regular_button',
-				type : 'sucess',
-				icon : 'fa fa-toggle-up',
+				type : 'primary',
+				icon : 'fa fa-thumbs-up',
 				hint : 'Cadastrar Disciplina',
 				onClick : that._cadastrar,
 
