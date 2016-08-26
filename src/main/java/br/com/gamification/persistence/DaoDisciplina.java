@@ -9,9 +9,10 @@ import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Property;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.criterion.SimpleExpression;
-import org.hibernate.sql.JoinType;
 
 import br.com.gamification.core.persistence.AccessibleHibernateDao;
 import br.com.gamification.core.persistence.pagination.Pagination;
@@ -47,27 +48,25 @@ public class DaoDisciplina extends AccessibleHibernateDao<Disciplina> {
 			searchCriteria.add(Restrictions.eq("professor_.id", filterDisciplina.getProfessor()));
 			countCriteria.add(Restrictions.eq("professor_.id", filterDisciplina.getProfessor()));
 		}
-//		if (filterDisciplina.getAluno() != null) {
-//			
-//			if(filterDisciplina.getIsAlunoIncluso() == true) {
-//				//filtra por disciplinas que o aluno esta cadastrado
-//				searchCriteria.createAlias("alunos", "aluno_");
-//				countCriteria.createAlias("alunos", "aluno_");
-//				searchCriteria.add(Restrictions.eq("aluno_.id", filterDisciplina.getAluno()));
-//				countCriteria.add(Restrictions.eq("aluno_.id", filterDisciplina.getAluno()));
-//			}else {
-//				//filtra por disciplinas que o aluno nao esta cadastrado
-//				
-//				//DetachedCriteria sub = DetachedCriteria.forClass(Company.class);
-////				criterion = Restrictions.eq("companyRoles.name", "ADMIN");
-//				//sub.add(criterion);
-//				//sub.setProjection(Projections.property("id"));
-//				//Criteria criteria = session.createCriteria(Company.class);
-//				//criteria.add(Property.forName("id").notIn(sub));
-//				//List<Company> companyList = criteria.list();
-//				
-//			}
-//		}
+		if (filterDisciplina.getAluno() != null) {
+			
+			if(filterDisciplina.getIsAlunoIncluso() == true) {
+				//filtra por disciplinas que o aluno esta cadastrado
+				searchCriteria.createAlias("alunos", "aluno_");
+				countCriteria.createAlias("alunos", "aluno_");
+				searchCriteria.add(Restrictions.eq("aluno_.id", filterDisciplina.getAluno()));
+				countCriteria.add(Restrictions.eq("aluno_.id", filterDisciplina.getAluno()));
+			}else {
+				//filtra por disciplinas que o aluno nao esta cadastrado
+				DetachedCriteria sub = DetachedCriteria.forClass(Disciplina.class);
+				sub.createAlias("alunos", "aluno_");
+				SimpleExpression eq = Restrictions.eq("aluno_.id", filterDisciplina.getAluno());
+				sub.add(eq);
+				sub.setProjection(Projections.property("id"));
+				searchCriteria.add(Property.forName("id").notIn(sub));
+				countCriteria.add(Property.forName("id").notIn(sub));
+			}
+		}
 
 		return new Paginator<Disciplina>(searchCriteria, countCriteria).paginate(paginationParams);
 	}

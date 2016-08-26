@@ -10,12 +10,14 @@ define(function(require) {
 	var Counter = require('views/components/Counter');
 	var RowClick = require('views/components/CustomClickedRow');
 	var util = require('utilities/utils');
-	var PerfilAlunoTemplate = require('text!views/perfilAluno/tpl/PerfilAlunoTemplate.html');
-	var DisciplinaPageCollection = require('collections/DisciplinaPageCollection');
 	var ActionsCell = require('views/components/ActionsCell');
 	var CustomStringCell = require('views/components/CustomStringCell');
 	var CustomNumberCell = require('views/components/CustomNumberCell');
 	var GeneralActionsCell = require('views/components/GeneralActionsCell');
+	
+	var PerfilAlunoTemplate = require('text!views/perfilAluno/tpl/PerfilAlunoTemplate.html');
+	var DisciplinaPageCollection = require('collections/DisciplinaPageCollection');
+	var AlunoModel = require('models/AlunoModel');
 	
 	var PerfilAluno = Marionette.LayoutView.extend({
 		template : _.template(PerfilAlunoTemplate),
@@ -38,7 +40,7 @@ define(function(require) {
 //
 //		},
 		ui : {
-//			dataAtual : '#dataAtual',
+			nomeAluno : '#nomeAluno',
 //			horaAtual : '#horaAtual',
 //			mensagemExibida : '#mensagemExibida',
 //			imgLogoGestor : '#imgLogoGestor',
@@ -46,7 +48,13 @@ define(function(require) {
 
 		initialize : function(opt) {
 			var that = this;
-			
+			this.aluno = new AlunoModel();
+			this.aluno.on('fetching', this._startFetch, this);
+			this.aluno.on('fetched', this._stopFetch, this);
+			this.aluno.filterQueryParams = {
+				id : opt.id,
+			}
+		
 			//disciplinas cadastradas
 			this.disciplinaCadastradaCollection = new DisciplinaPageCollection();
 			this.disciplinaCadastradaCollection.state.pageSize = 5;
@@ -133,6 +141,17 @@ define(function(require) {
 			});
 
 			this.on('show', function() {
+				
+				this.aluno.fetch({
+					resetState : true,
+					success : function(_coll, _resp, _opt) {
+						that.ui.nomeAluno.text(_resp.itens[0].nome);
+					},
+					error : function(_coll, _resp, _opt) {
+						console.error(_coll, _resp, _opt)
+					}
+				});
+				
 				//disciplinas cadastradas
 				that.disciplinaCadastradaGridRegion.show(that.disciplinaCadastradaGrid);
 				that.disciplinaCadastradaCounterRegion.show(that.disciplinaCadastradaCounter);
