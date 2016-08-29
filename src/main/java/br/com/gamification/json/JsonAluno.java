@@ -2,13 +2,12 @@ package br.com.gamification.json;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import br.com.gamification.core.json.SyncOperation;
 import br.com.gamification.core.serialization.CustomSyncObjectIdDeserializer;
-import br.com.gamification.core.serialization.CustomDoubleDeserializer;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 /**
 *  generated: 23/08/2016 08:32:11
@@ -23,7 +22,10 @@ public class JsonAluno implements Serializable {
 	private String nome;
 	private ArrayList<JsonDisciplina> diciplinas = new ArrayList<JsonDisciplina>();	
 	private ArrayList<JsonRanking> rankings = new ArrayList<JsonRanking>();		
-	private JsonUser usuario;		
+	private JsonUser usuario;	
+	private Integer pontos;
+	private Integer level;
+	private Integer proximoLevel;
 	
 	public  JsonAluno() {
 		
@@ -67,6 +69,30 @@ public class JsonAluno implements Serializable {
 	public void setUsuario(JsonUser user) {
 		this.usuario = user;
 	}
+	public Integer getPontos() {
+		return pontos;
+	}
+
+	public void setPontos(Integer pontos) {
+		this.pontos = pontos;
+	}
+
+	public Integer getLevel() {
+		return level;
+	}
+
+	public void setLevel(Integer level) {
+		this.level = level;
+	}
+
+	public Integer getProximoLevel() {
+		return proximoLevel;
+	}
+
+	public void setProximoLevel(Integer proximoLevel) {
+		this.proximoLevel = proximoLevel;
+	}
+
 	public SyncOperation getSyncOperation (){
 		if(syncOperation == null){
 			this.syncOperation = SyncOperation.NONE;

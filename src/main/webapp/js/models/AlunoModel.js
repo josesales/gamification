@@ -21,6 +21,9 @@ define(function(require) {
 			diciplinas : null,
 			rankings : null,
 			usuario : null,
+			pontos: null,
+			level: null,
+			proximoLevel: null,
 		
 		}
 	});

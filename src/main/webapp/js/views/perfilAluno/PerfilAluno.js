@@ -41,6 +41,9 @@ define(function(require) {
 //		},
 		ui : {
 			nomeAluno : '#nomeAluno',
+			xp : '#xp',
+			level : '#level',
+			barraProximoLevel : '#barraProximoLevel',
 //			horaAtual : '#horaAtual',
 //			mensagemExibida : '#mensagemExibida',
 //			imgLogoGestor : '#imgLogoGestor',
@@ -146,6 +149,20 @@ define(function(require) {
 					resetState : true,
 					success : function(_coll, _resp, _opt) {
 						that.ui.nomeAluno.text(_resp.itens[0].nome);
+						that.ui.xp.text(_resp.itens[0].pontos ? 'XP ' + _resp.itens[0].pontos : 'XP 0');
+						that.ui.level.text(_resp.itens[0].level ? 'Level ' + _resp.itens[0].level : 'Level 1');
+						that.ui.barraProximoLevel.prop("aria-valuenow", '' + _resp.itens[0].proximoLevel ? _resp.itens[0].proximoLevel : 0);
+						that.ui.barraProximoLevel.prop("style", '' + "width:" + (_resp.itens[0].proximoLevel ? _resp.itens[0].proximoLevel : 0) + "%");
+						var proxLevel = _resp.itens[0].proximoLevel ? _resp.itens[0].proximoLevel : 0;
+						if(proxLevel >= 0 && proxLevel <= 30) {
+							that.ui.barraProximoLevel.prop('class', 'progress-bar progress-bar-danger');
+						}else if(proxLevel >30 && proxLevel < 50) {
+							that.ui.barraProximoLevel.prop('class', 'progress-bar progress-bar-warning');
+						}else if(proxLevel >= 50  && proxLevel < 60) {
+							that.ui.barraProximoLevel.prop('class', 'progress-bar progress-bar-info');
+						}else if(proxLevel >= 60) {
+							that.ui.barraProximoLevel.prop('class', 'progress-bar progress-bar-success');
+						}
 					},
 					error : function(_coll, _resp, _opt) {
 						console.error(_coll, _resp, _opt)

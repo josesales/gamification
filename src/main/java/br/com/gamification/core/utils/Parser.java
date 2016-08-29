@@ -1,7 +1,6 @@
 package br.com.gamification.core.utils;
 
 import java.util.ArrayList;
-
 import java.util.List;
 
 import org.joda.time.DateTime;
@@ -10,51 +9,48 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
 import br.com.gamification.json.JsonAluno;
-import br.com.gamification.model.Aluno;
-import br.com.gamification.json.JsonDisciplina;
-import br.com.gamification.model.Disciplina;
-import br.com.gamification.json.JsonLista;
-import br.com.gamification.model.Lista;
-import br.com.gamification.json.JsonProfessor;
-import br.com.gamification.model.Professor;
-import br.com.gamification.json.JsonQuestao;
-import br.com.gamification.model.Questao;
-import br.com.gamification.json.JsonQuestaoDesafio;
-import br.com.gamification.model.QuestaoDesafio;
-import br.com.gamification.json.JsonRanking;
-import br.com.gamification.model.Ranking;
 import br.com.gamification.json.JsonBairro;
-import br.com.gamification.model.Bairro;
 import br.com.gamification.json.JsonCep;
-import br.com.gamification.model.Cep;
 import br.com.gamification.json.JsonCidade;
-import br.com.gamification.model.Cidade;
-import br.com.gamification.json.JsonEndereco;
-import br.com.gamification.model.Endereco;
-import br.com.gamification.json.JsonEstado;
-import br.com.gamification.model.Estado;
-import br.com.gamification.json.JsonPais;
-import br.com.gamification.model.Pais;
 import br.com.gamification.json.JsonClient;
-import br.com.gamification.model.Client;
+import br.com.gamification.json.JsonDisciplina;
+import br.com.gamification.json.JsonEndereco;
+import br.com.gamification.json.JsonEstado;
 import br.com.gamification.json.JsonItem;
-import br.com.gamification.model.Item;
 import br.com.gamification.json.JsonItemType;
-import br.com.gamification.model.ItemType;
+import br.com.gamification.json.JsonLista;
 import br.com.gamification.json.JsonOperation;
-import br.com.gamification.model.Operation;
+import br.com.gamification.json.JsonPais;
 import br.com.gamification.json.JsonPermission;
-import br.com.gamification.model.Permission;
+import br.com.gamification.json.JsonProfessor;
+import br.com.gamification.json.JsonQuestao;
+import br.com.gamification.json.JsonQuestaoDesafio;
+import br.com.gamification.json.JsonRanking;
 import br.com.gamification.json.JsonRole;
-import br.com.gamification.model.Role;
 import br.com.gamification.json.JsonSession;
+import br.com.gamification.json.JsonUser;
+import br.com.gamification.model.Aluno;
+import br.com.gamification.model.Bairro;
+import br.com.gamification.model.Cep;
+import br.com.gamification.model.Cidade;
+import br.com.gamification.model.Client;
+import br.com.gamification.model.Disciplina;
+import br.com.gamification.model.Endereco;
+import br.com.gamification.model.Estado;
+import br.com.gamification.model.Item;
+import br.com.gamification.model.ItemType;
+import br.com.gamification.model.Lista;
+import br.com.gamification.model.Operation;
+import br.com.gamification.model.Pais;
+import br.com.gamification.model.Permission;
+import br.com.gamification.model.Professor;
+import br.com.gamification.model.Questao;
+import br.com.gamification.model.QuestaoDesafio;
+import br.com.gamification.model.Ranking;
+import br.com.gamification.model.Role;
 import br.com.gamification.model.Session;
-import br.com.gamification.json.JsonUser;
 import br.com.gamification.model.User;
-import br.com.gamification.model.User;
-import br.com.gamification.json.JsonUser;
 
-//saporra
 public class Parser {
 
 	private static final DateTimeFormatter DATE_TIME_FORMAT = DateTimeFormat.forPattern("dd/MM/yyyy HH:mm");
@@ -143,10 +139,16 @@ public class Parser {
 	private static void applyBasicJsonValues(JsonAluno jsonAluno, Aluno aluno) {
 		jsonAluno.setId(aluno.getId());
 	    jsonAluno.setNome(aluno.getNome());
+	    jsonAluno.setPontos(aluno.getPontos());
+	    jsonAluno.setLevel(aluno.getLevel());
+	    jsonAluno.setProximoLevel(aluno.getProximoLevel());
 	}	
 	private static void applyBasicEntityValues(Aluno aluno, JsonAluno jsonAluno) {
 		aluno.setId(jsonAluno.getId());
 		aluno.setNome(jsonAluno.getNome());
+		aluno.setPontos(jsonAluno.getPontos());
+		aluno.setLevel(jsonAluno.getLevel());
+		aluno.setProximoLevel(jsonAluno.getProximoLevel());
 	}	
 	
 	public static JsonAluno toJson(Aluno aluno) {

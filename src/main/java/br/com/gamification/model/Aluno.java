@@ -43,7 +43,16 @@ public class Aluno extends AbstractTimestampEntity{
 	
 	@OneToOne
 	@JoinColumn(name = "ID_USUARIO")
-	private User usuario;		
+	private User usuario;	
+	
+	@Column(name = "PONTOS", columnDefinition = "int default 0") 
+	private Integer pontos;
+	
+	@Column(name = "LEVEL", columnDefinition = "int default 1")
+	private Integer level;
+	
+	@Column(name = "PROX_LEVEL", columnDefinition = "int default 0")
+	private Integer proximoLevel;
 		
 	public  Aluno() {
 		
@@ -108,6 +117,24 @@ public class Aluno extends AbstractTimestampEntity{
 	
 	public void setUsuario(User user) {
 		this.usuario = user;
+	}
+	public Integer getPontos() {
+		return pontos;
+	}
+	public void setPontos(Integer pontos) {
+		this.pontos = pontos;
+	}
+	public Integer getLevel() {
+		return level;
+	}
+	public void setLevel(Integer level) {
+		this.level = level;
+	}
+	public Integer getProximoLevel() {
+		return proximoLevel;
+	}
+	public void setProximoLevel(Integer proximoLevel) {
+		this.proximoLevel = proximoLevel;
 	}
 	
 	
