@@ -1,22 +1,20 @@
 package br.com.gamification.service;
 
+import java.util.ArrayList;
 import java.util.List;
-import org.apache.log4j.Logger;
+
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.util.ArrayList;
-import org.springframework.transaction.annotation.Transactional;
+
+import org.apache.log4j.Logger;
 import org.joda.time.LocalDateTime;
-
-
-import br.com.gamification.model.Ranking;
-import br.com.gamification.persistence.DaoRanking;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.com.gamification.core.persistence.pagination.Pager;
 import br.com.gamification.core.persistence.pagination.Pagination;
 import br.com.gamification.core.persistence.pagination.PaginationParams;
-import br.com.gamification.core.utils.DateUtil;
-import br.com.gamification.core.utils.Util;
+import br.com.gamification.model.Ranking;
+import br.com.gamification.persistence.DaoRanking;
 
 /**
 *  generated: 23/08/2016 08:32:12
@@ -78,6 +76,15 @@ public class RankingServiceImp implements RankingService {
 	public Boolean delete(Integer id) {
 		return daoRanking.delete(id);
 	}
+
+
+	@Override
+	public Pager<Ranking> filtraDisciplinasAluno(PaginationParams paginationParams) {
+		Pagination<Ranking> pagination = daoRanking.getAll(paginationParams);
+		return new Pager<Ranking>(pagination.getResults(), 0, pagination.getTotalRecords());
+	}
+
+
 
 
 }

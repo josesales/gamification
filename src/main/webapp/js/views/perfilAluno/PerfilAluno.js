@@ -18,6 +18,7 @@ define(function(require) {
 	var PerfilAlunoTemplate = require('text!views/perfilAluno/tpl/PerfilAlunoTemplate.html');
 	var DisciplinaPageCollection = require('collections/DisciplinaPageCollection');
 	var AlunoModel = require('models/AlunoModel');
+	var RankingPageCollection = require('collections/RankingPageCollection');
 	
 	var PerfilAluno = Marionette.LayoutView.extend({
 		template : _.template(PerfilAlunoTemplate),
@@ -57,6 +58,51 @@ define(function(require) {
 			this.aluno.filterQueryParams = {
 				id : opt.id,
 			}
+//			
+//			//Ranking
+//			this.rankingCollection = new RankingPageCollection();
+//			this.rankingCollection.state.pageSize = 5;
+//			this.rankingCollection.on('fetching', this._startFetch, this);
+//			this.rankingCollection.on('fetched', this._stopFetch, this);
+//			
+//			this.rankingCollection.filterQueryParams = {
+//				aluno : opt.id,
+//			}
+//			this.rankingCollection.fetch({
+//				resetState : true,
+//				success : function(_coll, _resp, _opt) {
+//					//caso queira algum tratamento de sucesso adicional
+//				},
+//				error : function(_coll, _resp, _opt) {
+//					console.error(_coll, _resp, _opt)
+//				}
+//			});
+//
+//			this.disciplinaCadastradaGrid = new Backgrid.Grid({
+//				row : RowClick,
+//				className : 'table backgrid table-striped table-bordered table-hover dataTable no-footer  ',
+//				columns : this._getDisciplinaCadastradaColumns(),
+//				emptyText : "Sem registros",
+//				collection : this.disciplinaCadastradaCollection,
+//				emptyText : "Sem registros para exibir."
+//
+//			});
+//			
+//			this.disciplinaCadastradaCounter = new Counter({
+//				collection : this.disciplinaCadastradaCollection ,
+//			});
+//			
+//
+//			this.disciplinaCadastradaPaginator = new Backgrid.Extension.Paginator({
+//				columns : this._getDisciplinaCadastradaColumns(),
+//				collection : this.disciplinaCadastradaCollection,
+//				className : 'dataTables_paginate paging_simple_numbers',
+//				uiClassName : 'pagination',
+//			});
+			
+			
+			
+			
 		
 			//disciplinas cadastradas
 			this.disciplinaCadastradaCollection = new DisciplinaPageCollection();

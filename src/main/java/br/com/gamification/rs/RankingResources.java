@@ -54,7 +54,9 @@ public class RankingResources {
 		Response response = null;
 		try {
 			PaginationParams<FilterRanking> paginationParams = new PaginationParams<FilterRanking>(uriInfo, FilterRanking.class);
-
+			
+			paginationParams.getFilter().getIsFiltraDisciplinasAluno();
+			
 			List<JsonRanking> jsonRankings = Parser.toListJsonRankings(rankingService.filter(paginationParams));
 			response = Response.ok(jsonRankings).build();
 		} catch (Exception e) {
