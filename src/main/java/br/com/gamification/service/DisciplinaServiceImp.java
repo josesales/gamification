@@ -1,17 +1,23 @@
 package br.com.gamification.service;
 
 import java.util.List;
+
 import org.apache.log4j.Logger;
+
 import javax.inject.Inject;
 import javax.inject.Named;
+
 import java.util.ArrayList;
+
 import org.springframework.transaction.annotation.Transactional;
 import org.joda.time.LocalDateTime;
 
 
+
+
+import br.com.gamification.model.Aluno;
 import br.com.gamification.model.Disciplina;
 import br.com.gamification.persistence.DaoDisciplina;
-
 import br.com.gamification.core.persistence.pagination.Pager;
 import br.com.gamification.core.persistence.pagination.Pagination;
 import br.com.gamification.core.persistence.pagination.PaginationParams;
@@ -77,6 +83,18 @@ public class DisciplinaServiceImp implements DisciplinaService {
 	@Override
 	public Boolean delete(Integer id) {
 		return daoDisciplina.delete(id);
+	}
+	
+	public Boolean removeAluno(Integer idDisciplina, Integer idAluno) {
+		Aluno aluno = new Aluno();
+		aluno.setId(idAluno);
+		Disciplina disciplina = daoDisciplina.find(idDisciplina);
+		disciplina.getAlunos().remove(aluno);
+		daoDisciplina.save(disciplina);
+//		ra
+		
+		
+		return true;
 	}
 
 

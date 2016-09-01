@@ -7,12 +7,15 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.apache.log4j.Logger;
+import org.hibernate.Query;
 import org.joda.time.LocalDateTime;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.gamification.core.persistence.pagination.Pager;
 import br.com.gamification.core.persistence.pagination.Pagination;
 import br.com.gamification.core.persistence.pagination.PaginationParams;
+import br.com.gamification.model.Aluno;
+import br.com.gamification.model.Disciplina;
 import br.com.gamification.model.Ranking;
 import br.com.gamification.persistence.DaoRanking;
 
@@ -82,6 +85,25 @@ public class RankingServiceImp implements RankingService {
 	public Pager<Ranking> filtraDisciplinasAluno(PaginationParams paginationParams) {
 		Pagination<Ranking> pagination = daoRanking.getAll(paginationParams);
 		return new Pager<Ranking>(pagination.getResults(), 0, pagination.getTotalRecords());
+	}
+	
+	public void desvincularAlunoDaDisciplina(int idAluno, int idDisciplina) {
+		String hql = "select r.id from Ranking r where r.disciplina.id = :idDisciplina and r.aluno.id = :idAluno";
+		List<Integer> listaIds = new ArrayList<Integer>();
+		
+		try {
+			
+			Query query = daoRanking.query(hql);
+			query.setParameter("idDisciplina", idDisciplina);
+			query.setParameter("idAluno", idAluno);
+			listaIds.addAll(query.list());
+			for(Integer id : listaIds) {
+				daoRanking.delete(id);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 

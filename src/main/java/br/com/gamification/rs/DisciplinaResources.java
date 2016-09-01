@@ -13,7 +13,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
@@ -21,18 +20,16 @@ import org.apache.log4j.Logger;
 
 import br.com.gamification.core.json.JsonError;
 import br.com.gamification.core.json.JsonPaginator;
-import br.com.gamification.json.JsonDisciplina;
-
-import br.com.gamification.model.Disciplina;
-
-import br.com.gamification.service.DisciplinaService;
-import br.com.gamification.model.filter.FilterDisciplina;
 import br.com.gamification.core.persistence.pagination.Pager;
 import br.com.gamification.core.persistence.pagination.PaginationParams;
-import br.com.gamification.service.UserService;
-import br.com.gamification.core.utils.Parser;
 import br.com.gamification.core.rs.exception.ValidationException;
-import br.com.gamification.core.security.SpringSecurityUserContext;
+import br.com.gamification.core.utils.Parser;
+import br.com.gamification.json.JsonDisciplina;
+import br.com.gamification.model.Aluno;
+import br.com.gamification.model.Disciplina;
+import br.com.gamification.model.filter.FilterDisciplina;
+import br.com.gamification.service.AlunoService;
+import br.com.gamification.service.DisciplinaService;
 /**
 *  generated: 23/08/2016 08:32:11
 **/
@@ -42,6 +39,8 @@ public class DisciplinaResources {
 
 	@Inject
 	DisciplinaService disciplinaService;
+	@Inject
+	AlunoService alunoService;
 	
 	
 	public static final Logger LOGGER = Logger.getLogger(DisciplinaResources.class);
@@ -162,7 +161,47 @@ public class DisciplinaResources {
 			return Response.serverError().entity(new JsonError(e, message, jsonDisciplina)).build();
 		}
 	}
+	
+	@PUT
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("cadastrarAluno/{idDisciplina}/aluno/{idAluno}")
+	public Response cadastrarAluno(@PathParam("idDisciplina") Integer idDisciplina, @PathParam("idAluno") Integer idAluno) {
+		try {
+			Disciplina disciplina = disciplinaService.get(idDisciplina);
+			Aluno aluno = alunoService.get(idAluno);
+			disciplina.getAlunos().add(aluno);
+			disciplina = disciplinaService.save(disciplina);
+			return Response.ok().entity(Parser.toJson(disciplina)).build();
+		} catch (ValidationException e) {
+			String message = String.format("Não foi possivel remover  o registro [ %s ] parametros [ %s ]", e.getOrigem().getMessage(), idDisciplina);
+			LOGGER.error(message, e.getOrigem());
+			return Response.serverError().entity(new JsonError(e, message, e.getLegalMessage())).build();
+		} catch (Exception e) {
+			String message = String.format("Não foi possivel remover o registro [ %s ] parametros [ %s ]", e.getMessage(), idDisciplina);
+			LOGGER.error(message, e);
+			return Response.serverError().entity(new JsonError(e, message, idDisciplina)).build();
+		}
+	}
 
+	@DELETE
+	@Path("descadastrarAluno/{idDisciplina}/aluno/{idAluno}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response descadastrarAluno(@PathParam("idDisciplina") Integer idDisciplina, @PathParam("idAluno") Integer idAluno) {
+		try {
+			
+			return Response.ok().entity(disciplinaService.removeAluno(idDisciplina, idAluno)).build();
+		} catch (ValidationException e) {
+			String message = String.format("Não foi possivel remover  o registro [ %s ] parametros [ %s ]", e.getOrigem().getMessage(), idDisciplina);
+			LOGGER.error(message, e.getOrigem());
+			return Response.serverError().entity(new JsonError(e, message, e.getLegalMessage())).build();
+		} catch (Exception e) {
+			String message = String.format("Não foi possivel remover o registro [ %s ] parametros [ %s ]", e.getMessage(), idDisciplina);
+			LOGGER.error(message, e);
+			return Response.serverError().entity(new JsonError(e, message, idDisciplina)).build();
+		}
+	}
+	
 	@DELETE
 	@Path("{id}")
 	@Produces(MediaType.APPLICATION_JSON)

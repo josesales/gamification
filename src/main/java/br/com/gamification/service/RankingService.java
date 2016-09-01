@@ -6,6 +6,8 @@ import org.joda.time.LocalDateTime;
 
 import br.com.gamification.core.persistence.pagination.Pager;
 import br.com.gamification.core.persistence.pagination.PaginationParams;
+import br.com.gamification.model.Aluno;
+import br.com.gamification.model.Disciplina;
 import br.com.gamification.model.Ranking;
 /**
 *  generated: 23/08/2016 08:32:12
@@ -30,4 +32,6 @@ public interface RankingService {
     List<Ranking> last(LocalDateTime lastSyncDate);		
 
 	Boolean delete(Integer id);
+	
+	void desvincularAlunoDaDisciplina(int idAluno, int idDisciplina);
 }
