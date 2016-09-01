@@ -36,6 +36,8 @@ public class DisciplinaServiceImp implements DisciplinaService {
 	
 	@Inject
 	DaoDisciplina daoDisciplina;
+	@Inject
+	RankingService rankingService;
 
 	@Override
 	public Disciplina get(Integer id) {
@@ -91,8 +93,7 @@ public class DisciplinaServiceImp implements DisciplinaService {
 		Disciplina disciplina = daoDisciplina.find(idDisciplina);
 		disciplina.getAlunos().remove(aluno);
 		daoDisciplina.save(disciplina);
-//		ra
-		
+		rankingService.desvincularAlunoDaDisciplina(idAluno, idDisciplina);
 		
 		return true;
 	}
