@@ -15,6 +15,7 @@ define(function(require) {
 	
 	//Paginas da aplicacao
 	var PerfilAluno = require('views/perfilAluno/PerfilAluno');
+	var ListasExercicios = require('views/listasExercicios/ListasExercicios');
 	
 	var PageLista = require('views/lista/PageLista');
 	var FormLista = require('views/lista/FormLista');
@@ -120,6 +121,7 @@ define(function(require) {
 			'' : 'index',
 			//hashs da Aplicacao
 			'app/perfilAluno/:id' : 'perfilAluno',
+			'app/listasExercicios/aluno/:idAluno/disciplina/:idDisciplina' : 'listasExercicios',
 			// hashs de Aluno
 			'app/alunos' : 'alunos',
 			'app/newAluno' : 'newAluno',
@@ -229,6 +231,15 @@ define(function(require) {
 				id : id,
 			});
 			this.App.mainRegion.show(this.perfilAluno);
+		},
+		
+		listasExercicios : function(idAluno, idDisciplina) {
+			util.markActiveItem('listasExercicios');
+			this.listasExercicios = new ListasExercicios({
+				idAluno : idAluno,
+				idDisciplina : idDisciplina,
+			});
+			this.App.mainRegion.show(this.listasExercicios);
 		},
 		
 		//configuração das rotas de Aluno

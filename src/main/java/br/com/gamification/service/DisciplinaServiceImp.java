@@ -94,6 +94,7 @@ public class DisciplinaServiceImp implements DisciplinaService {
 		disciplina.getAlunos().remove(aluno);
 		daoDisciplina.save(disciplina);
 		rankingService.desvincularAlunoDaDisciplina(idAluno, idDisciplina);
+		//TODO testar
 		
 		return true;
 	}
