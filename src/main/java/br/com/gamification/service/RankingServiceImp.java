@@ -41,7 +41,13 @@ public class RankingServiceImp implements RankingService {
 	@Override
 	public Pager<Ranking> all(PaginationParams paginationParams) {
 		Pagination<Ranking> pagination = daoRanking.getAll(paginationParams);
-		return new Pager<Ranking>(pagination.getResults(), 0, pagination.getTotalRecords());
+
+		
+		List<Ranking> results = pagination.getResults();
+			
+		
+		
+		return new Pager<Ranking>(results, 0, pagination.getTotalRecords());
 	}
 	
 	

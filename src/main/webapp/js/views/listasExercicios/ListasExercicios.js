@@ -129,12 +129,28 @@ define(function(require) {
 		_getRankingColumns : function() {
 			var columns = [
 
-			{
+			   {
 				name : "posicao",
 				editable : false,
 				sortable : true,
 				label : "Posição",
-				cell : "string",
+				cell: "string",
+				formatter: _.extend({},Backgrid.CellFormatter.prototype,{
+					fromRaw : function(_id){
+//						if(_id){
+//							var index = this.rankingCollection.indexOf(this.model);
+//							for(var i = 0, tamanho = myArray.length; i < len; i++) {
+//							    if (myArray[i].hello === searchTerm) {
+//							        index = i;
+//							        break;
+//							    }
+//							}
+//							
+//							return _motorista.nome;
+//						}
+						return '2'
+					}
+				})
 			}, {
 				name : "aluno.nome",
 				editable : false,
