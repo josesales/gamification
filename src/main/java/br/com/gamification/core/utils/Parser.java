@@ -638,10 +638,12 @@ public class Parser {
 	private static void applyBasicJsonValues(JsonRanking jsonRanking, Ranking ranking) {
 		jsonRanking.setId(ranking.getId());
 	    jsonRanking.setPontos(ranking.getPontos());
+	    jsonRanking.setPosicao(ranking.getPosicao());
 	}	
 	private static void applyBasicEntityValues(Ranking ranking, JsonRanking jsonRanking) {
 		ranking.setId(jsonRanking.getId());
 		ranking.setPontos(jsonRanking.getPontos());
+		ranking.setPosicao(jsonRanking.getPosicao());
 	}	
 	
 	public static JsonRanking toJson(Ranking ranking) {

@@ -14,6 +14,8 @@ import javax.persistence.Transient;
 import org.hibernate.envers.Audited;
 
 import br.com.gamification.core.model.AbstractTimestampEntity;
+import br.com.gamification.model.Aluno;
+import br.com.gamification.model.Disciplina;
 /**
 * generated: 23/08/2016 08:32:12
 **/

@@ -1,14 +1,12 @@
 package br.com.gamification.json;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import br.com.gamification.core.json.SyncOperation;
 import br.com.gamification.core.serialization.CustomSyncObjectIdDeserializer;
-import br.com.gamification.core.serialization.CustomDoubleDeserializer;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 /**
 *  generated: 23/08/2016 08:32:12
@@ -23,6 +21,7 @@ public class JsonRanking implements Serializable {
 	private Integer pontos;
 	private JsonDisciplina disciplina;		
 	private JsonAluno aluno;		
+	private Integer posicao;
 	
 	public  JsonRanking() {
 		
@@ -57,6 +56,14 @@ public class JsonRanking implements Serializable {
 	public void setAluno(JsonAluno aluno) {
 		this.aluno = aluno;
 	}
+	public Integer getPosicao() {
+		return posicao;
+	}
+
+	public void setPosicao(Integer posicao) {
+		this.posicao = posicao;
+	}
+
 	public SyncOperation getSyncOperation (){
 		if(syncOperation == null){
 			this.syncOperation = SyncOperation.NONE;
