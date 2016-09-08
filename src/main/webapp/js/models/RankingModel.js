@@ -20,6 +20,7 @@ define(function(require) {
 	    	pontos : '',    	
 			disciplina : null,
 			aluno : null,
+			posicao : '',
 		
 		}
 	});
