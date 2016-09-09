@@ -45,10 +45,10 @@ define(function(require) {
 		//
 		// },
 		ui : {
-			nomeAluno : '#nomeAluno',
-			xp : '#xp',
-			level : '#level',
-			barraProximoLevel : '#barraProximoLevel',
+			posicao1 : '#posicao1',
+			posicao2 : '#posicao2',
+			posicao3 : '#posicao3',
+			top3Disciplina : '#top3Disciplina',
 		// horaAtual : '#horaAtual',
 		// mensagemExibida : '#mensagemExibida',
 		// imgLogoGestor : '#imgLogoGestor',
@@ -60,7 +60,7 @@ define(function(require) {
 			this.aluno.urlRoot = 'rs/crud/alunos/' + opt.idAluno;
 			
 			this.disciplina = new DisciplinaModel();
-			this.aluno.urlRoot = 'rs/crud/disciplinas/' + opt.idDisciplina;
+			this.disciplina.urlRoot = 'rs/crud/disciplinas/' + opt.idDisciplina;
 
 			//Ranking
 			this.rankingCollection = new RankingPageCollection();
@@ -69,14 +69,13 @@ define(function(require) {
 			this.rankingCollection.on('fetched', this._stopFetch, this);
 			 
 			this.rankingCollection.filterQueryParams = {
-				aluno : opt.idAluno,
 				disciplina : opt.idDisciplina,
 			}
 			
 			 this.rankingCollection.fetch({
 				 resetState : true,
 				 success : function(_coll, _resp, _opt) {
-					 //caso queira algum tratamento de sucesso adicional
+					 that._setTop3();
 				 },
 				 error : function(_coll, _resp, _opt) {
 					console.error(_coll, _resp, _opt)
@@ -155,10 +154,21 @@ define(function(require) {
 //						that.ui.xp.text(_resp.pontos ? 'XP ' + _resp.pontos : 'XP 0');
 					},
 					error : function(_coll, _resp, _opt) {
-						console.error(_coll, _resp, _opt)
+						console.error(_coll, _resp, _opt);
 					}
 				});
-
+				
+				this.disciplina.fetch({
+					resetState : true,
+					success : function(_coll, _resp, _opt) {
+						that.ui.top3Disciplina.text(_resp.nome + " - Top 3");
+//						that.ui.xp.text(_resp.pontos ? 'XP ' + _resp.pontos : 'XP 0');
+					},
+					error : function(_coll, _resp, _opt) {
+						console.error(_coll, _resp, _opt);
+					}
+				});
+				
 				// ranking
 				that.rankingGridRegion.show(that.rankingGrid);
 				that.rankingCounterRegion.show(that.rankingCounter);
@@ -169,6 +179,17 @@ define(function(require) {
 				that.listaPaginatorRegion.show(that.listaPaginator);
 			});
 
+		},
+		
+		_setTop3 : function() {
+			for(var a = 0; a < 3; a++) {
+				if(this.rankingCollection.length < a + 1) {
+					break;
+				}else {
+					var nomeAluno = this.rankingCollection.at(a).get("aluno").nome;
+					$("#posicao" + (a+1)).text(nomeAluno);
+				}
+			}
 		},
 
 		_getRankingColumns : function() {
@@ -225,7 +246,7 @@ define(function(require) {
 				id : 'lista_button',
 				type : 'primary',
 				icon : 'fa-pencil',
-				hint : 'ListasExercicios de Exercício',
+				hint : 'Resolver Lista',
 				onClick : that._getResolverLista,
 
 			});
@@ -234,7 +255,7 @@ define(function(require) {
 		},
 
 		_getResolverLista : function(model) {
-			util.goPage('app/listasExercicios/aluno/' + this.aluno.get("id") + '/disciplina/' + model.get("id"), true);
+			util.goPage('app/listasExercicios/resolverLista/aluno/' + this.aluno.get("id") + '/disciplina/' + this.disciplina.get("id") + '/lista/' + model.get("id"), true);
 //			'app/listasExercicios/aluno/:idAluno/disciplina/:idDisciplina' : 'listasExercicios'
 		},
 

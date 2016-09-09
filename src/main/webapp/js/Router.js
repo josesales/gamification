@@ -16,6 +16,7 @@ define(function(require) {
 	//Paginas da aplicacao
 	var PerfilAluno = require('views/perfilAluno/PerfilAluno');
 	var ListasExercicios = require('views/listasExercicios/ListasExercicios');
+	var ResolverLista = require('views/listasExercicios/ResolverLista');
 	
 	var PageLista = require('views/lista/PageLista');
 	var FormLista = require('views/lista/FormLista');
@@ -122,6 +123,7 @@ define(function(require) {
 			//hashs da Aplicacao
 			'app/perfilAluno/:id' : 'perfilAluno',
 			'app/listasExercicios/aluno/:idAluno/disciplina/:idDisciplina' : 'listasExercicios',
+			'app/listasExercicios/resolverLista/aluno/:idAluno/disciplina/:idDisciplina/lista/:idLista' : 'resolverLista',
 			// hashs de Aluno
 			'app/alunos' : 'alunos',
 			'app/newAluno' : 'newAluno',
@@ -240,6 +242,16 @@ define(function(require) {
 				idDisciplina : idDisciplina,
 			});
 			this.App.mainRegion.show(this.listasExercicios);
+		},
+		
+		resolverLista : function(idAluno, idDisciplina, idLista) {
+			util.markActiveItem('resolverLista');
+			this.resolverLista = new ResolverLista({
+				idAluno : idAluno,
+				idDisciplina : idDisciplina,
+				idLista : idLista,
+			});
+			this.App.mainRegion.show(this.resolverLista);
 		},
 		
 		//configuração das rotas de Aluno

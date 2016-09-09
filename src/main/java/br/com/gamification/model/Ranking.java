@@ -42,7 +42,7 @@ public class Ranking extends AbstractTimestampEntity{
 	private Aluno aluno;
 	
 	@Transient
-	private int posicao;
+	private Integer posicao;
 		
 	public  Ranking() {
 		
@@ -77,10 +77,10 @@ public class Ranking extends AbstractTimestampEntity{
 	public void setAluno(Aluno aluno) {
 		this.aluno = aluno;
 	}
-	public int getPosicao() {
+	public Integer getPosicao() {
 		return posicao;
 	}
-	public void setPosicao(int posicao) {
+	public void setPosicao(Integer posicao) {
 		this.posicao = posicao;
 	}
 	
