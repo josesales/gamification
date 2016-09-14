@@ -13,7 +13,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
@@ -21,18 +20,14 @@ import org.apache.log4j.Logger;
 
 import br.com.gamification.core.json.JsonError;
 import br.com.gamification.core.json.JsonPaginator;
-import br.com.gamification.json.JsonAluno;
-
-import br.com.gamification.model.Aluno;
-
-import br.com.gamification.service.AlunoService;
-import br.com.gamification.model.filter.FilterAluno;
 import br.com.gamification.core.persistence.pagination.Pager;
 import br.com.gamification.core.persistence.pagination.PaginationParams;
-import br.com.gamification.service.UserService;
-import br.com.gamification.core.utils.Parser;
 import br.com.gamification.core.rs.exception.ValidationException;
-import br.com.gamification.core.security.SpringSecurityUserContext;
+import br.com.gamification.core.utils.Parser;
+import br.com.gamification.json.JsonAluno;
+import br.com.gamification.model.Aluno;
+import br.com.gamification.model.filter.FilterAluno;
+import br.com.gamification.service.AlunoService;
 /**
 *  generated: 23/08/2016 08:32:11
 **/
@@ -42,7 +37,6 @@ public class AlunoResources {
 
 	@Inject
 	AlunoService alunoService;
-	
 	
 	public static final Logger LOGGER = Logger.getLogger(AlunoResources.class);
 
