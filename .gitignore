@@ -1,1 +1,7 @@
-/bin/
+src/main/webapp/javascript
+.classpath
+target
+.settings
+.project
+src/main/webapp/javascript
+bin/
