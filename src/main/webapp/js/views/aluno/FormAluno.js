@@ -41,6 +41,10 @@ define(function(require) {
 		
 			inputUsuarioId : '#inputUsuarioId',
 			inputUsuarioNome : '#inputUsuarioNome',
+			inputNome : '#inputNome',
+			inputLevel : '#inputLevel',
+			inputPontos : '#inputPontos',
+			inputProximoLevel : '#inputProximoLevel',
 			form : '#formAluno',
 		},
 
@@ -119,8 +123,11 @@ define(function(require) {
 			aluno.set({
 				id: util.escapeById('inputId') || null,
 		    	nome : util.escapeById('inputNome'), 
-				
-					usuario : that._getUsuario(),
+				usuario : that._getUsuario(),
+				pontos : util.escapeById('inputNome'), 
+				level : util.escapeById('inputLevel'), 
+				pontos : util.escapeById('inputPontos'), 
+				proximoLevel : util.escapeById('inputProximoLevel'),
 			});
 			return aluno;
 		},
