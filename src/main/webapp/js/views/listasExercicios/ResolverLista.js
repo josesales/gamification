@@ -40,7 +40,7 @@ define(function(require) {
 		},
 
 		events : {
-		// 'click #botao' : 'chamaUrl'
+//			'click #radioItemA' : 'checarItemA'
 
 		},
 
@@ -52,9 +52,17 @@ define(function(require) {
 			xp : '#xp',
 			level : '#level',
 			barraProximoLevel : '#barraProximoLevel',
-		// horaAtual : '#horaAtual',
-		// mensagemExibida : '#mensagemExibida',
-		// imgLogoGestor : '#imgLogoGestor',
+			formListaQuestao : '#formListaQuestao',
+			listaNome : '#listaNome',
+			pergunta : '#pergunta',
+			itemA : '#itemA',
+			itemB : '#itemB',
+			itemC : '#itemC',
+			itemD : '#itemD',
+			radioItemA : '#radioItemA',
+			radioItemB : '#radioItemB',
+			radioItemC : '#radioItemC',
+			radioItemD : '#radioItemD',
 		},
 
 		initialize : function(opt) {
@@ -65,57 +73,25 @@ define(function(require) {
 			this.disciplina.urlRoot = 'rs/crud/disciplinas/' + opt.idDisciplina;
 			this.lista = new ListaModel();
 			this.lista.urlRoot = 'rs/crud/listas/' + opt.idLista;
-//			
-			this.nodeModel = null;
-//			
+			this.indexQuestaoAtual = 0;
 //			//Questoes da lista
-			this.questaoCollection = new QuestaoCollection();
-			this.questaoCollection.on('fetching', this._startFetch, this);
-			this.questaoCollection.on('fetched', this._stopFetch, this);
-
-			this.questaoCollection.filterQueryParams = {
-				lista : opt.idLista,
-			}
-//			
-			this.questaoCollection.fetch({
-				resetState : true,
-				success : function(_coll, _resp, _opt) {
-					console.log(_coll, _resp, _opt)
-//					_resp.itemA
-					
-					
-					
-					
-					
-					var TreeView = Backbone.Marionette.CompositeView.extend({
-					    template: "#node-template",
-					    
-					    tagName: "ul",
-					    
-					    initialize: function(){
-					        // grab the child collection from the parent model
-					        // so that we can render the collection as children
-					        // of this parent node
-					        this.collection = this.lista.get("questaos");
-					    },
-					    
-					    appendHtml: function(collectionView, itemView){
-					        // ensure we nest the child list inside of 
-					        // the current list item
-					        collectionView.$("li:first").append(itemView.el);
-					    }
-					});
-					
-					
-					
-					
-				},
-				error : function(_coll, _resp, _opt) {
-					console.error(_coll, _resp, _opt)
-				}
-			});
+//			this.questaoCollection = new QuestaoCollection();
+//			this.questaoCollection.on('fetching', this._startFetch, this);
+//			this.questaoCollection.on('fetched', this._stopFetch, this);
+//
+//			this.questaoCollection.filterQueryParams = {
+//				lista : opt.idLista,
+//			}
+//			this.questaoCollection.fetch({
+//				resetState : true,
+//				success : function(_coll, _resp, _opt) {
+//					console.log(_coll, _resp, _opt)
+//				},
+//				error : function(_coll, _resp, _opt) {
+//					console.error(_coll, _resp, _opt)
+//				}
+//			});
 			
-			var teste;
 			
 			
 
@@ -125,21 +101,18 @@ define(function(require) {
 				this.aluno.fetch({
 					resetState : true,
 					success : function(_coll, _resp, _opt) {
-						that.ui.nomeAluno.text(_resp.nome);
-						that.ui.xp.text(_resp.pontos ? 'XP ' + _resp.pontos : 'XP 0');
-						that.ui.level.text(_resp.level ? 'Level ' + _resp.level : 'Level 1');
-						that.ui.barraProximoLevel.prop("aria-valuenow", '' + _resp.proximoLevel ? _resp.proximoLevel : 0);
-						that.ui.barraProximoLevel.prop("style", '' + "width:" + (_resp.proximoLevel ? _resp.proximoLevel : 0) + "%");
-						var proxLevel = _resp.proximoLevel ? _resp.proximoLevel : 0;
-						if (proxLevel >= 0 && proxLevel <= 30) {
-							that.ui.barraProximoLevel.prop('class', 'progress-bar progress-bar-danger');
-						} else if (proxLevel > 30 && proxLevel < 50) {
-							that.ui.barraProximoLevel.prop('class', 'progress-bar progress-bar-warning');
-						} else if (proxLevel >= 50 && proxLevel < 60) {
-							that.ui.barraProximoLevel.prop('class', 'progress-bar progress-bar-info');
-						} else if (proxLevel >= 60) {
-							that.ui.barraProximoLevel.prop('class', 'progress-bar progress-bar-success');
-						}
+						that._setInformacoesAluno(that.aluno);
+					},
+					error : function(_coll, _resp, _opt) {
+						console.error(_coll, _resp, _opt)
+					}
+				});
+				
+				this.lista.fetch({
+					resetState : true,
+					success : function(_coll, _resp, _opt) {
+						that._setInformacoesLista(that.lista);
+						that._setInformacoesQuestao(that.lista.get("questaos"), that.indexQuestaoAtual);
 					},
 					error : function(_coll, _resp, _opt) {
 						console.error(_coll, _resp, _opt)
@@ -158,161 +131,42 @@ define(function(require) {
 			});
 
 		},
+		
+		_setInformacoesAluno : function(alunoModel) {
+			this.ui.nomeAluno.text(alunoModel.get("nome"));
+			this.ui.xp.text(alunoModel.get("pontos") ? 'XP ' + alunoModel.get("pontos") : 'XP 0');
+			this.ui.level.text(alunoModel.get("level") ? 'Level ' + alunoModel.get("level") : 'Level 1');
+			this.ui.barraProximoLevel.prop("aria-valuenow", '' + alunoModel.get("proximoLevel") ? alunoModel.get("proximoLevel") : 0);
+			this.ui.barraProximoLevel.prop("style", '' + "width:" + (alunoModel.get("proximoLevel") ? alunoModel.get("proximoLevel") : 0) + "%");
+			var proxLevel = alunoModel.get("proximoLevel") ? alunoModel.get("proximoLevel") : 0;
+			if (proxLevel >= 0 && proxLevel <= 30) {
+				this.ui.barraProximoLevel.prop('class', 'progress-bar progress-bar-danger');
+			} else if (proxLevel > 30 && proxLevel < 50) {
+				this.ui.barraProximoLevel.prop('class', 'progress-bar progress-bar-warning');
+			} else if (proxLevel >= 50 && proxLevel < 60) {
+				this.ui.barraProximoLevel.prop('class', 'progress-bar progress-bar-info');
+			} else if (proxLevel >= 60) {
+				this.ui.barraProximoLevel.prop('class', 'progress-bar progress-bar-success');
+			}
+		},
+		
+		_setInformacoesLista : function(listaModel) {
+				this.ui.listaNome.text(listaModel.get("nome") + " (" + listaModel.get("questaos").length + " questões)");
+		},
+		
+		_setInformacoesQuestao : function(questoesJson, index) {
+			var numeroQuestao = index + 1;
+			this.ui.pergunta.text(numeroQuestao + ". " + questoesJson[index].pergunta );
+			this.ui.itemA.text(questoesJson[index].itemA);
+			this.ui.itemB.text(questoesJson[index].itemB);
+			this.ui.itemC.text(questoesJson[index].itemC);
+			this.ui.itemD.text(questoesJson[index].itemD);
+		},
+		
+		checarItemA : function() {
+			this.ui.radioItemA.attr('checked', true);
+		}
 
-//		_getDisciplinaCadastradaColumns : function() {
-//			var columns = [
-//
-//			{
-//				name : "nome",
-//				editable : false,
-//				sortable : true,
-//				label : "Nome",
-//				cell : "string",
-//			}, {
-//				name : "professor.nome",
-//				editable : false,
-//				sortable : true,
-//				label : "Professor",
-//				cell : CustomStringCell.extend({
-//					fieldName : 'professor.nome',
-//				}),
-//			}, {
-//				name : "acoes",
-//				label : "Listas, Descadastrar",
-//				sortable : false,
-//				cell : GeneralActionsCell.extend({
-//					buttons : this._getDisciplinasCadastradasCellButtons(),
-//					context : this,
-//				})
-//			} ];
-//			return columns;
-//		},
-//
-//		_getDisciplinaNaoCadastradaColumns : function() {
-//			var columns = [
-//
-//			{
-//				name : "nome",
-//				editable : false,
-//				sortable : true,
-//				label : "Nome",
-//				cell : "string",
-//			}, {
-//				name : "professor.nome",
-//				editable : false,
-//				sortable : true,
-//				label : "Professor",
-//				cell : CustomStringCell.extend({
-//					fieldName : 'professor.nome',
-//				}),
-//			}, {
-//				name : "acoes",
-//				label : "Cadastrar",
-//				sortable : false,
-//				cell : GeneralActionsCell.extend({
-//					buttons : this._getDisciplinasNaoCadastradasCellButtons(),
-//					context : this,
-//				})
-//			} ];
-//			return columns;
-//		},
-//
-//		_getDisciplinasCadastradasCellButtons : function() {
-//			var that = this;
-//			var buttons = [];
-//			buttons.push({
-//				id : 'lista_button',
-//				type : 'primary',
-//				icon : 'fa-pencil',
-//				hint : 'Listas de Exercício',
-//				onClick : that._getListasExercicios,
-//
-//			});
-//			buttons.push({
-//				id : 'regular_button',
-//				type : 'warning',
-//				icon : 'fa fa-thumbs-down',
-//				hint : 'Descadastrar Disciplina',
-//				onClick : that._descadastrar,
-//
-//			});
-//
-//			return buttons;
-//		},
-
-//		_getListasExercicios : function(model) {
-//			util.goPage('app/listasExercicios/aluno/' + this.aluno.get("id") + '/disciplina/' + model.get("id"), true);
-////			'app/listas/aluno/:idAluno/disciplina/:idDisciplina' : 'listas'
-//		},
-
-//		_descadastrar : function(model) {
-//			
-//			var that = this;
-//			var disciplina = new DisciplinaModel({
-//				id : model.id,
-//			});
-//			
-//			disciplina.url = 'rs/crud/disciplinas/descadastrarAluno/' + model.get("id") + '/aluno/' + that.aluno.get("id");
-//
-//			util.Bootbox.confirm("Tem certeza que se descadastrar da disciplina de " + model.get('nome') + "?", function(yes) {
-//				if (yes) {
-//					
-//					disciplina.destroy({
-//						success : function() {
-//							that.disciplinaCadastradaCollection.remove(model);
-//							that.disciplinaNaoCadastradaCollection.add(model);
-//						},
-//						error : function() {
-//							util.showMessage('error', 'Problemas ao descadastrar disciplina!');
-//						}
-//					});
-//					
-//				}
-//			});
-//		},
-//
-//		_getDisciplinasNaoCadastradasCellButtons : function() {
-//			var that = this;
-//			var buttons = [];
-//			buttons.push({
-//				id : 'regular_button',
-//				type : 'primary',
-//				icon : 'fa fa-thumbs-up',
-//				hint : 'Cadastrar Disciplina',
-//				onClick : that._cadastrar,
-//
-//			});
-//
-//			return buttons;
-//		},
-
-//		_cadastrar : function(model) {
-//			var that = this;
-//			var disciplina = new DisciplinaModel({
-//				id : model.id,
-//					// rs/crud/disciplina/50/aluno/60
-//			});
-//			disciplina.url = 'rs/crud/disciplinas/cadastrarAluno/'+ model.get("id") + '/aluno/' + that.aluno.get("id");
-//
-//			util.Bootbox.confirm("Tem certeza que se cadastrar da disciplina de " + model.get('nome') + "?", function(yes) {
-//				if (yes) {
-//					
-//					
-//					disciplina.save({}, {
-//						success : function(_model, _resp, _options) {
-//							that.disciplinaNaoCadastradaCollection.remove(model);
-//							that.disciplinaCadastradaCollection.add(model);
-//						},
-//
-//						error : function(_model, _resp, _options) {
-//							util.showMessage('error', 'Problemas ao cadastrar disciplina!');
-//						}
-//					});
-//					
-//					// TODO deletar do ranking
-//				}
-//			});
-//		},
 
 	});
 
