@@ -1,17 +1,26 @@
 package br.com.gamification.service;
 
 import java.util.List;
+
 import org.apache.log4j.Logger;
+
 import javax.inject.Inject;
 import javax.inject.Named;
+
 import java.util.ArrayList;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.joda.time.LocalDateTime;
 
 
-import br.com.gamification.model.Aluno;
-import br.com.gamification.persistence.DaoAluno;
 
+
+
+import br.com.gamification.model.Aluno;
+import br.com.gamification.model.Disciplina;
+import br.com.gamification.model.filter.FilterDisciplina;
+import br.com.gamification.persistence.DaoAluno;
 import br.com.gamification.core.persistence.pagination.Pager;
 import br.com.gamification.core.persistence.pagination.Pagination;
 import br.com.gamification.core.persistence.pagination.PaginationParams;
@@ -30,6 +39,9 @@ public class AlunoServiceImp implements AlunoService {
 	
 	@Inject
 	DaoAluno daoAluno;
+	
+	@Autowired
+	DisciplinaService disciplinaService;
 
 	@Override
 	public Aluno get(Integer id) {
@@ -76,6 +88,14 @@ public class AlunoServiceImp implements AlunoService {
 
 	@Override
 	public Boolean delete(Integer id) {
+		FilterDisciplina filterDisciplina = new FilterDisciplina();
+		filterDisciplina.setAluno(id);
+		filterDisciplina.setIsAlunoIncluso(true);
+		List<Disciplina> listaDisciplina = disciplinaService.filter(filterDisciplina);
+		for(Disciplina disciplina : listaDisciplina){
+			disciplinaService.removeAluno(disciplina.getId(), id);
+		}
+		
 		return daoAluno.delete(id);
 	}
 

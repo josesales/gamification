@@ -23,6 +23,9 @@ define(function(require) {
 	var ListaModel = require('models/ListaModel');
 	var ListaCollection = require('collections/ListaCollection');
 	var ListaPageCollection = require('collections/ListaPageCollection');
+	var QuestaoModel = require('models/QuestaoModel');
+	var QuestaoCollection = require('collections/QuestaoCollection');
+	
 
 	var ResolverLista = Marionette.LayoutView.extend({
 		template : _.template(ResolverListaTemplate),
@@ -58,6 +61,63 @@ define(function(require) {
 			var that = this;
 			this.aluno = new AlunoModel();
 			this.aluno.urlRoot = 'rs/crud/alunos/' + opt.idAluno;
+			this.disciplina = new DisciplinaModel();
+			this.disciplina.urlRoot = 'rs/crud/disciplinas/' + opt.idDisciplina;
+			this.lista = new ListaModel();
+			this.lista.urlRoot = 'rs/crud/listas/' + opt.idLista;
+//			
+			this.nodeModel = null;
+//			
+//			//Questoes da lista
+			this.questaoCollection = new QuestaoCollection();
+			this.questaoCollection.on('fetching', this._startFetch, this);
+			this.questaoCollection.on('fetched', this._stopFetch, this);
+
+			this.questaoCollection.filterQueryParams = {
+				lista : opt.idLista,
+			}
+//			
+			this.questaoCollection.fetch({
+				resetState : true,
+				success : function(_coll, _resp, _opt) {
+					console.log(_coll, _resp, _opt)
+//					_resp.itemA
+					
+					
+					
+					
+					
+					var TreeView = Backbone.Marionette.CompositeView.extend({
+					    template: "#node-template",
+					    
+					    tagName: "ul",
+					    
+					    initialize: function(){
+					        // grab the child collection from the parent model
+					        // so that we can render the collection as children
+					        // of this parent node
+					        this.collection = this.lista.get("questaos");
+					    },
+					    
+					    appendHtml: function(collectionView, itemView){
+					        // ensure we nest the child list inside of 
+					        // the current list item
+					        collectionView.$("li:first").append(itemView.el);
+					    }
+					});
+					
+					
+					
+					
+				},
+				error : function(_coll, _resp, _opt) {
+					console.error(_coll, _resp, _opt)
+				}
+			});
+			
+			var teste;
+			
+			
 
 
 			this.on('show', function() {

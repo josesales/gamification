@@ -5,6 +5,7 @@ import java.util.List;
 import org.joda.time.LocalDateTime;
 
 import br.com.gamification.model.Disciplina;
+import br.com.gamification.model.filter.FilterDisciplina;
 import br.com.gamification.core.persistence.pagination.Pager;
 import br.com.gamification.core.persistence.pagination.PaginationParams;
 /**
@@ -30,4 +31,6 @@ public interface DisciplinaService {
 	Boolean delete(Integer id);
 
 	Boolean removeAluno(Integer idDisciplina, Integer idAluno);
+	
+	List<Disciplina> filter(FilterDisciplina filterDisciplina);
 }

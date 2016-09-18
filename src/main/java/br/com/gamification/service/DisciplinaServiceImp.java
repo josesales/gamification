@@ -1,28 +1,22 @@
 package br.com.gamification.service;
 
+import java.util.ArrayList;
 import java.util.List;
-
-import org.apache.log4j.Logger;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import java.util.ArrayList;
-
-import org.springframework.transaction.annotation.Transactional;
+import org.apache.log4j.Logger;
 import org.joda.time.LocalDateTime;
+import org.springframework.transaction.annotation.Transactional;
 
-
-
-
-import br.com.gamification.model.Aluno;
-import br.com.gamification.model.Disciplina;
-import br.com.gamification.persistence.DaoDisciplina;
 import br.com.gamification.core.persistence.pagination.Pager;
 import br.com.gamification.core.persistence.pagination.Pagination;
 import br.com.gamification.core.persistence.pagination.PaginationParams;
-import br.com.gamification.core.utils.DateUtil;
-import br.com.gamification.core.utils.Util;
+import br.com.gamification.model.Aluno;
+import br.com.gamification.model.Disciplina;
+import br.com.gamification.model.filter.FilterDisciplina;
+import br.com.gamification.persistence.DaoDisciplina;
 
 /**
 *  generated: 23/08/2016 08:32:11
@@ -97,6 +91,11 @@ public class DisciplinaServiceImp implements DisciplinaService {
 		//TODO testar
 		
 		return true;
+	}
+	
+	@Override
+	public List<Disciplina> filter(FilterDisciplina filterDisciplina) {
+		return daoDisciplina.filter(filterDisciplina);
 	}
 
 

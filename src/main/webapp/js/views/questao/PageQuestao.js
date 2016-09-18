@@ -152,45 +152,19 @@ define(function(require) {
 			//	})
 			//}, 
 			{
+				name : "lista.nome",
+				editable : false,
+				sortable : true,  //já é possivel ordenar por esses atributos compostos.
+				label : "Lista",
+				cell : CustomStringCell.extend({
+					fieldName : 'lista.nome',
+				}),
+			},
+			{
 				name : "pergunta",
 				editable : false,
 				sortable : true,
 				label 	 : "Pergunta",
-				cell 	 : "string",
-			}, 
-			{
-				name : "itemA",
-				editable : false,
-				sortable : true,
-				label 	 : "Item_a",
-				cell 	 : "string",
-			}, 
-			{
-				name : "itemB",
-				editable : false,
-				sortable : true,
-				label 	 : "Item_b",
-				cell 	 : "string",
-			}, 
-			{
-				name : "itemC",
-				editable : false,
-				sortable : true,
-				label 	 : "Item_c",
-				cell 	 : "string",
-			}, 
-			{
-				name : "itemD",
-				editable : false,
-				sortable : true,
-				label 	 : "Item_d",
-				cell 	 : "string",
-			}, 
-			{
-				name : "itemCorreto",
-				editable : false,
-				sortable : true,
-				label 	 : "Item correto",
 				cell 	 : "string",
 			}, 
 			{
@@ -200,15 +174,6 @@ define(function(require) {
 				label 	 : "Pontos",
 				cell : CustomNumberCell.extend({}),
 			}, 
-			{
-				name : "lista.nome",
-				editable : false,
-				sortable : true,  //já é possivel ordenar por esses atributos compostos.
-				label : "Lista",
-				cell : CustomStringCell.extend({
-					fieldName : 'lista.nome',
-				}),
-			},	
 			{
 				name : "acoes",
 				label : "Ações(Editar, Deletar)",

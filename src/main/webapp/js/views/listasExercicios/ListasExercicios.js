@@ -49,6 +49,9 @@ define(function(require) {
 			posicao2 : '#posicao2',
 			posicao3 : '#posicao3',
 			top3Disciplina : '#top3Disciplina',
+			divPosicao1 : '#divPosicao1',
+			divPosicao2 : '#divPosicao2',
+			divPosicao3 : '#divPosicao3',
 		// horaAtual : '#horaAtual',
 		// mensagemExibida : '#mensagemExibida',
 		// imgLogoGestor : '#imgLogoGestor',
@@ -146,7 +149,11 @@ define(function(require) {
 			});
 
 			this.on('show', function() {
-
+				
+				this.ui.divPosicao1.hide();
+				this.ui.divPosicao2.hide();
+				this.ui.divPosicao3.hide();
+				
 				this.aluno.fetch({
 					resetState : true,
 					success : function(_coll, _resp, _opt) {
@@ -157,6 +164,8 @@ define(function(require) {
 						console.error(_coll, _resp, _opt);
 					}
 				});
+				
+//				this._setTop3();
 				
 				this.disciplina.fetch({
 					resetState : true,
@@ -187,6 +196,7 @@ define(function(require) {
 					break;
 				}else {
 					var nomeAluno = this.rankingCollection.at(a).get("aluno").nome;
+					$("#divPosicao" + (a+1)).show();
 					$("#posicao" + (a+1)).text(nomeAluno);
 				}
 			}

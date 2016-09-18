@@ -86,4 +86,34 @@ public class DaoDisciplina extends AccessibleHibernateDao<Disciplina> {
 		list.addAll(searchCriteria.list());
 		return list;
 	}
+	
+	public List<Disciplina> filter(FilterDisciplina filterDisciplina) {
+		Criteria searchCriteria = criteria();
+		if (filterDisciplina.getNome() != null) {
+			searchCriteria.add(Restrictions.ilike("nome", filterDisciplina.getNome(), MatchMode.ANYWHERE));
+		}
+		if (filterDisciplina.getProfessor() != null) {
+			searchCriteria.createAlias("professor", "professor_");
+			searchCriteria.add(Restrictions.eq("professor_.id", filterDisciplina.getProfessor()));
+		}
+		if (filterDisciplina.getAluno() != null) {
+			
+			if(filterDisciplina.getIsAlunoIncluso() == true) {
+				//filtra por disciplinas que o aluno esta cadastrado
+				searchCriteria.createAlias("alunos", "aluno_");
+				searchCriteria.add(Restrictions.eq("aluno_.id", filterDisciplina.getAluno()));
+			}else {
+				//filtra por disciplinas que o aluno nao esta cadastrado
+				DetachedCriteria sub = DetachedCriteria.forClass(Disciplina.class);
+				sub.createAlias("alunos", "aluno_");
+				SimpleExpression eq = Restrictions.eq("aluno_.id", filterDisciplina.getAluno());
+				sub.add(eq);
+				sub.setProjection(Projections.property("id"));
+				searchCriteria.add(Property.forName("id").notIn(sub));
+			}
+		}
+		List<Disciplina> listaDisciplina = searchCriteria.list();
+
+  		return listaDisciplina;
+	}
 }

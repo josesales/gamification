@@ -39,7 +39,7 @@
 									<label class="control-label" for="inputUsuario">Usuario</label>
 									<div id="groupInputUsuario" class="input-group">
 										<input id="inputUsuarioId" type="hidden" class="form-control append-left" value="{{usuario && usuario.id}}" />
-										<input id="inputUsuarioNome" placeholder="Escolha um Usuario"  type="text" class="form-control append-left" value="{{usuario && usuario.nome}}" />
+										<input id="inputUsuarioNome" placeholder="Escolha um Usuario"  readonly="readonly" type="text" class="form-control append-left validate[required]" value="{{usuario && usuario.name}}" />
 										<div class="input-group-addon append-right" id="searchUsuarioModal" data-toggle="modal">
 											<span class="fa fa-search"></span>
 										</div>

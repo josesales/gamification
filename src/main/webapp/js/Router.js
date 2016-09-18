@@ -101,7 +101,7 @@ define(function(require) {
 
 		attachHtml : function(view) {
 			this.$el.hide();
-			this.$el.html(view.el);
+				this.$el.html(view.el);
 			//this.$el.slideDown(300);
 			//this.$el.show("slide", { direction: "up" }, 300);
 			util.scrollTop();
