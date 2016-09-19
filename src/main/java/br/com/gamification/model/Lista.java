@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.envers.Audited;
 
@@ -44,8 +45,11 @@ public class Lista extends AbstractTimestampEntity{
 	@JoinColumn(name = "ID_DISCIPLINA")
 	private Disciplina disciplina;		
 	
-	@Column(name = "QUESTAO_ATUAL")
+	@Transient
 	private Integer questaoAtual;
+	
+	@Transient
+	private Boolean concluida;
 	//TODO ajustar questaoAtual para que seja individual para cada aluno, do jeito q ta fica como se todos os alunos estivessem na mesma questao
 	//criar flag ajustando para que quando a lista estiver resolvida, aluno saia volte para a pagina de escolha da lista e a mesma estej bloqueada
 	
@@ -122,6 +126,12 @@ public class Lista extends AbstractTimestampEntity{
 	}
 	public void setQuestaoAtual(Integer questaoAtual) {
 		this.questaoAtual = questaoAtual;
+	}
+	public Boolean getConcluida() {
+		return concluida;
+	}
+	public void setConcluida(Boolean concluida) {
+		this.concluida = concluida;
 	}
 	
 	

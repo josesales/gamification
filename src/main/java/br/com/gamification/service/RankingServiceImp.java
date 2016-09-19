@@ -101,22 +101,7 @@ public class RankingServiceImp implements RankingService {
 	}
 	
 	public void desvincularAlunoDaDisciplina(int idAluno, int idDisciplina) {
-		String hql = "select r.id from Ranking r where r.disciplina.id = :idDisciplina and r.aluno.id = :idAluno";
-		List<Integer> listaIds = new ArrayList<Integer>();
-		
-		try {
-			
-			Query query = daoRanking.query(hql);
-			query.setParameter("idDisciplina", idDisciplina);
-			query.setParameter("idAluno", idAluno);
-			listaIds.addAll(query.list());
-			for(Integer id : listaIds) {
-				daoRanking.delete(id);
-			}
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		daoRanking.desvincularAlunoDaDisciplina(idAluno, idDisciplina);
 	}
 	
 	public void pontuar(Aluno aluno, Disciplina disciplina, Integer pontos) {

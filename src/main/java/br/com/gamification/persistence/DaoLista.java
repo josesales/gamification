@@ -1,21 +1,23 @@
 package br.com.gamification.persistence;
 
 import javax.inject.Named;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 
 import br.com.gamification.model.Lista;
+import br.com.gamification.model.ListaAluno;
 import br.com.gamification.core.persistence.AccessibleHibernateDao;
 import br.com.gamification.model.filter.FilterLista;
 import br.com.gamification.core.persistence.pagination.Pagination;
 import br.com.gamification.core.persistence.pagination.PaginationParams;
 import br.com.gamification.core.persistence.pagination.Paginator;
-
 import br.com.gamification.model.Lista;
 /**
 *  generated: 23/08/2016 08:32:11
@@ -64,4 +66,5 @@ public class DaoLista extends AccessibleHibernateDao<Lista> {
 		list.addAll(searchCriteria.list());
 		return list;
 	}
+	
 }

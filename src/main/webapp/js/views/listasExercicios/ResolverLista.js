@@ -63,29 +63,12 @@ define(function(require) {
 			this.disciplina = new DisciplinaModel();
 			this.disciplina.urlRoot = 'rs/crud/disciplinas/' + opt.idDisciplina;
 			this.lista = new ListaModel();
-			this.lista.urlRoot = 'rs/crud/listas/' + opt.idLista;
-			
+			this.lista.urlRoot = 'rs/crud/listas/getListaDoAluno/lista/' + opt.idLista + "/aluno/" + opt.idAluno;
+//			getListaDoAluno/lista/{idLista}/aluno/{idAluno}
 			//Questao atual respondida
 			this.questaoAtual = new QuestaoModel();
 			this.indexQuestaoAtual = 0;
-//
-//			this.questaoCollection.filterQueryParams = {
-//				lista : opt.idLista,
-//			}
-//			this.questaoCollection.fetch({
-//				resetState : true,
-//				success : function(_coll, _resp, _opt) {
-//					console.log(_coll, _resp, _opt)
-//				},
-//				error : function(_coll, _resp, _opt) {
-//					console.error(_coll, _resp, _opt)
-//				}
-//			});
 			
-			
-			
-
-
 			this.on('show', function() {
 
 				this.aluno.fetch({
@@ -180,6 +163,13 @@ define(function(require) {
 			return questaoAtualModel;
 		},
 		
+		desmarcarRadios : function() {
+			this.ui.radioItemA.prop('checked', false);
+			this.ui.radioItemB.prop('checked', false);
+			this.ui.radioItemC.prop('checked', false);
+			this.ui.radioItemD.prop('checked', false);
+		},
+		
 		responder : function() {
 			var that = this;
 			this.questaoAtual = this._getQuestaoAtualModel();
@@ -209,13 +199,14 @@ define(function(require) {
 			this.alunoAtualizado = new AlunoModel();
 			this.alunoAtualizado.urlRoot = 'rs/crud/alunos/' + this.aluno.get('id');
 			this.listaAtualizada = new ListaModel();
-			this.listaAtualizada.urlRoot = 'rs/crud/listas/' + this.lista.get('id');
+			this.listaAtualizada.urlRoot = 'rs/crud/listas/getListaDoAluno/lista/' + this.lista.get('id') + "/aluno/" +this.aluno.get('id');
 			
 			this.questaoAtual.url = 'rs/crud/questaos/responder/' + this.questaoAtual.get("id") + '/itemMarcado/' + itemMarcado +'/aluno/' + this.aluno.get("id");
 
 			this.questaoAtual.fetch({
 				 resetState : true,
 				 success : function(_coll, _resp, _opt) {
+					 that.desmarcarRadios();
 					 if(_resp) {
 						 
 						 console.log("questao correta");
@@ -256,33 +247,6 @@ define(function(require) {
 					console.error(_coll, _resp, _opt)
 				 }
 			 });
-			
-			
-//			this.alunoAtualizado.fetch({
-//				resetState : true,
-//				success : function(_coll, _resp, _opt) {
-//					that._setInformacoesAluno(that.alunoAtualizado);
-//				},
-//				error : function(_coll, _resp, _opt) {
-//					console.error(_coll, _resp, _opt)
-//				}
-//			});
-			 
-			 
-//			this.listaAtualizada.fetch({
-//				resetState : true,
-//				success : function(_coll, _resp, _opt) {
-//					if(that.listaAtualizada.get("questaoAtual")) {
-//						that.indexQuestaoAtual = that.listaAtualizada.get("questaoAtual");
-//					} 
-//					that._setInformacoesLista(that.listaAtualizada);
-//					that._setInformacoesQuestao(that.listaAtualizada.get("questaos"), that.indexQuestaoAtual);
-//				},
-//				error : function(_coll, _resp, _opt) {
-//					console.error(_coll, _resp, _opt)
-//				}
-//			});
-			
 			
 		}
 

@@ -15,6 +15,7 @@ import br.com.gamification.core.persistence.pagination.Pagination;
 import br.com.gamification.core.persistence.pagination.PaginationParams;
 import br.com.gamification.model.Aluno;
 import br.com.gamification.model.Lista;
+import br.com.gamification.model.ListaAluno;
 import br.com.gamification.model.Questao;
 import br.com.gamification.persistence.DaoQuestao;
 
@@ -98,20 +99,24 @@ public class QuestaoServiceImp implements QuestaoService {
 			retorno = false; 
 		}
 		
-		atualizarQuestaoAtual(questao.getLista());
+		atualizarQuestaoAtual(idAluno, questao.getLista());
 		
 		return retorno;
 	}
 	
-	private void atualizarQuestaoAtual(Lista lista) {
+	private void atualizarQuestaoAtual(Integer idAluno, Lista lista) {
+		//TODO testar setar campos tansiente da lista
 		Integer questaoAtual = 0;
-		
-		if(lista.getQuestaoAtual() != null) {
-			questaoAtual = lista.getQuestaoAtual();
+		ListaAluno listaAluno = listaService.getListaAluno(idAluno, lista.getId());
+		if(listaAluno.getQuestaoAtual() != null) {
+			questaoAtual = listaAluno.getQuestaoAtual();
 		}
 		questaoAtual++;
-		lista.setQuestaoAtual(questaoAtual);
-		listaService.update(lista);
+		listaAluno.setQuestaoAtual(questaoAtual);
+		if(questaoAtual >= lista.getQuestaos().size()) {
+			listaAluno.setConcluida(true);
+		}
+		listaService.save(listaAluno);
 	}
 
 

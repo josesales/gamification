@@ -336,11 +336,13 @@ public class Parser {
 		jsonLista.setId(lista.getId());
 	    jsonLista.setNome(lista.getNome());
 	    jsonLista.setQuestaoAtual(lista.getQuestaoAtual());
+	    jsonLista.setConcluida(lista.getConcluida());
 	}	
 	private static void applyBasicEntityValues(Lista lista, JsonLista jsonLista) {
 		lista.setId(jsonLista.getId());
 		lista.setNome(jsonLista.getNome());
 		lista.setQuestaoAtual(jsonLista.getQuestaoAtual());
+		lista.setConcluida(jsonLista.getConcluida());
 	}	
 	
 	public static JsonLista toJson(Lista lista) {

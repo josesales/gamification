@@ -7,6 +7,7 @@ import javax.inject.Named;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
@@ -93,5 +94,24 @@ public class DaoRanking extends AccessibleHibernateDao<Ranking> {
 
 		list.addAll(searchCriteria.list());
 		return list;
+	}
+	
+	public void desvincularAlunoDaDisciplina(int idAluno, int idDisciplina) {
+		String hql = "select r.id from Ranking r where r.disciplina.id = :idDisciplina and r.aluno.id = :idAluno";
+		List<Integer> listaIds = new ArrayList<Integer>();
+		
+		try {
+			
+			Query query = query(hql);
+			query.setParameter("idDisciplina", idDisciplina);
+			query.setParameter("idAluno", idAluno);
+			listaIds.addAll(query.list());
+			for(Integer id : listaIds) {
+				delete(id);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

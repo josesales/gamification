@@ -1,22 +1,22 @@
 package br.com.gamification.service;
 
+import java.util.ArrayList;
 import java.util.List;
-import org.apache.log4j.Logger;
+
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.util.ArrayList;
-import org.springframework.transaction.annotation.Transactional;
+
+import org.apache.log4j.Logger;
 import org.joda.time.LocalDateTime;
-
-
-import br.com.gamification.model.Lista;
-import br.com.gamification.persistence.DaoLista;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.com.gamification.core.persistence.pagination.Pager;
 import br.com.gamification.core.persistence.pagination.Pagination;
 import br.com.gamification.core.persistence.pagination.PaginationParams;
-import br.com.gamification.core.utils.DateUtil;
-import br.com.gamification.core.utils.Util;
+import br.com.gamification.model.Lista;
+import br.com.gamification.model.ListaAluno;
+import br.com.gamification.persistence.DaoLista;
+import br.com.gamification.persistence.DaoListaAluno;
 
 /**
 *  generated: 23/08/2016 08:32:11
@@ -30,6 +30,8 @@ public class ListaServiceImp implements ListaService {
 	
 	@Inject
 	DaoLista daoLista;
+	@Inject
+	DaoListaAluno daoListaAluno;
 
 	@Override
 	public Lista get(Integer id) {
@@ -78,6 +80,35 @@ public class ListaServiceImp implements ListaService {
 	public Boolean delete(Integer id) {
 		return daoLista.delete(id);
 	}
+	
+	public ListaAluno getListaAluno(int idAluno, int idLista) {
+		return daoListaAluno.getListaAluno(idAluno, idLista);
+	}
+	
+	@Override
+	public ListaAluno save(ListaAluno entity) {
+		return daoListaAluno.save(entity);
+	}
+
+
+	@Override
+	public Lista getListaComInformacoesDoAluno(int idAluno, int idLista) {
+		Lista lista = get(idLista);
+		ListaAluno listaAluno = getListaAluno(idAluno, idLista);
+		if(listaAluno != null) {
+			if(listaAluno.getQuestaoAtual() != null ) {
+				lista.setQuestaoAtual(listaAluno.getQuestaoAtual());
+			}
+			if(listaAluno.getConcluida() != null ) {
+				lista.setConcluida(listaAluno.getConcluida());
+			}else {
+				lista.setConcluida(false);
+			}
+		}
+		return lista;
+	}
+	
+	
 
 
 }

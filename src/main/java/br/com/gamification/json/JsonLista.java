@@ -26,6 +26,7 @@ public class JsonLista implements Serializable {
 	private ArrayList<JsonQuestaoDesafio> questaoDesafios = new ArrayList<JsonQuestaoDesafio>();		
 	private JsonDisciplina disciplina;		
 	private Integer questaoAtual;
+	private Boolean concluida;
 	
 	public  JsonLista() {
 		
@@ -75,6 +76,20 @@ public class JsonLista implements Serializable {
 
 	public void setQuestaoAtual(Integer questaoAtual) {
 		this.questaoAtual = questaoAtual;
+	}
+
+	/**
+	 * @return the concluida
+	 */
+	public Boolean getConcluida() {
+		return concluida;
+	}
+
+	/**
+	 * @param concluida the concluida to set
+	 */
+	public void setConcluida(Boolean concluida) {
+		this.concluida = concluida;
 	}
 
 	public SyncOperation getSyncOperation (){
