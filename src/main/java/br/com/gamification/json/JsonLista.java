@@ -3,6 +3,7 @@ package br.com.gamification.json;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
@@ -24,6 +25,7 @@ public class JsonLista implements Serializable {
 	private ArrayList<JsonQuestao> questaos = new ArrayList<JsonQuestao>();		
 	private ArrayList<JsonQuestaoDesafio> questaoDesafios = new ArrayList<JsonQuestaoDesafio>();		
 	private JsonDisciplina disciplina;		
+	private Integer questaoAtual;
 	
 	public  JsonLista() {
 		
@@ -67,6 +69,14 @@ public class JsonLista implements Serializable {
 	public void setDisciplina(JsonDisciplina disciplina) {
 		this.disciplina = disciplina;
 	}
+	public Integer getQuestaoAtual() {
+		return questaoAtual;
+	}
+
+	public void setQuestaoAtual(Integer questaoAtual) {
+		this.questaoAtual = questaoAtual;
+	}
+
 	public SyncOperation getSyncOperation (){
 		if(syncOperation == null){
 			this.syncOperation = SyncOperation.NONE;

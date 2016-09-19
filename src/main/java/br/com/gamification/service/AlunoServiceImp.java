@@ -17,6 +17,7 @@ import org.joda.time.LocalDateTime;
 
 
 
+
 import br.com.gamification.model.Aluno;
 import br.com.gamification.model.Disciplina;
 import br.com.gamification.model.filter.FilterDisciplina;
@@ -97,6 +98,53 @@ public class AlunoServiceImp implements AlunoService {
 		}
 		
 		return daoAluno.delete(id);
+	}
+
+
+	@Override
+	public void pontuar(Aluno aluno, Integer pontos) {
+		
+		//seta pontuacao do aluno
+		Integer pontuacaoAluno = 0;
+		if(aluno.getPontos() != null) {
+			pontuacaoAluno = aluno.getPontos();
+		}
+		pontuacaoAluno = pontuacaoAluno + pontos;
+		aluno.setPontos(pontuacaoAluno);
+		
+		//seta barra do proximo level
+		Integer proximoLevel = calcularProximoLevel(aluno, pontos);
+		
+		//se for de 100 pra cima aluno passa para o proximo level 
+		if(proximoLevel >= 100) {
+			aluno.setProximoLevel(0);
+			Integer level = 1;
+			if(aluno.getLevel() != null) {
+				level = aluno.getLevel();
+			}
+			level++;
+			aluno.setLevel(level);
+		}else {
+			aluno.setProximoLevel(proximoLevel);
+		}
+		
+		daoAluno.save(aluno);
+	
+	}
+	
+	private Integer calcularProximoLevel(Aluno aluno, Integer pontosQuestao) {
+		Integer proximoLevelBanco = 0;
+		Integer level = 1;
+		if(aluno.getProximoLevel() != null) {
+			proximoLevelBanco = aluno.getProximoLevel();
+		}
+		if(aluno.getLevel() != null) {
+			level = aluno.getLevel();
+		}
+		
+		//Calculo eh os pontos da questao vezes 10 dividido pelo level atual do aluno, depois soma com o proximo level que o aluno jah possui
+		Integer proximoLevel = (pontosQuestao * 10) / level;
+		return proximoLevelBanco + proximoLevel;
 	}
 
 

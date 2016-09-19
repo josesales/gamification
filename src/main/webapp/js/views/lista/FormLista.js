@@ -43,6 +43,7 @@ define(function(require) {
 		ui : {
 			inputId : '#inputId',
 			inputNome : '#inputNome',
+			inputQuestaoAtual : '#inputQuestaoAtual',
 		
 			inputDisciplinaId : '#inputDisciplinaId',
 			inputDisciplinaNome : '#inputDisciplinaNome',
@@ -106,9 +107,9 @@ define(function(require) {
 			}
 		},
 
-		
 		clearForm : function() {
 			util.clear('inputId');
+			util.clear('inputQuestaoAtual');
 			util.clear('inputNome'); 
 			this.questaos.reset();
 			this.multiSelectQuestao.clear();
@@ -136,10 +137,10 @@ define(function(require) {
 			lista.set({
 				id: util.escapeById('inputId') || null,
 		    	nome : util.escapeById('inputNome'), 
-				
-					questaos : that.questaos.toJSON(),
-					questaoDesafios : that.questaoDesafios.toJSON(),
-					disciplina : that._getDisciplina(),
+		    	questaoAtual: util.escapeById('inputQuestaoAtual') || null,
+				questaos : that.questaos.toJSON(),
+				questaoDesafios : that.questaoDesafios.toJSON(),
+				disciplina : that._getDisciplina(),
 			});
 			return lista;
 		},

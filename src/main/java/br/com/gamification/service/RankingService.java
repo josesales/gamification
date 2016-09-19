@@ -34,4 +34,6 @@ public interface RankingService {
 	Boolean delete(Integer id);
 	
 	void desvincularAlunoDaDisciplina(int idAluno, int idDisciplina);
+	
+	public void pontuar(Aluno aluno, Disciplina disciplina, Integer pontos);
 }

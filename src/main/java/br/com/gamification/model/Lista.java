@@ -43,7 +43,13 @@ public class Lista extends AbstractTimestampEntity{
 	@ManyToOne
 	@JoinColumn(name = "ID_DISCIPLINA")
 	private Disciplina disciplina;		
-		
+	
+	@Column(name = "QUESTAO_ATUAL")
+	private Integer questaoAtual;
+	//TODO ajustar questaoAtual para que seja individual para cada aluno, do jeito q ta fica como se todos os alunos estivessem na mesma questao
+	//criar flag ajustando para que quando a lista estiver resolvida, aluno saia volte para a pagina de escolha da lista e a mesma estej bloqueada
+	
+	
 	public  Lista() {
 		
 	}
@@ -110,6 +116,12 @@ public class Lista extends AbstractTimestampEntity{
 	
 	public void setDisciplina(Disciplina disciplina) {
 		this.disciplina = disciplina;
+	}
+	public Integer getQuestaoAtual() {
+		return questaoAtual;
+	}
+	public void setQuestaoAtual(Integer questaoAtual) {
+		this.questaoAtual = questaoAtual;
 	}
 	
 	

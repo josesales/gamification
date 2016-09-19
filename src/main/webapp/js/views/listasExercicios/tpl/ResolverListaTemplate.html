@@ -11,7 +11,11 @@
 <body>
 
 <div class="page-content">
-
+	<div class="col-xs-12 col-sm-12">
+		<div class="row">
+			<div id="messages_div"></div>
+		</div>
+	</div>
 	<div class="row">
 		<div class="col-xs-12 col-sm-12">
 			<div class="page-header">
@@ -59,7 +63,7 @@
 					    	<label class="input-group-addon">
 								<input id="radioItemA" name="radioItemCorreto" type="radio" > a.
 					      	</label>
-					     	<span id="itemA" class="form-control" style="font-size:20px;color:black;"></span>
+					     	<textarea id="itemA" class="form-control" readonly="readonly" style="font-size:20px;color:black;"></textarea>
 					    </div>
 					    <br>
 					    
@@ -67,7 +71,7 @@
 					    	<label class="input-group-addon">
 								<input id="radioItemB" name="radioItemCorreto" type="radio" > b.
 					      	</label>
-					     	<span id="itemB" class="form-control" style="font-size:20px;color:black;"></span>
+					     	<textarea id="itemB" readonly="readonly" class="form-control" style="font-size:20px;color:black;"></textarea>
 					    </div>
 					    <br>
 					    
@@ -75,7 +79,7 @@
 					    	<label class="input-group-addon">
 								<input id="radioItemC" name="radioItemCorreto" type="radio" > c.
 					      	</label>
-					     	<span id="itemC" class="form-control" style="font-size:20px;color:black;"></span>
+					     	<textarea id="itemC" readonly="readonly" class="form-control" style="font-size:20px;color:black;"></textarea>
 					    </div>
 					    <br>
 					    
@@ -83,22 +87,15 @@
 					    	<label class="input-group-addon">
 								<input id="radioItemD" name="radioItemCorreto" type="radio" > d.
 					      	</label>
-					     	<span id="itemD" class="form-control" style="font-size:20px;color:black;"></span>
+					     	<textarea id="itemD" readonly="readonly" class="form-control" style="font-size:20px;color:black;"></textarea>
 					    </div>
 					    
 					    <br>
 					    
-					    <a href="javascript:void(0)" id="save"  class="save btn btn-primary">
+					    <a href="javascript:void(0)" id="responder"  class="save btn btn-primary">
 							<i class="ace-icon save fa fa-check bigger-110"></i>
 							Responder
 						</a>
-					    
-					     
-    
-    
-    
-    
-    
 						
 				</form>
 			</div>

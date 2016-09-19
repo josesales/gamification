@@ -17,6 +17,7 @@ import br.com.gamification.core.persistence.pagination.PaginationParams;
 import br.com.gamification.model.Aluno;
 import br.com.gamification.model.Disciplina;
 import br.com.gamification.model.Ranking;
+import br.com.gamification.model.filter.FilterRanking;
 import br.com.gamification.persistence.DaoRanking;
 
 /**
@@ -116,6 +117,27 @@ public class RankingServiceImp implements RankingService {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void pontuar(Aluno aluno, Disciplina disciplina, Integer pontos) {
+		Ranking ranking = null;
+		FilterRanking filter = new FilterRanking();
+		filter.setAluno(aluno.getId());
+		filter.setDisciplina(disciplina.getId());
+		List<Ranking> listaRanking = daoRanking.filter(filter);
+		
+		//se aluno nao tiver ranking na disciplina insere ele no mesmo, se tiver atualiza
+		if(listaRanking == null || listaRanking.isEmpty()) {
+			ranking = new Ranking();
+			ranking.setAluno(aluno);
+			ranking.setDisciplina(disciplina);
+			ranking.setPontos(pontos);
+		}else {
+			ranking = listaRanking.get(0);
+			ranking.setPontos(ranking.getPontos() + pontos);
+		}
+		
+		daoRanking.save(ranking);
 	}
 
 

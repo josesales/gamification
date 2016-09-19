@@ -26,4 +26,6 @@ public interface AlunoService {
     List<Aluno> last(LocalDateTime lastSyncDate);		
 
 	Boolean delete(Integer id);
+	
+	void pontuar(Aluno aluno, Integer pontos);
 }

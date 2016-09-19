@@ -335,10 +335,12 @@ public class Parser {
 	private static void applyBasicJsonValues(JsonLista jsonLista, Lista lista) {
 		jsonLista.setId(lista.getId());
 	    jsonLista.setNome(lista.getNome());
+	    jsonLista.setQuestaoAtual(lista.getQuestaoAtual());
 	}	
 	private static void applyBasicEntityValues(Lista lista, JsonLista jsonLista) {
 		lista.setId(jsonLista.getId());
 		lista.setNome(jsonLista.getNome());
+		lista.setQuestaoAtual(jsonLista.getQuestaoAtual());
 	}	
 	
 	public static JsonLista toJson(Lista lista) {

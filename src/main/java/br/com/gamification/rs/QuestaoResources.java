@@ -22,9 +22,9 @@ import org.apache.log4j.Logger;
 import br.com.gamification.core.json.JsonError;
 import br.com.gamification.core.json.JsonPaginator;
 import br.com.gamification.json.JsonQuestao;
-
+import br.com.gamification.model.Aluno;
+import br.com.gamification.model.Disciplina;
 import br.com.gamification.model.Questao;
-
 import br.com.gamification.service.QuestaoService;
 import br.com.gamification.model.filter.FilterQuestao;
 import br.com.gamification.core.persistence.pagination.Pager;
@@ -177,6 +177,25 @@ public class QuestaoResources {
 			String message = String.format("NÃ£o foi possivel remover o registro [ %s ] parametros [ %s ]", e.getMessage(), id);
 			LOGGER.error(message, e);
 			return Response.serverError().entity(new JsonError(e, message, id)).build();
+		}
+	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("responder/{idQuestao}/itemMarcado/{itemMarcado}/aluno/{idAluno}")
+	public Response responder(@PathParam("idQuestao") Integer idQuestao, @PathParam("itemMarcado") String itemMarcado, @PathParam("idAluno") Integer idAluno) {
+		try {
+			Boolean questaoRespondidaCorretamente = questaoService.responder(idQuestao, itemMarcado, idAluno);
+			return Response.ok().entity(questaoRespondidaCorretamente).build();
+		} catch (ValidationException e) {
+			String message = String.format("Não foi possivel pontuar a questao [ %s ] parametros [ %s ]", e.getOrigem().getMessage(), idQuestao);
+			LOGGER.error(message, e.getOrigem());
+			return Response.serverError().entity(new JsonError(e, message, e.getLegalMessage())).build();
+		} catch (Exception e) {
+			String message = String.format("Não foi possivel pontuar a questao [ %s ] parametros [ %s ]", e.getMessage(), idQuestao);
+			LOGGER.error(message, e);
+			return Response.serverError().entity(new JsonError(e, message, idQuestao)).build();
 		}
 	}
 }

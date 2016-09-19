@@ -21,6 +21,7 @@ define(function(require) {
 			questaos : null,
 			questaoDesafios : null,
 			disciplina : null,
+			questaoAtual : '',
 		
 		}
 	});

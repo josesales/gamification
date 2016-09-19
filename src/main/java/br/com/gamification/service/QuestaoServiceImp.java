@@ -1,22 +1,22 @@
 package br.com.gamification.service;
 
+import java.util.ArrayList;
 import java.util.List;
-import org.apache.log4j.Logger;
+
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.util.ArrayList;
-import org.springframework.transaction.annotation.Transactional;
+
+import org.apache.log4j.Logger;
 import org.joda.time.LocalDateTime;
-
-
-import br.com.gamification.model.Questao;
-import br.com.gamification.persistence.DaoQuestao;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.com.gamification.core.persistence.pagination.Pager;
 import br.com.gamification.core.persistence.pagination.Pagination;
 import br.com.gamification.core.persistence.pagination.PaginationParams;
-import br.com.gamification.core.utils.DateUtil;
-import br.com.gamification.core.utils.Util;
+import br.com.gamification.model.Aluno;
+import br.com.gamification.model.Lista;
+import br.com.gamification.model.Questao;
+import br.com.gamification.persistence.DaoQuestao;
 
 /**
 *  generated: 23/08/2016 08:32:12
@@ -30,6 +30,12 @@ public class QuestaoServiceImp implements QuestaoService {
 	
 	@Inject
 	DaoQuestao daoQuestao;
+	@Inject
+	AlunoService alunoService;
+	@Inject
+	ListaService listaService;
+	@Inject
+	RankingService rankingService;
 
 	@Override
 	public Questao get(Integer id) {
@@ -77,6 +83,35 @@ public class QuestaoServiceImp implements QuestaoService {
 	@Override
 	public Boolean delete(Integer id) {
 		return daoQuestao.delete(id);
+	}
+
+
+	@Override
+	public Boolean responder(Integer idQuestao, String itemMarcado, Integer idAluno) {
+		Questao questao = daoQuestao.find(idQuestao);
+		Aluno aluno = alunoService.get(idAluno);
+		boolean retorno = true; 
+		if(questao.getItemCorreto().trim().equalsIgnoreCase(itemMarcado)) {
+			alunoService.pontuar(aluno, questao.getPontos());
+			rankingService.pontuar(aluno, questao.getLista().getDisciplina(), questao.getPontos());
+		}else {
+			retorno = false; 
+		}
+		
+		atualizarQuestaoAtual(questao.getLista());
+		
+		return retorno;
+	}
+	
+	private void atualizarQuestaoAtual(Lista lista) {
+		Integer questaoAtual = 0;
+		
+		if(lista.getQuestaoAtual() != null) {
+			questaoAtual = lista.getQuestaoAtual();
+		}
+		questaoAtual++;
+		lista.setQuestaoAtual(questaoAtual);
+		listaService.update(lista);
 	}
 
 

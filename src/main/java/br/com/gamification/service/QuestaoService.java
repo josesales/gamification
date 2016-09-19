@@ -26,4 +26,6 @@ public interface QuestaoService {
     List<Questao> last(LocalDateTime lastSyncDate);		
 
 	Boolean delete(Integer id);
+	
+	Boolean responder(Integer idQuestao, String itemMarcado, Integer idAluno);
 }

@@ -31,22 +31,13 @@ define(function(require) {
 		template : _.template(ResolverListaTemplate),
 
 		regions : {
-//			disciplinaCadastradaCounterRegion : '#counter_disciplina_cadastrada',
-//			disciplinaCadastradaGridRegion : '#grid_disciplina_cadastrada',
-//			disciplinaCadastradaPaginatorRegion : '#paginator_disciplina_cadastrada',
-//			disciplinaNaoCadastradaCounterRegion : '#counter_disciplina_nao_cadastrada',
-//			disciplinaNaoCadastradaGridRegion : '#grid_disciplina_nao_cadastrada',
-//			disciplinaNaoCadastradaPaginatorRegion : '#paginator_disciplina_nao_cadastrada',
 		},
 
 		events : {
-//			'click #radioItemA' : 'checarItemA'
+			'click #responder' : 'responder'
 
 		},
 
-		// chamaUrl : function() {
-		//
-		// },
 		ui : {
 			nomeAluno : '#nomeAluno',
 			xp : '#xp',
@@ -73,11 +64,10 @@ define(function(require) {
 			this.disciplina.urlRoot = 'rs/crud/disciplinas/' + opt.idDisciplina;
 			this.lista = new ListaModel();
 			this.lista.urlRoot = 'rs/crud/listas/' + opt.idLista;
+			
+			//Questao atual respondida
+			this.questaoAtual = new QuestaoModel();
 			this.indexQuestaoAtual = 0;
-//			//Questoes da lista
-//			this.questaoCollection = new QuestaoCollection();
-//			this.questaoCollection.on('fetching', this._startFetch, this);
-//			this.questaoCollection.on('fetched', this._stopFetch, this);
 //
 //			this.questaoCollection.filterQueryParams = {
 //				lista : opt.idLista,
@@ -111,6 +101,9 @@ define(function(require) {
 				this.lista.fetch({
 					resetState : true,
 					success : function(_coll, _resp, _opt) {
+						if(that.lista.get("questaoAtual")) {
+							that.indexQuestaoAtual = that.lista.get("questaoAtual");
+						} 
 						that._setInformacoesLista(that.lista);
 						that._setInformacoesQuestao(that.lista.get("questaos"), that.indexQuestaoAtual);
 					},
@@ -119,15 +112,6 @@ define(function(require) {
 					}
 				});
 
-//				// disciplinas cadastradas
-//				that.disciplinaCadastradaGridRegion.show(that.disciplinaCadastradaGrid);
-//				that.disciplinaCadastradaCounterRegion.show(that.disciplinaCadastradaCounter);
-//				that.disciplinaCadastradaPaginatorRegion.show(that.disciplinaCadastradaPaginator);
-//
-//				// disciplinas nao cadastradas
-//				that.disciplinaNaoCadastradaGridRegion.show(that.disciplinaNaoCadastradaGrid);
-//				that.disciplinaNaoCadastradaCounterRegion.show(that.disciplinaNaoCadastradaCounter);
-//				that.disciplinaNaoCadastradaPaginatorRegion.show(that.disciplinaNaoCadastradaPaginator);
 			});
 
 		},
@@ -152,6 +136,10 @@ define(function(require) {
 		
 		_setInformacoesLista : function(listaModel) {
 				this.ui.listaNome.text(listaModel.get("nome") + " (" + listaModel.get("questaos").length + " questões)");
+//				if(listaModel.get("questaoAtual")) {
+//					this.indexQuestaoAtual = listaModel.get("questaoAtual");
+//				} 
+					
 		},
 		
 		_setInformacoesQuestao : function(questoesJson, index) {
@@ -163,8 +151,139 @@ define(function(require) {
 			this.ui.itemD.text(questoesJson[index].itemD);
 		},
 		
-		checarItemA : function() {
-			this.ui.radioItemA.attr('checked', true);
+		_getQuestaoAtualModel : function() {
+			var that = this;
+			var questaoAtual = this.lista.get("questaos")[this.indexQuestaoAtual];
+			var questaoAtualModel = new QuestaoModel();
+			
+			
+			questaoAtualModel.set({
+				id: questaoAtual.id || null,
+				
+		    	pergunta : questaoAtual.pergunta,
+				
+		    	itemA : questaoAtual.itemA, 
+				
+		    	itemB : questaoAtual.itemB,
+				
+		    	itemC : questaoAtual.itemC,
+				
+		    	itemD : questaoAtual.itemD,
+				
+		    	itemCorreto : questaoAtual.itemCorreto, 
+				
+		    	pontos : questaoAtual.pontos, 
+		    	
+		    	lista : that.lista,
+			});
+			
+			return questaoAtualModel;
+		},
+		
+		responder : function() {
+			var that = this;
+			this.questaoAtual = this._getQuestaoAtualModel();
+			
+			var itemMarcado = null;
+			var isItemMarcado = false;
+			
+			if(this.ui.radioItemA.is(':checked')) {
+				isItemMarcado = true;
+				itemMarcado = 'a';
+			}else if(this.ui.radioItemB.is(':checked')) {
+				isItemMarcado = true;
+				itemMarcado = 'b';
+			}else if(this.ui.radioItemC.is(':checked')) {
+				isItemMarcado = true;
+				itemMarcado = 'c';
+			}else if(this.ui.radioItemD.is(':checked')) {
+				isItemMarcado = true;
+				itemMarcado = 'd';
+			}   
+			
+			if(!isItemMarcado) {
+				util.showMessage('error', 'Escolha algum item!');
+				return;
+			}
+			
+			this.alunoAtualizado = new AlunoModel();
+			this.alunoAtualizado.urlRoot = 'rs/crud/alunos/' + this.aluno.get('id');
+			this.listaAtualizada = new ListaModel();
+			this.listaAtualizada.urlRoot = 'rs/crud/listas/' + this.lista.get('id');
+			
+			this.questaoAtual.url = 'rs/crud/questaos/responder/' + this.questaoAtual.get("id") + '/itemMarcado/' + itemMarcado +'/aluno/' + this.aluno.get("id");
+
+			this.questaoAtual.fetch({
+				 resetState : true,
+				 success : function(_coll, _resp, _opt) {
+					 if(_resp) {
+						 
+						 console.log("questao correta");
+						 util.showMessage('success', 'Item correto!');
+						 
+						 that.alunoAtualizado.fetch({
+							resetState : true,
+							success : function(_coll, _resp, _opt) {
+								that._setInformacoesAluno(that.alunoAtualizado);
+							},
+							error : function(_coll, _resp, _opt) {
+								console.error(_coll, _resp, _opt)
+							}
+						});
+						 
+					 } else {
+						 console.log("questao incorreta");
+						 util.showMessage('error', 'Item incorreto!');
+					 }
+					 
+					 that.listaAtualizada.fetch({
+						resetState : true,
+						success : function(_coll, _resp, _opt) {
+							if(that.listaAtualizada.get("questaoAtual")) {
+								that.indexQuestaoAtual = that.listaAtualizada.get("questaoAtual");
+							} 
+							that._setInformacoesLista(that.listaAtualizada);
+							that._setInformacoesQuestao(that.listaAtualizada.get("questaos"), that.indexQuestaoAtual);
+						},
+						error : function(_coll, _resp, _opt) {
+							console.error(_coll, _resp, _opt)
+						}
+					});
+					 
+					 
+				 },
+				 error : function(_coll, _resp, _opt) {
+					console.error(_coll, _resp, _opt)
+				 }
+			 });
+			
+			
+//			this.alunoAtualizado.fetch({
+//				resetState : true,
+//				success : function(_coll, _resp, _opt) {
+//					that._setInformacoesAluno(that.alunoAtualizado);
+//				},
+//				error : function(_coll, _resp, _opt) {
+//					console.error(_coll, _resp, _opt)
+//				}
+//			});
+			 
+			 
+//			this.listaAtualizada.fetch({
+//				resetState : true,
+//				success : function(_coll, _resp, _opt) {
+//					if(that.listaAtualizada.get("questaoAtual")) {
+//						that.indexQuestaoAtual = that.listaAtualizada.get("questaoAtual");
+//					} 
+//					that._setInformacoesLista(that.listaAtualizada);
+//					that._setInformacoesQuestao(that.listaAtualizada.get("questaos"), that.indexQuestaoAtual);
+//				},
+//				error : function(_coll, _resp, _opt) {
+//					console.error(_coll, _resp, _opt)
+//				}
+//			});
+			
+			
 		}
 
 

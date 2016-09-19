@@ -75,4 +75,23 @@ public class DaoRanking extends AccessibleHibernateDao<Ranking> {
 		list.addAll(searchCriteria.list());
 		return list;
 	}
+	
+	public List<Ranking> filter(FilterRanking filterRanking) {
+		List<Ranking> list = new ArrayList<Ranking>();
+		Criteria searchCriteria = criteria();
+		if (filterRanking.getPontos() != null) {
+			searchCriteria.add(Restrictions.eq("pontos", filterRanking.getPontos()));
+		}
+		if (filterRanking.getDisciplina() != null) {
+			searchCriteria.createAlias("disciplina", "disciplina_");
+			searchCriteria.add(Restrictions.eq("disciplina_.id", filterRanking.getDisciplina()));
+		}
+		if (filterRanking.getAluno() != null) {
+			searchCriteria.createAlias("aluno", "aluno_");
+			searchCriteria.add(Restrictions.eq("aluno_.id", filterRanking.getAluno()));
+		}
+
+		list.addAll(searchCriteria.list());
+		return list;
+	}
 }
