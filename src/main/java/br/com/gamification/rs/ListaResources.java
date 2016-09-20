@@ -126,7 +126,7 @@ public class ListaResources {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("getListaDoAluno/lista/{idLista}/aluno/{idAluno}")
-	public Response getListaDoAluno(@PathParam("idLista") Integer idLista, Integer idAluno) {
+	public Response getListaDoAluno(@PathParam("idLista") Integer idLista, @PathParam("idAluno") Integer idAluno) {
 		try {
 
 			Lista lista = listaService.getListaComInformacoesDoAluno(idAluno, idLista);

@@ -108,6 +108,13 @@ public class QuestaoServiceImp implements QuestaoService {
 		//TODO testar setar campos tansiente da lista
 		Integer questaoAtual = 0;
 		ListaAluno listaAluno = listaService.getListaAluno(idAluno, lista.getId());
+		if(listaAluno == null) {
+			listaAluno = new ListaAluno();
+			Aluno alunoTemp = new Aluno();
+			alunoTemp.setId(idAluno);
+			listaAluno.setAluno(alunoTemp);
+			listaAluno.setLista(lista);
+		}
 		if(listaAluno.getQuestaoAtual() != null) {
 			questaoAtual = listaAluno.getQuestaoAtual();
 		}

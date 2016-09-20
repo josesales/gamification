@@ -32,8 +32,8 @@ public class ListaAluno extends AbstractTimestampEntity{
 	private Lista lista;
 	
 	@ManyToOne
-	@JoinColumn(name = "ID_DISCIPLINA")
-	private Disciplina disciplina;		
+	@JoinColumn(name = "ID_ALUNO")
+	private Aluno aluno;		
 	
 	@Column(name = "QUESTAO_ATUAL")
 	private Integer questaoAtual;
@@ -50,18 +50,6 @@ public class ListaAluno extends AbstractTimestampEntity{
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public Lista getLista() {
-		return lista;
-	}
-	public void setLista(Lista lista) {
-		this.lista = lista;
-	}
-	public Disciplina getDisciplina() {
-		return disciplina;
-	}
-	public void setDisciplina(Disciplina disciplina) {
-		this.disciplina = disciplina;
-	}
 	public Integer getQuestaoAtual() {
 		return questaoAtual;
 	}
@@ -73,6 +61,18 @@ public class ListaAluno extends AbstractTimestampEntity{
 	}
 	public void setConcluida(Boolean concluida) {
 		this.concluida = concluida;
+	}
+	public Lista getLista() {
+		return lista;
+	}
+	public void setLista(Lista lista) {
+		this.lista = lista;
+	}
+	public Aluno getAluno() {
+		return aluno;
+	}
+	public void setAluno(Aluno aluno) {
+		this.aluno = aluno;
 	}
 	
 	

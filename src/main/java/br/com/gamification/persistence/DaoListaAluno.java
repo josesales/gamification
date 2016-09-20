@@ -24,14 +24,16 @@ public class DaoListaAluno extends AccessibleHibernateDao<ListaAluno> {
 	}
 
 	public ListaAluno getListaAluno(int idAluno, int idLista) {
-		String hql = "select la.* from ListaAluno la where la.lista.id = :idLista and r.aluno.id = :idAluno";
+		String hql = "select la from ListaAluno la where la.lista.id = :idLista and la.aluno.id = :idAluno";
 		List<ListaAluno> listaDoAluno = new ArrayList<ListaAluno>();
 		
 		Query query = query(hql);
 		query.setParameter("idLista", idLista);
 		query.setParameter("idAluno", idAluno);
 		listaDoAluno.addAll(query.list());
-		
+		if(listaDoAluno.isEmpty()) {
+			return null;
+		}
 		return listaDoAluno.get(0);
 	}
 	

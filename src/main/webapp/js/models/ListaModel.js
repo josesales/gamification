@@ -22,6 +22,7 @@ define(function(require) {
 			questaoDesafios : null,
 			disciplina : null,
 			questaoAtual : '',
+			concluida : '',
 		
 		}
 	});

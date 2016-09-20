@@ -230,6 +230,12 @@ define(function(require) {
 					 that.listaAtualizada.fetch({
 						resetState : true,
 						success : function(_coll, _resp, _opt) {
+							if(that.listaAtualizada.get("concluida")) {
+								
+								util.Bootbox.alert("<h3>Lista resolvida com sucesso!</h3>", function() {});
+								util.goPage('app/listasExercicios/aluno/' + that.aluno.get("id") + '/disciplina/' + that.listaAtualizada.get("disciplina").id, true);
+								return;
+							}
 							if(that.listaAtualizada.get("questaoAtual")) {
 								that.indexQuestaoAtual = that.listaAtualizada.get("questaoAtual");
 							} 
