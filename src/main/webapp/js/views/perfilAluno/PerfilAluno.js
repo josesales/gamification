@@ -19,7 +19,7 @@ define(function(require) {
 	var DisciplinaPageCollection = require('collections/DisciplinaPageCollection');
 	var DisciplinaModel = require('models/DisciplinaModel');
 	var AlunoModel = require('models/AlunoModel');
-	var RankingPageCollection = require('collections/RankingPageCollection');
+	var AlunoPageCollection = require('collections/AlunoPageCollection');
 
 	var PerfilAluno = Marionette.LayoutView.extend({
 		template : _.template(PerfilAlunoTemplate),
@@ -31,74 +31,26 @@ define(function(require) {
 			disciplinaNaoCadastradaCounterRegion : '#counter_disciplina_nao_cadastrada',
 			disciplinaNaoCadastradaGridRegion : '#grid_disciplina_nao_cadastrada',
 			disciplinaNaoCadastradaPaginatorRegion : '#paginator_disciplina_nao_cadastrada',
+			rankingGeralCounterRegion : '#counter_ranking_geral',
+			rankingGeralGridRegion : '#grid_ranking_geral',
+			rankingGeralPaginatorRegion : '#paginator_ranking_geral',
 		},
 
 		events : {
-		// 'click #botao' : 'chamaUrl'
 
 		},
 
-		// chamaUrl : function() {
-		//
-		// },
 		ui : {
 			nomeAluno : '#nomeAluno',
 			xp : '#xp',
 			level : '#level',
 			barraProximoLevel : '#barraProximoLevel',
-		// horaAtual : '#horaAtual',
-		// mensagemExibida : '#mensagemExibida',
-		// imgLogoGestor : '#imgLogoGestor',
 		},
 
 		initialize : function(opt) {
 			var that = this;
 			this.aluno = new AlunoModel();
 			this.aluno.urlRoot = 'rs/crud/alunos/' + opt.id;
-
-			//			
-			// //Ranking
-			// this.rankingCollection = new RankingPageCollection();
-			// this.rankingCollection.state.pageSize = 5;
-			// this.rankingCollection.on('fetching', this._startFetch, this);
-			// this.rankingCollection.on('fetched', this._stopFetch, this);
-			//			
-			// this.rankingCollection.filterQueryParams = {
-			// aluno : opt.id,
-			// }
-			// this.rankingCollection.fetch({
-			// resetState : true,
-			// success : function(_coll, _resp, _opt) {
-			// //caso queira algum tratamento de sucesso adicional
-			// },
-			// error : function(_coll, _resp, _opt) {
-			// console.error(_coll, _resp, _opt)
-			// }
-			// });
-			//
-			// this.disciplinaCadastradaGrid = new Backgrid.Grid({
-			// row : RowClick,
-			// className : 'table backgrid table-striped table-bordered
-			// table-hover dataTable no-footer ',
-			// columns : this._getDisciplinaCadastradaColumns(),
-			// emptyText : "Sem registros",
-			// collection : this.disciplinaCadastradaCollection,
-			// emptyText : "Sem registros para exibir."
-			//
-			// });
-			//			
-			// this.disciplinaCadastradaCounter = new Counter({
-			// collection : this.disciplinaCadastradaCollection ,
-			// });
-			//			
-			//
-			// this.disciplinaCadastradaPaginator = new
-			// Backgrid.Extension.Paginator({
-			// columns : this._getDisciplinaCadastradaColumns(),
-			// collection : this.disciplinaCadastradaCollection,
-			// className : 'dataTables_paginate paging_simple_numbers',
-			// uiClassName : 'pagination',
-			// });
 
 			// disciplinas cadastradas
 			this.disciplinaCadastradaCollection = new DisciplinaPageCollection();
@@ -182,6 +134,48 @@ define(function(require) {
 				className : 'dataTables_paginate paging_simple_numbers',
 				uiClassName : 'pagination',
 			});
+			
+			// disciplinas nao cadastradas
+			this.rankingGeralCollection = new AlunoPageCollection();
+			this.rankingGeralCollection.state.pageSize = 5;
+			this.rankingGeralCollection.on('fetching', this._startFetch, this);
+			this.rankingGeralCollection.on('fetched', this._stopFetch, this);
+
+//			this.rankingGeralCollection.filterQueryParams = {
+//				aluno : opt.id,
+//				isAlunoIncluso : false,
+//			}
+
+			this.rankingGeralCollection.fetch({
+				resetState : true,
+				success : function(_coll, _resp, _opt) {
+					// caso queira algum tratamento de sucesso adicional
+				},
+				error : function(_coll, _resp, _opt) {
+					console.error(_coll, _resp, _opt)
+				}
+			});
+
+			this.rankingGeralGrid = new Backgrid.Grid({
+				row : RowClick,
+				className : 'table backgrid table-striped table-bordered table-hover dataTable no-footer  ',
+				columns : this._getRankingGeralColumns(),
+				emptyText : "Sem registros",
+				collection : this.rankingGeralCollection,
+				emptyText : "Sem registros para exibir."
+
+			});
+
+			this.rankingGeralCounter = new Counter({
+				collection : this.rankingGeralCollection,
+			});
+
+			this.rankingGeralPaginator = new Backgrid.Extension.Paginator({
+				columns : this._getRankingGeralColumns(),
+				collection : this.rankingGeralCollection,
+				className : 'dataTables_paginate paging_simple_numbers',
+				uiClassName : 'pagination',
+			});
 
 			this.on('show', function() {
 
@@ -218,6 +212,11 @@ define(function(require) {
 				that.disciplinaNaoCadastradaGridRegion.show(that.disciplinaNaoCadastradaGrid);
 				that.disciplinaNaoCadastradaCounterRegion.show(that.disciplinaNaoCadastradaCounter);
 				that.disciplinaNaoCadastradaPaginatorRegion.show(that.disciplinaNaoCadastradaPaginator);
+				
+				// ranking geral
+				that.rankingGeralGridRegion.show(that.rankingGeralGrid);
+				that.rankingGeralCounterRegion.show(that.rankingGeralCounter);
+				that.rankingGeralPaginatorRegion.show(that.rankingGeralPaginator);
 			});
 
 		},
