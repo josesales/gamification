@@ -139,6 +139,24 @@ public class ListaResources {
 			return Response.serverError().entity(new JsonError(e, message, idLista)).build();
 		}
 	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("getListasAlunoPorDisciplina/aluno/{idAluno}/disciplina/{idDisciplina}")
+	public Response getListasAlunoPorDisciplina(@PathParam("idAluno") Integer idAluno, @PathParam("idDisciplina") Integer idDisciplina) {
+		try {
+			
+			List<Lista> listas = listaService.getListaComInformacoesDoAlunoPorDisciplina(idAluno, idDisciplina);
+
+			return Response.ok().entity(Parser.toListJsonListas(listas)).build();
+
+		} catch (Exception e) {
+			String message = String.format("Não foi possivel carregar o registro. [ %s ] parametros [ %d ]", e.getMessage(), idDisciplina);
+			LOGGER.error(message, e);
+			return Response.serverError().entity(new JsonError(e, message, idDisciplina)).build();
+		}
+	}
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)

@@ -113,13 +113,44 @@ define(function(require) {
 			this.listaCollection.on('fetched', this._stopFetch, this);
 			 
 			this.listaCollection.filterQueryParams = {
-				aluno : opt.idAluno,
 				disciplina : opt.idDisciplina,
 			}
 			
 			 this.listaCollection.fetch({
 				 resetState : true,
 				 success : function(_coll, _resp, _opt) {
+					 
+					var listaAluno = new ListaCollection();
+					listaAluno.url = 'rs/crud/listas/getListasAlunoPorDisciplina/aluno/' + opt.idAluno +'/disciplina/' + opt.idDisciplina;
+					
+					listaAluno.fetch({
+						resetState : true,
+						success : function(_coll, _resp, _opt) {
+							
+							if(_resp && _resp.length && _resp.length > 0) {
+								var tamanhoLista = _.size(that.listaCollection);
+								var tamanhoListaAluno = _.size(listaAluno);
+								
+								//preenche atributos da lista para verificar se a mesma ja foi concluida pelo aluno
+								for(var i = 0; i < tamanhoLista; i++) {
+									for(var n = 0; n < tamanhoListaAluno; n++) {
+										if(that.listaCollection.at(i).get('id') == listaAluno.at(n).get('id')){
+											that.listaCollection.at(i).set('concluida', listaAluno.at(n).get('concluida'));
+											that.listaCollection.at(i).set('questaoAtual', listaAluno.at(n).get('questaoAtual'));
+										}
+									}
+								}
+								
+							}
+						},
+						error : function(_coll, _resp, _opt) {
+							console.error(_coll, _resp, _opt)
+						}
+					});
+					 
+					 
+					 
+					 
 					 //caso queira algum tratamento de sucesso adicional
 				 },
 				 error : function(_coll, _resp, _opt) {
@@ -256,8 +287,15 @@ define(function(require) {
 				id : 'lista_button',
 				type : 'primary',
 				icon : 'fa-pencil',
-				hint : 'Resolver Lista',
+				hint : 'Questões',
 				onClick : that._getResolverLista,
+
+			},{
+				id : 'lista_desafio_button',
+				type : 'primary',
+				icon : 'fa-star-o',
+				hint : 'Desafios',
+				onClick : that._getResolverDesafios,
 
 			});
 
@@ -265,8 +303,19 @@ define(function(require) {
 		},
 
 		_getResolverLista : function(model) {
-			util.goPage('app/listasExercicios/resolverLista/aluno/' + this.aluno.get("id") + '/disciplina/' + this.disciplina.get("id") + '/lista/' + model.get("id"), true);
-//			'app/listasExercicios/aluno/:idAluno/disciplina/:idDisciplina' : 'listasExercicios'
+			if(model.get('concluida')) {
+				util.showMessage("success", model.get("nome") + " concluída.")
+			}else {
+				util.goPage('app/listasExercicios/resolverLista/aluno/' + this.aluno.get("id") + '/disciplina/' + this.disciplina.get("id") + '/lista/' + model.get("id"), true);
+			}
+		},
+		
+		_getResolverDesafios : function(model) {
+			if(!model.get('concluida')) {
+				util.showMessage("error", "Necessário concluir " + model.get("nome"));
+			}else {
+				util.goPage('app/listasExercicios/resolverDesafio/aluno/' + this.aluno.get("id") + '/disciplina/' + this.disciplina.get("id") + '/lista/' + model.get("id"), true);
+			}
 		},
 
 

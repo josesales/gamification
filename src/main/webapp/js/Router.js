@@ -17,6 +17,7 @@ define(function(require) {
 	var PerfilAluno = require('views/perfilAluno/PerfilAluno');
 	var ListasExercicios = require('views/listasExercicios/ListasExercicios');
 	var ResolverLista = require('views/listasExercicios/ResolverLista');
+	var ResolverDesafio = require('views/listasExercicios/ResolverDesafio');
 	
 	var PageLista = require('views/lista/PageLista');
 	var FormLista = require('views/lista/FormLista');
@@ -124,6 +125,7 @@ define(function(require) {
 			'app/perfilAluno/:id' : 'perfilAluno',
 			'app/listasExercicios/aluno/:idAluno/disciplina/:idDisciplina' : 'listasExercicios',
 			'app/listasExercicios/resolverLista/aluno/:idAluno/disciplina/:idDisciplina/lista/:idLista' : 'resolverLista',
+			'app/listasExercicios/resolverDesafio/aluno/:idAluno/disciplina/:idDisciplina/lista/:idLista' : 'resolverDesafio',
 			// hashs de Aluno
 			'app/alunos' : 'alunos',
 			'app/newAluno' : 'newAluno',
@@ -252,6 +254,16 @@ define(function(require) {
 				idLista : idLista,
 			});
 			this.App.mainRegion.show(this.resolverLista);
+		},
+		
+		resolverDesafio : function(idAluno, idDisciplina, idLista) {
+			util.markActiveItem('resolverDesafio');
+			this.resolverDesafio = new ResolverDesafio({
+				idAluno : idAluno,
+				idDisciplina : idDisciplina,
+				idLista : idLista,
+			});
+			this.App.mainRegion.show(this.resolverDesafio);
 		},
 		
 		//configuração das rotas de Aluno

@@ -2,14 +2,12 @@ package br.com.gamification.json;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import br.com.gamification.core.json.SyncOperation;
 import br.com.gamification.core.serialization.CustomSyncObjectIdDeserializer;
-import br.com.gamification.core.serialization.CustomDoubleDeserializer;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 /**
 *  generated: 23/08/2016 08:32:11
@@ -26,8 +24,26 @@ public class JsonLista implements Serializable {
 	private ArrayList<JsonQuestaoDesafio> questaoDesafios = new ArrayList<JsonQuestaoDesafio>();		
 	private JsonDisciplina disciplina;		
 	private Integer questaoAtual;
+	private Integer desafioAtual;
 	private Boolean concluida;
+	private Boolean desafioConcluido;
 	
+	public Integer getDesafioAtual() {
+		return desafioAtual;
+	}
+
+	public void setDesafioAtual(Integer desafioAtual) {
+		this.desafioAtual = desafioAtual;
+	}
+
+	public Boolean getDesafioConcluido() {
+		return desafioConcluido;
+	}
+
+	public void setDesafioConcluido(Boolean desafioConcluido) {
+		this.desafioConcluido = desafioConcluido;
+	}
+
 	public  JsonLista() {
 		
 	}

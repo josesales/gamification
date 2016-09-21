@@ -42,6 +42,8 @@ public class ListaServiceImp implements ListaService {
 	@Override
 	public Pager<Lista> all(PaginationParams paginationParams) {
 		Pagination<Lista> pagination = daoLista.getAll(paginationParams);
+		
+//		pagination.getResults()
 		return new Pager<Lista>(pagination.getResults(), 0, pagination.getTotalRecords());
 	}
 	
@@ -107,6 +109,23 @@ public class ListaServiceImp implements ListaService {
 		}
 		return lista;
 	}
+	
+	@Override
+	public List<Lista> getListaComInformacoesDoAlunoPorDisciplina(int idAluno, int idDisciplina) {
+		List<ListaAluno> listasDoAluno = daoListaAluno.getListaAlunoPorDisciplina(idAluno, idDisciplina);
+		List<Lista> listas = new ArrayList<Lista>();
+		
+		for(ListaAluno listaAluno : listasDoAluno) {
+			Lista lista = listaAluno.getLista();
+			lista.setConcluida(listaAluno.getConcluida());
+			lista.setQuestaoAtual(listaAluno.getQuestaoAtual());
+			listas.add(lista);
+		}
+		
+		return listas;
+	}
+	
+	
 	
 	
 

@@ -49,6 +49,12 @@ public class Lista extends AbstractTimestampEntity{
 	private Integer questaoAtual;
 	
 	@Transient
+	private Integer desafioAtual;
+	
+	@Transient
+	private Boolean desafioConcluido;
+	
+	@Transient
 	private Boolean concluida;
 	//TODO ajustar questaoAtual para que seja individual para cada aluno, do jeito q ta fica como se todos os alunos estivessem na mesma questao
 	//criar flag ajustando para que quando a lista estiver resolvida, aluno saia volte para a pagina de escolha da lista e a mesma estej bloqueada
@@ -132,6 +138,18 @@ public class Lista extends AbstractTimestampEntity{
 	}
 	public void setConcluida(Boolean concluida) {
 		this.concluida = concluida;
+	}
+	public Integer getDesafioAtual() {
+		return desafioAtual;
+	}
+	public void setDesafioAtual(Integer desafioAtual) {
+		this.desafioAtual = desafioAtual;
+	}
+	public Boolean getDesafioConcluido() {
+		return desafioConcluido;
+	}
+	public void setDesafioConcluido(Boolean desafioConcluido) {
+		this.desafioConcluido = desafioConcluido;
 	}
 	
 	

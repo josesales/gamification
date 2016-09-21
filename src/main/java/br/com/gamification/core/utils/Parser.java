@@ -338,13 +338,17 @@ public class Parser {
 		jsonLista.setId(lista.getId());
 	    jsonLista.setNome(lista.getNome());
 	    jsonLista.setQuestaoAtual(lista.getQuestaoAtual());
+	    jsonLista.setDesafioAtual(lista.getDesafioAtual());
 	    jsonLista.setConcluida(lista.getConcluida());
+	    jsonLista.setDesafioConcluido(lista.getDesafioConcluido());
 	}	
 	private static void applyBasicEntityValues(Lista lista, JsonLista jsonLista) {
 		lista.setId(jsonLista.getId());
 		lista.setNome(jsonLista.getNome());
 		lista.setQuestaoAtual(jsonLista.getQuestaoAtual());
+		lista.setDesafioAtual(jsonLista.getDesafioAtual());
 		lista.setConcluida(jsonLista.getConcluida());
+		lista.setDesafioConcluido(jsonLista.getDesafioConcluido());
 	}	
 	
 	public static JsonLista toJson(Lista lista) {

@@ -37,4 +37,17 @@ public class DaoListaAluno extends AccessibleHibernateDao<ListaAluno> {
 		return listaDoAluno.get(0);
 	}
 	
+	public List<ListaAluno> getListaAlunoPorDisciplina(int idAluno, int idDisciplina) {
+		String hql = "select la from ListaAluno la where la.aluno.id = :idAluno and la.lista.disciplina.id = :idDisciplina";
+		List<ListaAluno> listasAluno = new ArrayList<ListaAluno>();
+		
+		Query query = query(hql);
+		query.setParameter("idAluno", idAluno);
+		query.setParameter("idDisciplina", idDisciplina);
+		listasAluno.addAll(query.list());
+		
+		return listasAluno;
+	}
+	
+	
 }

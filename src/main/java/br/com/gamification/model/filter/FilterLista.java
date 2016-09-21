@@ -4,8 +4,10 @@ import java.io.Serializable;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
+
 
 
 import br.com.gamification.core.serialization.CustomLocalDateSerializer;
@@ -23,6 +25,8 @@ public class FilterLista implements Serializable {
 	private String nome;  			
 
 	private Integer disciplina;		
+	
+	private Boolean concluida;
 	
 	public  FilterLista() {
 		
@@ -43,6 +47,22 @@ public class FilterLista implements Serializable {
 	
 	public void setDisciplina(Integer disciplina) {
 		this.disciplina = disciplina;
+	}
+
+
+	/**
+	 * @return the concluida
+	 */
+	public Boolean getConcluida() {
+		return concluida;
+	}
+
+
+	/**
+	 * @param concluida the concluida to set
+	 */
+	public void setConcluida(Boolean concluida) {
+		this.concluida = concluida;
 	}
 	
 }

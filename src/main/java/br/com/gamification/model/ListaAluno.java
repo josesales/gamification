@@ -38,8 +38,14 @@ public class ListaAluno extends AbstractTimestampEntity{
 	@Column(name = "QUESTAO_ATUAL")
 	private Integer questaoAtual;
 	
+	@Column(name = "DESAFIO_ATUAL")
+	private Integer desafioAtual;
+	
 	@Column(name = "CONCLUIDA")
 	private Boolean concluida;
+	
+	@Column(name = "DESAFIO_CONCLUIDO")
+	private Boolean desafioConcluido;
 	
 	public  ListaAluno() {
 		
@@ -73,6 +79,18 @@ public class ListaAluno extends AbstractTimestampEntity{
 	}
 	public void setAluno(Aluno aluno) {
 		this.aluno = aluno;
+	}
+	public Integer getDesafioAtual() {
+		return desafioAtual;
+	}
+	public void setDesafioAtual(Integer desafioAtual) {
+		this.desafioAtual = desafioAtual;
+	}
+	public Boolean getDesafioConcluido() {
+		return desafioConcluido;
+	}
+	public void setDesafioConcluido(Boolean desafioConcluido) {
+		this.desafioConcluido = desafioConcluido;
 	}
 	
 	

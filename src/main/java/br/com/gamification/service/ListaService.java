@@ -36,4 +36,6 @@ public interface ListaService {
 	
 	Lista getListaComInformacoesDoAluno(int idAluno, int idLista);
 	
+	List<Lista> getListaComInformacoesDoAlunoPorDisciplina(int idAluno, int idDisciplina);
+	
 }

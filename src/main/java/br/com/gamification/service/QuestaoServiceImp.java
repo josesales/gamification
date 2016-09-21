@@ -105,7 +105,7 @@ public class QuestaoServiceImp implements QuestaoService {
 	}
 	
 	private void atualizarQuestaoAtual(Integer idAluno, Lista lista) {
-		//TODO testar setar campos tansiente da lista
+		
 		Integer questaoAtual = 0;
 		ListaAluno listaAluno = listaService.getListaAluno(idAluno, lista.getId());
 		if(listaAluno == null) {

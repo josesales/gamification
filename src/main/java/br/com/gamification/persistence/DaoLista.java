@@ -47,6 +47,7 @@ public class DaoLista extends AccessibleHibernateDao<Lista> {
 			searchCriteria.add(Restrictions.eq("disciplina_.id", filterLista.getDisciplina()));
 			countCriteria.add(Restrictions.eq("disciplina_.id", filterLista.getDisciplina()));
 		}
+		
 
 		return new Paginator<Lista>(searchCriteria, countCriteria).paginate(paginationParams);
 	}
