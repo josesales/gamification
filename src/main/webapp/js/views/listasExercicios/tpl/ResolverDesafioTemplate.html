@@ -49,7 +49,8 @@ DESAFIO
 	<div class="row">
 		<div class="col-xs-12 col-sm-12">
 			<div class="main-content">
-				<form role="form" id="formListaQuestao">
+				<form role="form" id="formListaDesafio" action="rs/crud/uploads/file" method="post">
+				
 						<div class="row">
 							<div id="messages_div"></div>
 						</div>
@@ -59,6 +60,21 @@ DESAFIO
 						</div>
 						
 						<div class="input-group">
+							
+							
+<!-- 							src="{{image || 'images/no_photo.jpg'}} -->
+							
+							<input id='inputUploadImage' type="file" name="files[]" style="display: none">
+							<div class="col-lg-3 col-md-3 col-sm-12">
+								<div class="profile-avatar">
+									<img height="170" id="inputImage" style="cursor: pointer;" class="" src="{{'images/no_photo.jpg'}}">
+								</div>
+							</div>
+							
+							
+							
+							
+							
 					    	<label class="input-group-addon">
 								<input id="radioItemA" name="radioItemCorreto" type="radio" > a.
 					      	</label>

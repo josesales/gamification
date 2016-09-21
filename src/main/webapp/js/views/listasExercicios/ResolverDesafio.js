@@ -34,6 +34,12 @@ define(function(require) {
 		},
 
 		events : {
+			'change  #inputUploadImage' : 'startUpload',
+			'click  #inputImage' : 'uploadFile',
+			
+			
+			
+			
 			'click #responder' : 'responder'
 
 		},
@@ -54,6 +60,13 @@ define(function(require) {
 			radioItemB : '#radioItemB',
 			radioItemC : '#radioItemC',
 			radioItemD : '#radioItemD',
+			
+			
+			
+			
+			
+			inputUploadImage : '#inputUploadImage',
+			inputImage : '#inputImage',
 		},
 
 		initialize : function(opt) {
@@ -98,6 +111,59 @@ define(function(require) {
 			});
 
 		},
+		
+		
+		
+		
+		
+		
+//		uploadFile : function() {
+//			this.ui.inputUploadImage.trigger('click');
+//		},
+//
+//		startUpload : function(e) {
+//			var that = this;
+//			if (!this.ui.inputUploadImage.val())
+//				return;
+//
+//			this.ui.saveButton.addClass('disabled');
+//			this.ui.saveAndContinueButton.addClass('disabled');
+//			this.ui.returnToListButton.addClass('disabled');
+//
+//			this.ui.inputImage.attr('src', 'images/loading.gif');
+//			
+//			$('#formUser').ajaxSubmit({
+//				success : function(responseText) {
+//					that.ui.inputImage.attr('src', responseText.dataUrl)
+//					
+//					that.ui.saveButton.removeClass('disabled');
+//					that.ui.saveAndContinueButton.removeClass('disabled');
+//					that.ui.returnToListButton.removeClass('disabled');
+//				},
+//
+//				error : function(response, paran, paran2) {
+//					console.log(response);
+//					console.log(paran);
+//					console.log(paran2);
+//					
+//					that.ui.saveButton.removeClass('disabled');
+//					that.ui.saveAndContinueButton.removeClass('disabled');
+//					that.ui.returnToListButton.removeClass('disabled');
+//				},
+//
+//			});
+//		},
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		_setInformacoesAluno : function(alunoModel) {
 			this.ui.nomeAluno.text(alunoModel.get("nome"));
