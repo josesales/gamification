@@ -14,6 +14,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.envers.Audited;
 
@@ -53,6 +54,9 @@ public class Aluno extends AbstractTimestampEntity{
 	
 	@Column(name = "PROX_LEVEL", columnDefinition = "int default 0")
 	private Integer proximoLevel;
+	
+	@Transient
+	private Integer posicao;
 		
 	public  Aluno() {
 		
@@ -137,6 +141,12 @@ public class Aluno extends AbstractTimestampEntity{
 		this.proximoLevel = proximoLevel;
 	}
 	
+	public Integer getPosicao() {
+		return posicao;
+	}
+	public void setPosicao(Integer posicao) {
+		this.posicao = posicao;
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;

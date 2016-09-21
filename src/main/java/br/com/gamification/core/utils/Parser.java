@@ -142,6 +142,7 @@ public class Parser {
 	    jsonAluno.setPontos(aluno.getPontos());
 	    jsonAluno.setLevel(aluno.getLevel());
 	    jsonAluno.setProximoLevel(aluno.getProximoLevel());
+	    jsonAluno.setPosicao(aluno.getPosicao());
 	}	
 	private static void applyBasicEntityValues(Aluno aluno, JsonAluno jsonAluno) {
 		aluno.setId(jsonAluno.getId());
@@ -149,6 +150,7 @@ public class Parser {
 		aluno.setPontos(jsonAluno.getPontos());
 		aluno.setLevel(jsonAluno.getLevel());
 		aluno.setProximoLevel(jsonAluno.getProximoLevel());
+		aluno.setPosicao(jsonAluno.getPosicao());
 	}	
 	
 	public static JsonAluno toJson(Aluno aluno) {

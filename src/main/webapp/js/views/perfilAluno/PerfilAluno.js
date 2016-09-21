@@ -141,10 +141,9 @@ define(function(require) {
 			this.rankingGeralCollection.on('fetching', this._startFetch, this);
 			this.rankingGeralCollection.on('fetched', this._stopFetch, this);
 
-//			this.rankingGeralCollection.filterQueryParams = {
-//				aluno : opt.id,
-//				isAlunoIncluso : false,
-//			}
+			this.rankingGeralCollection.filterQueryParams = {
+				comPontos : true,
+			}
 
 			this.rankingGeralCollection.fetch({
 				resetState : true,
@@ -276,6 +275,30 @@ define(function(require) {
 					context : this,
 				})
 			} ];
+			return columns;
+		},
+		
+		_getRankingGeralColumns : function() {
+			var columns = [
+			{
+				name : "posicao",
+				editable : false,
+				sortable : true,
+				label : "Posição",
+				cell : "string",
+			}, {
+				name : "nome",
+				editable : false,
+				sortable : true,
+				label 	 : "Aluno",
+				cell 	 : "string",
+			},{
+				name : "pontos",
+				editable : false,
+				sortable : true,
+				label 	 : "Pontos",
+				cell 	 : "string",
+			}];
 			return columns;
 		},
 

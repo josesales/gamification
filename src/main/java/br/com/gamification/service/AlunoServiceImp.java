@@ -18,8 +18,10 @@ import org.joda.time.LocalDateTime;
 
 
 
+
 import br.com.gamification.model.Aluno;
 import br.com.gamification.model.Disciplina;
+import br.com.gamification.model.Ranking;
 import br.com.gamification.model.filter.FilterDisciplina;
 import br.com.gamification.persistence.DaoAluno;
 import br.com.gamification.core.persistence.pagination.Pager;
@@ -53,7 +55,20 @@ public class AlunoServiceImp implements AlunoService {
 	@Override
 	public Pager<Aluno> all(PaginationParams paginationParams) {
 		Pagination<Aluno> pagination = daoAluno.getAll(paginationParams);
-		return new Pager<Aluno>(pagination.getResults(), 0, pagination.getTotalRecords());
+		
+		
+		List<Aluno> alunos = pagination.getResults();
+		int numeroPagina = paginationParams.getPage();
+		int tamanhoPagina = paginationParams.getPageSize();
+		
+		for (int index = 0; index < alunos.size(); index++) {
+			
+			//descobre a posicao de forma a tratar paginacao
+			int posicao = ((numeroPagina - 1) * tamanhoPagina) + (index + 1);
+			alunos.get(index).setPosicao(posicao);
+		}
+		
+		return new Pager<Aluno>(alunos, 0, pagination.getTotalRecords());
 	}
 	
 	

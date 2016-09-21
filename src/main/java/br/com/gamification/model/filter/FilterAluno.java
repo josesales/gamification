@@ -22,7 +22,9 @@ public class FilterAluno implements Serializable {
 	
 	private String nome;  			
 
-	private Integer usuario;		
+	private Integer usuario;	
+	
+	private Boolean comPontos;
 	
 	public  FilterAluno() {
 		
@@ -43,6 +45,16 @@ public class FilterAluno implements Serializable {
 	
 	public void setUsuario(Integer usuario) {
 		this.usuario = usuario;
+	}
+
+
+	public Boolean getComPontos() {
+		return comPontos;
+	}
+
+
+	public void setComPontos(Boolean comPontos) {
+		this.comPontos = comPontos;
 	}
 	
 }

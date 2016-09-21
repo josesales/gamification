@@ -1,22 +1,22 @@
 package br.com.gamification.persistence;
 
-import javax.inject.Named;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Named;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
-import br.com.gamification.model.Aluno;
 import br.com.gamification.core.persistence.AccessibleHibernateDao;
-import br.com.gamification.model.filter.FilterAluno;
 import br.com.gamification.core.persistence.pagination.Pagination;
 import br.com.gamification.core.persistence.pagination.PaginationParams;
 import br.com.gamification.core.persistence.pagination.Paginator;
-
 import br.com.gamification.model.Aluno;
+import br.com.gamification.model.filter.FilterAluno;
 /**
 *  generated: 23/08/2016 08:32:11
 **/
@@ -45,7 +45,12 @@ public class DaoAluno extends AccessibleHibernateDao<Aluno> {
 			searchCriteria.add(Restrictions.eq("usuario_.id", filterAluno.getUsuario()));
 			countCriteria.add(Restrictions.eq("usuario_.id", filterAluno.getUsuario()));
 		}
-
+		if (filterAluno.getComPontos() != null && filterAluno.getComPontos() == true) {
+			searchCriteria.add(Restrictions.isNotNull("pontos"));
+			countCriteria.add(Restrictions.isNotNull("pontos"));
+		}
+		
+		searchCriteria.addOrder(Order.desc("pontos"));
 		return new Paginator<Aluno>(searchCriteria, countCriteria).paginate(paginationParams);
 	}
 	

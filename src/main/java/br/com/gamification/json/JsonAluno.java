@@ -26,6 +26,7 @@ public class JsonAluno implements Serializable {
 	private Integer pontos;
 	private Integer level;
 	private Integer proximoLevel;
+	private Integer posicao;
 	
 	public  JsonAluno() {
 		
@@ -91,6 +92,14 @@ public class JsonAluno implements Serializable {
 
 	public void setProximoLevel(Integer proximoLevel) {
 		this.proximoLevel = proximoLevel;
+	}
+
+	public Integer getPosicao() {
+		return posicao;
+	}
+
+	public void setPosicao(Integer posicao) {
+		this.posicao = posicao;
 	}
 
 	public SyncOperation getSyncOperation (){
