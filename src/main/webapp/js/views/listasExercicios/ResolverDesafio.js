@@ -34,8 +34,8 @@ define(function(require) {
 		},
 
 		events : {
-			'change  #inputUploadImage' : 'startUpload',
-			'click  #inputImage' : 'uploadFile',
+//			'change  #inputUploadImage' : 'startUpload',
+//			'click  #inputImage' : 'uploadFile',
 			
 			
 			
@@ -65,49 +65,49 @@ define(function(require) {
 			
 			
 			
-			inputUploadImage : '#inputUploadImage',
-			inputImage : '#inputImage',
+//			inputUploadImage : '#inputUploadImage',
+//			inputImage : '#inputImage'
 		},
 
 		initialize : function(opt) {
-			var that = this;
-			this.aluno = new AlunoModel();
-			this.aluno.urlRoot = 'rs/crud/alunos/' + opt.idAluno;
-			this.disciplina = new DisciplinaModel();
-			this.disciplina.urlRoot = 'rs/crud/disciplinas/' + opt.idDisciplina;
-			this.lista = new ListaModel();
-			this.lista.urlRoot = 'rs/crud/listas/getListaDoAluno/lista/' + opt.idLista + "/aluno/" + opt.idAluno;
+//			var that = this;
+//			this.aluno = new AlunoModel();
+//			this.aluno.urlRoot = 'rs/crud/alunos/' + opt.idAluno;
+//			this.disciplina = new DisciplinaModel();
+//			this.disciplina.urlRoot = 'rs/crud/disciplinas/' + opt.idDisciplina;
+//			this.lista = new ListaModel();
+//			this.lista.urlRoot = 'rs/crud/listas/getListaDoAluno/lista/' + opt.idLista + "/aluno/" + opt.idAluno;
 //			getListaDoAluno/lista/{idLista}/aluno/{idAluno}
 			//Questao atual respondida
-			this.questaoAtual = new QuestaoModel();
-			this.indexQuestaoAtual = 0;
+//			this.questaoAtual = new QuestaoModel();
+//			this.indexQuestaoAtual = 0;
 			
 			this.on('show', function() {
-
-				this.aluno.fetch({
-					resetState : true,
-					success : function(_coll, _resp, _opt) {
-						that._setInformacoesAluno(that.aluno);
-					},
-					error : function(_coll, _resp, _opt) {
-						console.error(_coll, _resp, _opt)
-					}
-				});
-				
-				this.lista.fetch({
-					resetState : true,
-					success : function(_coll, _resp, _opt) {
-						if(that.lista.get("questaoAtual")) {
-							that.indexQuestaoAtual = that.lista.get("questaoAtual");
-						} 
-						that._setInformacoesLista(that.lista);
-						that._setInformacoesQuestao(that.lista.get("questaos"), that.indexQuestaoAtual);
-					},
-					error : function(_coll, _resp, _opt) {
-						console.error(_coll, _resp, _opt)
-					}
-				});
-
+//
+//				this.aluno.fetch({
+//					resetState : true,
+//					success : function(_coll, _resp, _opt) {
+//						that._setInformacoesAluno(that.aluno);
+//					},
+//					error : function(_coll, _resp, _opt) {
+//						console.error(_coll, _resp, _opt)
+//					}
+//				});
+//				
+//				this.lista.fetch({
+//					resetState : true,
+//					success : function(_coll, _resp, _opt) {
+//						if(that.lista.get("questaoAtual")) {
+//							that.indexQuestaoAtual = that.lista.get("questaoAtual");
+//						} 
+//						that._setInformacoesLista(that.lista);
+//						that._setInformacoesQuestao(that.lista.get("questaos"), that.indexQuestaoAtual);
+//					},
+//					error : function(_coll, _resp, _opt) {
+//						console.error(_coll, _resp, _opt)
+//					}
+//				});
+//
 			});
 
 		},

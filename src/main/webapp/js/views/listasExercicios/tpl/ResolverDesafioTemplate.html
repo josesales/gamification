@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="">
-	<link rel="icon" href="images/ico/favicon.png" type="image/png">
+<!-- 	<link rel="icon" href="images/ico/favicon.png" type="image/png"> -->
 	<title>Resolução de Listas</title>
 </head>
 
@@ -12,62 +12,60 @@
 
 <div class="page-content">
 DESAFIO
-	<div class="row">
-		<div class="col-xs-12 col-sm-12">
-			<div class="page-header">
-				<h1 id="listaNome"></h1>
-			</div>
-			<div class="widget-box">
+<!-- 	<div class="row"> -->
+<!-- 		<div class="col-xs-12 col-sm-12"> -->
+<!-- 			<div class="page-header"> -->
+<!-- 				<h1 id="listaNome"></h1> -->
+<!-- 			</div> -->
+<!-- 			<div class="widget-box"> -->
 			
-				<div class="widget-header widget-header-flat widget-header-small">
-					<h4 class="widget-title">
-						<i class="ace-icon fa fa-trophy"></i>
+<!-- 				<div class="widget-header widget-header-flat widget-header-small"> -->
+<!-- 					<h4 class="widget-title"> -->
+<!-- 						<i class="ace-icon fa fa-trophy"></i> -->
 						
-					</h4>
-					<div class="widget-toolbar no-border"></div>
-				</div>
+<!-- 					</h4> -->
+<!-- 					<div class="widget-toolbar no-border"></div> -->
+<!-- 				</div> -->
 				
-				<div class="widget-body">
+<!-- 				<div class="widget-body"> -->
 				
-					<div class="form-group">
-						<div class="progress">
-							<div id="barraProximoLevel" class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width:100%">
-							    Percentual de Level
-						  	</div>
-						</div>
-					</div>
-					<div class="form-group">
-						<h5 id="nomeAluno"></h1>
-						<h5 id="xp"></h5>
-						<h5 id="level"></h5>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+<!-- 					<div class="form-group"> -->
+<!-- 						<div class="progress"> -->
+<!-- 							<div id="barraProximoLevel" class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width:100%"> -->
+<!-- 							    Percentual de Level -->
+<!-- 						  	</div> -->
+<!-- 						</div> -->
+<!-- 					</div> -->
+<!-- 					<div class="form-group"> -->
+<!-- 						<h5 id="nomeAluno"></h1> -->
+<!-- 						<h5 id="xp"></h5> -->
+<!-- 						<h5 id="level"></h5> -->
+<!-- 					</div> -->
+<!-- 				</div> -->
+<!-- 			</div> -->
+<!-- 		</div> -->
+<!-- 	</div> -->
 	
-	<div class="row">
-		<div class="col-xs-12 col-sm-12">
-			<div class="main-content">
-				<form role="form" id="formListaDesafio" action="rs/crud/uploads/file" method="post">
+<!-- 	<div class="row"> -->
+<!-- 		<div class="col-xs-12 col-sm-12"> -->
+<!-- 			<div class="main-content"> -->
+<!-- 				<form role="form" id="formListaDesafio" > -->
 				
-						<div class="row">
-							<div id="messages_div"></div>
-						</div>
+<!-- 						<div class="row"> -->
+<!-- 							<div id="messages_div"></div> -->
+<!-- 						</div> -->
 				
-						<div class="page-header">
-							<h3 id="pergunta"></h3>
-						</div>
+<!-- 						<div class="page-header"> -->
+<!-- 							<h3 id="pergunta"></h3> -->
+<!-- 						</div> -->
 						
-						<div class="input-group">
+<!-- 						<div class="input-group"> -->
 							
-							
-<!-- 							src="{{image || 'images/no_photo.jpg'}} -->
 							
 							<input id='inputUploadImage' type="file" name="files[]" style="display: none">
 							<div class="col-lg-3 col-md-3 col-sm-12">
 								<div class="profile-avatar">
-									<img height="170" id="inputImage" style="cursor: pointer;" class="" src="{{'images/no_photo.jpg'}}">
+									<img height="170" id="inputImage" style="cursor: pointer;" class="" src="{{'images/no_photo.jpg'}}" >
 								</div>
 							</div>
 							
@@ -75,49 +73,49 @@ DESAFIO
 							
 							
 							
-					    	<label class="input-group-addon">
-								<input id="radioItemA" name="radioItemCorreto" type="radio" > a.
-					      	</label>
-					     	<textarea id="itemA" class="form-control" readonly="readonly" style="font-size:20px;color:black;"></textarea>
-					    </div>
-					    <br>
+<!-- 					    	<label class="input-group-addon"> -->
+<!-- 								<input id="radioItemA" name="radioItemCorreto" type="radio" > a. -->
+<!-- 					      	</label> -->
+<!-- 					     	<textarea id="itemA" class="form-control" readonly="readonly" style="font-size:20px;color:black;"></textarea> -->
+<!-- 					    </div> -->
+<!-- 					    <br> -->
 					    
-					    <div class="input-group">
-					    	<label class="input-group-addon">
-								<input id="radioItemB" name="radioItemCorreto" type="radio" > b.
-					      	</label>
-					     	<textarea id="itemB" readonly="readonly" class="form-control" style="font-size:20px;color:black;"></textarea>
-					    </div>
-					    <br>
+<!-- 					    <div class="input-group"> -->
+<!-- 					    	<label class="input-group-addon"> -->
+<!-- 								<input id="radioItemB" name="radioItemCorreto" type="radio" > b. -->
+<!-- 					      	</label> -->
+<!-- 					     	<textarea id="itemB" readonly="readonly" class="form-control" style="font-size:20px;color:black;"></textarea> -->
+<!-- 					    </div> -->
+<!-- 					    <br> -->
 					    
-					    <div class="input-group">
-					    	<label class="input-group-addon">
-								<input id="radioItemC" name="radioItemCorreto" type="radio" > c.
-					      	</label>
-					     	<textarea id="itemC" readonly="readonly" class="form-control" style="font-size:20px;color:black;"></textarea>
-					    </div>
-					    <br>
+<!-- 					    <div class="input-group"> -->
+<!-- 					    	<label class="input-group-addon"> -->
+<!-- 								<input id="radioItemC" name="radioItemCorreto" type="radio" > c. -->
+<!-- 					      	</label> -->
+<!-- 					     	<textarea id="itemC" readonly="readonly" class="form-control" style="font-size:20px;color:black;"></textarea> -->
+<!-- 					    </div> -->
+<!-- 					    <br> -->
 					    
-					    <div class="input-group">
-					    	<label class="input-group-addon">
-								<input id="radioItemD" name="radioItemCorreto" type="radio" > d.
-					      	</label>
-					     	<textarea id="itemD" readonly="readonly" class="form-control" style="font-size:20px;color:black;"></textarea>
-					    </div>
+<!-- 					    <div class="input-group"> -->
+<!-- 					    	<label class="input-group-addon"> -->
+<!-- 								<input id="radioItemD" name="radioItemCorreto" type="radio" > d. -->
+<!-- 					      	</label> -->
+<!-- 					     	<textarea id="itemD" readonly="readonly" class="form-control" style="font-size:20px;color:black;"></textarea> -->
+<!-- 					    </div> -->
 					    
-					    <br>
+<!-- 					    <br> -->
 					    
-						<div class="row">
-							<a href="javascript:void(0)" id="responder"  class="save btn btn-primary">
-								<i class="ace-icon save fa fa-check bigger-110"></i>
-								Responder
-							</a>
-						</div>
-						<br>
-				</form>
-			</div>
-		</div>
-	</div>
+<!-- 						<div class="row"> -->
+<!-- 							<a href="javascript:void(0)" id="responder"  class="save btn btn-primary"> -->
+<!-- 								<i class="ace-icon save fa fa-check bigger-110"></i> -->
+<!-- 								Responder -->
+<!-- 							</a> -->
+<!-- 						</div> -->
+<!-- 						<br> -->
+<!-- 				</form> -->
+<!-- 			</div> -->
+<!-- 		</div> -->
+<!-- 	</div> -->
 	
 </div>
 
