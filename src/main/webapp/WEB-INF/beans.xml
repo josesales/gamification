@@ -27,7 +27,7 @@
 		class="org.springframework.web.context.support.ServletContextPropertyPlaceholderConfigurer" />
 	<bean
 		class="org.springframework.beans.factory.config.PreferencesPlaceholderConfigurer" />
-	<jaxrs:server address="/" basePackages="br.com.gamification.rs">
+	<jaxrs:server address="/" basePackages="br.com.gamification.rs,br.com.gamification.core.rs">
 		<jaxrs:providers>
 			<bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider" />
 			<bean class="br.com.gamification.core.rs.exception.ExceptionHandler" />

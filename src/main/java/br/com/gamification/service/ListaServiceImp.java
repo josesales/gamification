@@ -106,6 +106,14 @@ public class ListaServiceImp implements ListaService {
 			}else {
 				lista.setConcluida(false);
 			}
+			if(listaAluno.getDesafioAtual() != null ) {
+				lista.setDesafioAtual(listaAluno.getDesafioAtual());
+			}
+			if(listaAluno.getDesafioConcluido() != null ) {
+				lista.setDesafioConcluido(listaAluno.getDesafioConcluido());
+			}else {
+				lista.setDesafioConcluido(false);
+			}
 		}
 		return lista;
 	}

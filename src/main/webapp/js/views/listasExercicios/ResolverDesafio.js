@@ -23,8 +23,8 @@ define(function(require) {
 	var ListaModel = require('models/ListaModel');
 	var ListaCollection = require('collections/ListaCollection');
 	var ListaPageCollection = require('collections/ListaPageCollection');
-	var QuestaoModel = require('models/QuestaoModel');
-	var QuestaoCollection = require('collections/QuestaoCollection');
+	var QuestaoDesafioModel = require('models/QuestaoDesafioModel');
+	var QuestaoDesafioCollection = require('collections/QuestaoDesafioCollection');
 	
 
 	var ResolverDesafio = Marionette.LayoutView.extend({
@@ -34,228 +34,140 @@ define(function(require) {
 		},
 
 		events : {
-//			'change  #inputUploadImage' : 'startUpload',
-//			'click  #inputImage' : 'uploadFile',
-			
-			
-			
-			
+			'change  #inputRespostaUploadImage' : 'startUpload',
+			'click  #inputRespostaImage' : 'uploadFile',
 			'click #responder' : 'responder'
 
 		},
 
 		ui : {
-			nomeAluno : '#nomeAluno',
-			xp : '#xp',
-			level : '#level',
-			barraProximoLevel : '#barraProximoLevel',
-			formListaQuestao : '#formListaQuestao',
+//			nomeAluno : '#nomeAluno',
+//			xp : '#xp',
+//			level : '#level',
+//			barraProximoLevel : '#barraProximoLevel',
+			formListaDesafio : '#formListaDesafio',
 			listaNome : '#listaNome',
 			pergunta : '#pergunta',
-			itemA : '#itemA',
-			itemB : '#itemB',
-			itemC : '#itemC',
-			itemD : '#itemD',
-			radioItemA : '#radioItemA',
-			radioItemB : '#radioItemB',
-			radioItemC : '#radioItemC',
-			radioItemD : '#radioItemD',
-			
-			
-			
-			
-			
-//			inputUploadImage : '#inputUploadImage',
-//			inputImage : '#inputImage'
+			inputRespostaUploadImage : '#inputRespostaUploadImage',
+			inputRespostaImage : '#inputRespostaImage',
+			responder : '#responder'
 		},
 
 		initialize : function(opt) {
-//			var that = this;
-//			this.aluno = new AlunoModel();
-//			this.aluno.urlRoot = 'rs/crud/alunos/' + opt.idAluno;
-//			this.disciplina = new DisciplinaModel();
-//			this.disciplina.urlRoot = 'rs/crud/disciplinas/' + opt.idDisciplina;
-//			this.lista = new ListaModel();
-//			this.lista.urlRoot = 'rs/crud/listas/getListaDoAluno/lista/' + opt.idLista + "/aluno/" + opt.idAluno;
+			var that = this;
+			this.aluno = new AlunoModel();
+			this.aluno.urlRoot = 'rs/crud/alunos/' + opt.idAluno;
+			this.disciplina = new DisciplinaModel();
+			this.disciplina.urlRoot = 'rs/crud/disciplinas/' + opt.idDisciplina;
+			this.lista = new ListaModel();
+			this.lista.urlRoot = 'rs/crud/listas/getListaDoAluno/lista/' + opt.idLista + "/aluno/" + opt.idAluno;
 //			getListaDoAluno/lista/{idLista}/aluno/{idAluno}
 			//Questao atual respondida
-//			this.questaoAtual = new QuestaoModel();
-//			this.indexQuestaoAtual = 0;
+			this.desafioAtual = new QuestaoDesafioModel();
+			this.indexDesafioAtual = 0;
 			
 			this.on('show', function() {
-//
-//				this.aluno.fetch({
-//					resetState : true,
-//					success : function(_coll, _resp, _opt) {
+
+				this.aluno.fetch({
+					resetState : true,
+					success : function(_coll, _resp, _opt) {
 //						that._setInformacoesAluno(that.aluno);
-//					},
-//					error : function(_coll, _resp, _opt) {
-//						console.error(_coll, _resp, _opt)
-//					}
-//				});
-//				
-//				this.lista.fetch({
-//					resetState : true,
-//					success : function(_coll, _resp, _opt) {
-//						if(that.lista.get("questaoAtual")) {
-//							that.indexQuestaoAtual = that.lista.get("questaoAtual");
-//						} 
-//						that._setInformacoesLista(that.lista);
-//						that._setInformacoesQuestao(that.lista.get("questaos"), that.indexQuestaoAtual);
-//					},
-//					error : function(_coll, _resp, _opt) {
-//						console.error(_coll, _resp, _opt)
-//					}
-//				});
-//
+					},
+					error : function(_coll, _resp, _opt) {
+						console.error(_coll, _resp, _opt)
+					}
+				});
+				
+				this.lista.fetch({
+					resetState : true,
+					success : function(_coll, _resp, _opt) {
+						if(that.lista.get("desafioAtual")) {
+							that.indexDesafioAtual = that.lista.get("desafioAtual");
+						} 
+						that._setInformacoesLista(that.lista);
+						that._setInformacoesQuestao(that.lista.get("questaoDesafios"), that.indexDesafioAtual);
+					},
+					error : function(_coll, _resp, _opt) {
+						console.error(_coll, _resp, _opt)
+					}
+				});
+
 			});
 
 		},
 		
-		
-		
-		
-		
-		
-//		uploadFile : function() {
-//			this.ui.inputUploadImage.trigger('click');
-//		},
-//
-//		startUpload : function(e) {
-//			var that = this;
-//			if (!this.ui.inputUploadImage.val())
-//				return;
-//
-//			this.ui.saveButton.addClass('disabled');
-//			this.ui.saveAndContinueButton.addClass('disabled');
-//			this.ui.returnToListButton.addClass('disabled');
-//
-//			this.ui.inputImage.attr('src', 'images/loading.gif');
-//			
-//			$('#formUser').ajaxSubmit({
-//				success : function(responseText) {
-//					that.ui.inputImage.attr('src', responseText.dataUrl)
-//					
-//					that.ui.saveButton.removeClass('disabled');
-//					that.ui.saveAndContinueButton.removeClass('disabled');
-//					that.ui.returnToListButton.removeClass('disabled');
-//				},
-//
-//				error : function(response, paran, paran2) {
-//					console.log(response);
-//					console.log(paran);
-//					console.log(paran2);
-//					
-//					that.ui.saveButton.removeClass('disabled');
-//					that.ui.saveAndContinueButton.removeClass('disabled');
-//					that.ui.returnToListButton.removeClass('disabled');
-//				},
-//
-//			});
-//		},
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		_setInformacoesAluno : function(alunoModel) {
-			this.ui.nomeAluno.text(alunoModel.get("nome"));
-			this.ui.xp.text(alunoModel.get("pontos") ? 'XP ' + alunoModel.get("pontos") : 'XP 0');
-			this.ui.level.text(alunoModel.get("level") ? 'Level ' + alunoModel.get("level") : 'Level 1');
-			this.ui.barraProximoLevel.prop("aria-valuenow", '' + alunoModel.get("proximoLevel") ? alunoModel.get("proximoLevel") : 0);
-			this.ui.barraProximoLevel.prop("style", '' + "width:" + (alunoModel.get("proximoLevel") ? alunoModel.get("proximoLevel") : 0) + "%");
-			var proxLevel = alunoModel.get("proximoLevel") ? alunoModel.get("proximoLevel") : 0;
-			if (proxLevel >= 0 && proxLevel <= 30) {
-				this.ui.barraProximoLevel.prop('class', 'progress-bar progress-bar-danger');
-			} else if (proxLevel > 30 && proxLevel < 50) {
-				this.ui.barraProximoLevel.prop('class', 'progress-bar progress-bar-warning');
-			} else if (proxLevel >= 50 && proxLevel < 60) {
-				this.ui.barraProximoLevel.prop('class', 'progress-bar progress-bar-info');
-			} else if (proxLevel >= 60) {
-				this.ui.barraProximoLevel.prop('class', 'progress-bar progress-bar-success');
-			}
+		uploadFile : function() {
+			this.ui.inputRespostaUploadImage.trigger('click');
+		},
+
+		startUpload : function(e) {
+			var that = this;
+			if (!this.ui.inputRespostaUploadImage.val())
+				return;
+
+			this.ui.responder.addClass('disabled');
+			this.ui.inputRespostaImage.attr('src', 'images/loading.gif');
+			
+			
+			$('#formListaDesafio').ajaxSubmit({
+				
+				success : function(responseText) {
+					
+					that.ui.inputRespostaImage.attr('src', responseText.dataUrl)
+					that.ui.responder.removeClass('disabled');
+				},
+
+				error : function(response, paran, paran2) {
+					console.log(response);
+					console.log(paran);
+					console.log(paran2);
+					
+					that.ui.responder.removeClass('disabled');
+				},
+
+			});
 		},
 		
+		
 		_setInformacoesLista : function(listaModel) {
-				this.ui.listaNome.text(listaModel.get("nome") + " (" + listaModel.get("questaos").length + " questões)");
-//				if(listaModel.get("questaoAtual")) {
-//					this.indexQuestaoAtual = listaModel.get("questaoAtual");
-//				} 
+				this.ui.listaNome.text(listaModel.get("nome") + " (" + listaModel.get("questaoDesafios").length + " questões)");
+				if(listaModel.get("desafioAtual")) {
+					this.indexDesafioAtual = listaModel.get("desafioAtual");
+				} 
 					
 		},
 		
 		_setInformacoesQuestao : function(questoesJson, index) {
 			var numeroQuestao = index + 1;
-			this.ui.pergunta.text(numeroQuestao + ". " + questoesJson[index].pergunta );
-			this.ui.itemA.text(questoesJson[index].itemA);
-			this.ui.itemB.text(questoesJson[index].itemB);
-			this.ui.itemC.text(questoesJson[index].itemC);
-			this.ui.itemD.text(questoesJson[index].itemD);
+			if(questoesJson && questoesJson[index] && questoesJson[index].pergunta) {
+				this.ui.pergunta.text(numeroQuestao + ". " + questoesJson[index].pergunta );
+			}
 		},
 		
 		_getQuestaoAtualModel : function() {
 			var that = this;
-			var questaoAtual = this.lista.get("questaos")[this.indexQuestaoAtual];
-			var questaoAtualModel = new QuestaoModel();
+			var desafioAtual = this.lista.get("questaos")[this.indexQuestaoAtual];
+			var desafioAtualModel = new QuestaoDesafioModel();
 			
 			
-			questaoAtualModel.set({
-				id: questaoAtual.id || null,
+			desafioAtualModel.set({
+				id: desafioAtual.id || null,
 				
-		    	pergunta : questaoAtual.pergunta,
+		    	pergunta : desafioAtual.pergunta,
 				
-		    	itemA : questaoAtual.itemA, 
 				
-		    	itemB : questaoAtual.itemB,
-				
-		    	itemC : questaoAtual.itemC,
-				
-		    	itemD : questaoAtual.itemD,
-				
-		    	itemCorreto : questaoAtual.itemCorreto, 
-				
-		    	pontos : questaoAtual.pontos, 
+		    	pontos : desafioAtual.pontos, 
 		    	
 		    	lista : that.lista,
 			});
 			
-			return questaoAtualModel;
-		},
-		
-		desmarcarRadios : function() {
-			this.ui.radioItemA.prop('checked', false);
-			this.ui.radioItemB.prop('checked', false);
-			this.ui.radioItemC.prop('checked', false);
-			this.ui.radioItemD.prop('checked', false);
+			return desafioAtualModel;
 		},
 		
 		responder : function() {
 			var that = this;
-			this.questaoAtual = this._getQuestaoAtualModel();
+			this.desafioAtual = this._getQuestaoAtualModel();
 			
-			var itemMarcado = null;
-			var isItemMarcado = false;
-			
-			if(this.ui.radioItemA.is(':checked')) {
-				isItemMarcado = true;
-				itemMarcado = 'a';
-			}else if(this.ui.radioItemB.is(':checked')) {
-				isItemMarcado = true;
-				itemMarcado = 'b';
-			}else if(this.ui.radioItemC.is(':checked')) {
-				isItemMarcado = true;
-				itemMarcado = 'c';
-			}else if(this.ui.radioItemD.is(':checked')) {
-				isItemMarcado = true;
-				itemMarcado = 'd';
-			}   
 			
 			if(!isItemMarcado) {
 				util.showMessage('error', 'Escolha algum item!');
@@ -298,15 +210,15 @@ define(function(require) {
 						success : function(_coll, _resp, _opt) {
 							if(that.listaAtualizada.get("concluida")) {
 								
-								util.Bootbox.alert("<h3>Lista resolvida com sucesso!</h3>", function() {});
+								util.Bootbox.alert("<h3>Desafios da lista resolvidos com sucesso!</h3>", function() {});
 								util.goPage('app/listasExercicios/aluno/' + that.aluno.get("id") + '/disciplina/' + that.listaAtualizada.get("disciplina").id, true);
 								return;
 							}
-							if(that.listaAtualizada.get("questaoAtual")) {
-								that.indexQuestaoAtual = that.listaAtualizada.get("questaoAtual");
+							if(that.listaAtualizada.get("desafioAtual")) {
+								that.indexQuestaoAtual = that.listaAtualizada.get("desafioAtual");
 							} 
 							that._setInformacoesLista(that.listaAtualizada);
-							that._setInformacoesQuestao(that.listaAtualizada.get("questaos"), that.indexQuestaoAtual);
+							that._setInformacoesQuestao(that.listaAtualizada.get("questaoDesafios"), that.indexDesafioAtual);
 						},
 						error : function(_coll, _resp, _opt) {
 							console.error(_coll, _resp, _opt)
