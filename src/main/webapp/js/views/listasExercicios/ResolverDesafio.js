@@ -36,7 +36,6 @@ define(function(require) {
 		events : {
 			'change  #inputRespostaUploadImage' : 'startUpload',
 			'click  #inputRespostaImage' : 'uploadFile',
-			'click #responder' : 'responder'
 
 		},
 
@@ -50,7 +49,6 @@ define(function(require) {
 			pergunta : '#pergunta',
 			inputRespostaUploadImage : '#inputRespostaUploadImage',
 			inputRespostaImage : '#inputRespostaImage',
-			responder : '#responder'
 		},
 
 		initialize : function(opt) {
@@ -105,16 +103,14 @@ define(function(require) {
 			if (!this.ui.inputRespostaUploadImage.val())
 				return;
 
-			this.ui.responder.addClass('disabled');
 			this.ui.inputRespostaImage.attr('src', 'images/loading.gif');
-			
 			
 			$('#formListaDesafio').ajaxSubmit({
 				
 				success : function(responseText) {
 					
 					that.ui.inputRespostaImage.attr('src', responseText.dataUrl)
-					that.ui.responder.removeClass('disabled');
+					util.showMessage('success', 'Questão respondida com sucesso!');
 				},
 
 				error : function(response, paran, paran2) {
@@ -122,7 +118,6 @@ define(function(require) {
 					console.log(paran);
 					console.log(paran2);
 					
-					that.ui.responder.removeClass('disabled');
 				},
 
 			});
