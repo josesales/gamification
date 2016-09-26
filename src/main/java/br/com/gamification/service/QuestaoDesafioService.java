@@ -1,7 +1,9 @@
 package br.com.gamification.service;
 
 import java.util.List;
+
 import org.joda.time.LocalDateTime;
+
 import br.com.gamification.model.QuestaoDesafio;
 import br.com.gamification.core.persistence.pagination.Pager;
 import br.com.gamification.core.persistence.pagination.PaginationParams;
@@ -26,4 +28,6 @@ public interface QuestaoDesafioService {
     List<QuestaoDesafio> last(LocalDateTime lastSyncDate);		
 
 	Boolean delete(Integer id);
+	
+	Boolean responder(Integer idQuestao, String resposta, Integer idAluno);
 }

@@ -93,5 +93,4 @@ public class ListaAluno extends AbstractTimestampEntity{
 		this.desafioConcluido = desafioConcluido;
 	}
 	
-	
 }

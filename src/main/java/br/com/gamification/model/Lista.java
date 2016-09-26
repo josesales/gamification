@@ -56,9 +56,6 @@ public class Lista extends AbstractTimestampEntity{
 	
 	@Transient
 	private Boolean concluida;
-	//TODO ajustar questaoAtual para que seja individual para cada aluno, do jeito q ta fica como se todos os alunos estivessem na mesma questao
-	//criar flag ajustando para que quando a lista estiver resolvida, aluno saia volte para a pagina de escolha da lista e a mesma estej bloqueada
-	
 	
 	public  Lista() {
 		

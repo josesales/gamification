@@ -1,22 +1,25 @@
 package br.com.gamification.service;
 
+import java.util.ArrayList;
 import java.util.List;
-import org.apache.log4j.Logger;
+
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.util.ArrayList;
-import org.springframework.transaction.annotation.Transactional;
+
+import org.apache.log4j.Logger;
 import org.joda.time.LocalDateTime;
-
-
-import br.com.gamification.model.QuestaoDesafio;
-import br.com.gamification.persistence.DaoQuestaoDesafio;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.com.gamification.core.persistence.pagination.Pager;
 import br.com.gamification.core.persistence.pagination.Pagination;
 import br.com.gamification.core.persistence.pagination.PaginationParams;
-import br.com.gamification.core.utils.DateUtil;
-import br.com.gamification.core.utils.Util;
+import br.com.gamification.model.Aluno;
+import br.com.gamification.model.Lista;
+import br.com.gamification.model.ListaAluno;
+import br.com.gamification.model.QuestaoDesafio;
+import br.com.gamification.model.QuestaoDesafioAluno;
+import br.com.gamification.persistence.DaoQuestaoDesafio;
+import br.com.gamification.persistence.DaoQuestaoDesafioAluno;
 
 /**
 *  generated: 23/08/2016 08:32:12
@@ -30,6 +33,12 @@ public class QuestaoDesafioServiceImp implements QuestaoDesafioService {
 	
 	@Inject
 	DaoQuestaoDesafio daoQuestaoDesafio;
+	@Inject
+	DaoQuestaoDesafioAluno daoQuestaoDesafioAluno;
+	@Inject
+	AlunoService alunoService;
+	@Inject
+	ListaService listaService;
 
 	@Override
 	public QuestaoDesafio get(Integer id) {
@@ -77,6 +86,45 @@ public class QuestaoDesafioServiceImp implements QuestaoDesafioService {
 	@Override
 	public Boolean delete(Integer id) {
 		return daoQuestaoDesafio.delete(id);
+	}
+
+
+	@Override
+	public Boolean responder(Integer idDesafio, String resposta, Integer idAluno) {
+		QuestaoDesafio questaoDesafio = daoQuestaoDesafio.find(idDesafio);
+		Aluno aluno = alunoService.get(idAluno);
+		Lista lista = questaoDesafio.getLista();
+		boolean retorno = true; 
+		
+		Integer desafioAtual = 0;
+		QuestaoDesafioAluno desafioAluno = daoQuestaoDesafioAluno.getQuestaoDesafioAluno(idAluno, idDesafio);
+		ListaAluno listaAluno = listaService.getListaAluno(idAluno, lista.getId());
+		
+		atualizarQuestaoAtual(idAluno, questaoDesafio.getLista());
+		
+		return retorno;
+	}
+	
+	private void atualizarQuestaoAtual(Integer idAluno, Lista lista) {
+		
+		Integer questaoAtual = 0;
+		ListaAluno listaAluno = listaService.getListaAluno(idAluno, lista.getId());
+		if(listaAluno == null) {
+			listaAluno = new ListaAluno();
+			Aluno alunoTemp = new Aluno();
+			alunoTemp.setId(idAluno);
+			listaAluno.setAluno(alunoTemp);
+			listaAluno.setLista(lista);
+		}
+		if(listaAluno.getQuestaoAtual() != null) {
+			questaoAtual = listaAluno.getQuestaoAtual();
+		}
+		questaoAtual++;
+		listaAluno.setQuestaoAtual(questaoAtual);
+		if(questaoAtual >= lista.getQuestaos().size()) {
+			listaAluno.setConcluida(true);
+		}
+		listaService.save(listaAluno);
 	}
 
 

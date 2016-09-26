@@ -59,7 +59,6 @@ define(function(require) {
 			this.disciplina.urlRoot = 'rs/crud/disciplinas/' + opt.idDisciplina;
 			this.lista = new ListaModel();
 			this.lista.urlRoot = 'rs/crud/listas/getListaDoAluno/lista/' + opt.idLista + "/aluno/" + opt.idAluno;
-//			getListaDoAluno/lista/{idLista}/aluno/{idAluno}
 			//Questao atual respondida
 			this.desafioAtual = new QuestaoDesafioModel();
 			this.indexDesafioAtual = 0;
@@ -69,7 +68,6 @@ define(function(require) {
 				this.aluno.fetch({
 					resetState : true,
 					success : function(_coll, _resp, _opt) {
-//						that._setInformacoesAluno(that.aluno);
 					},
 					error : function(_coll, _resp, _opt) {
 						console.error(_coll, _resp, _opt)
