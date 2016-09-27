@@ -40,10 +40,6 @@ define(function(require) {
 		},
 
 		ui : {
-//			nomeAluno : '#nomeAluno',
-//			xp : '#xp',
-//			level : '#level',
-//			barraProximoLevel : '#barraProximoLevel',
 			formListaDesafio : '#formListaDesafio',
 			listaNome : '#listaNome',
 			pergunta : '#pergunta',
@@ -62,6 +58,7 @@ define(function(require) {
 			//Questao atual respondida
 			this.desafioAtual = new QuestaoDesafioModel();
 			this.indexDesafioAtual = 0;
+			this.nomeImagem = '';
 			
 			this.on('show', function() {
 
@@ -81,7 +78,7 @@ define(function(require) {
 							that.indexDesafioAtual = that.lista.get("desafioAtual");
 						} 
 						that._setInformacoesLista(that.lista);
-						that._setInformacoesQuestao(that.lista.get("questaoDesafios"), that.indexDesafioAtual);
+						that._setInformacoesDesafio(that.lista.get("questaoDesafios"), that.indexDesafioAtual);
 					},
 					error : function(_coll, _resp, _opt) {
 						console.error(_coll, _resp, _opt)
@@ -107,14 +104,18 @@ define(function(require) {
 				
 				success : function(responseText) {
 					
-					that.ui.inputRespostaImage.attr('src', responseText.dataUrl)
-					util.showMessage('success', 'Questão respondida com sucesso!');
+					that.ui.inputRespostaImage.attr('src', responseText.dataUrl);
+					that.nomeImagem = responseText.dataUrl.split("/");
+					that.nomeImagem = that.nomeImagem[1];
+					that.responder();
 				},
 
 				error : function(response, paran, paran2) {
 					console.log(response);
 					console.log(paran);
-					console.log(paran2);
+					console.log(paran2); 
+					util.showMessage('error', response.responseJSON.errorMessage);
+					that.ui.inputRespostaImage.attr('src', 'images/questao_desafio.jpg');
 					
 				},
 
@@ -130,16 +131,16 @@ define(function(require) {
 					
 		},
 		
-		_setInformacoesQuestao : function(questoesJson, index) {
+		_setInformacoesDesafio : function(questoesDesafioJson, index) {
 			var numeroQuestao = index + 1;
-			if(questoesJson && questoesJson[index] && questoesJson[index].pergunta) {
-				this.ui.pergunta.text(numeroQuestao + ". " + questoesJson[index].pergunta );
+			if(questoesDesafioJson && questoesDesafioJson[index] && questoesDesafioJson[index].pergunta) {
+				this.ui.pergunta.text(numeroQuestao + ". " + questoesDesafioJson[index].pergunta );
 			}
 		},
 		
-		_getQuestaoAtualModel : function() {
+		_getQuestaoDesafioAtualModel : function() {
 			var that = this;
-			var desafioAtual = this.lista.get("questaos")[this.indexQuestaoAtual];
+			var desafioAtual = this.lista.get("questaoDesafios")[this.indexDesafioAtual];
 			var desafioAtualModel = new QuestaoDesafioModel();
 			
 			
@@ -159,59 +160,41 @@ define(function(require) {
 		
 		responder : function() {
 			var that = this;
-			this.desafioAtual = this._getQuestaoAtualModel();
+			this.questaoDesafioAtual = this._getQuestaoDesafioAtualModel();
 			
-			
-			if(!isItemMarcado) {
-				util.showMessage('error', 'Escolha algum item!');
-				return;
-			}
-			
-			this.alunoAtualizado = new AlunoModel();
-			this.alunoAtualizado.urlRoot = 'rs/crud/alunos/' + this.aluno.get('id');
 			this.listaAtualizada = new ListaModel();
-			this.listaAtualizada.urlRoot = 'rs/crud/listas/getListaDoAluno/lista/' + this.lista.get('id') + "/aluno/" +this.aluno.get('id');
+			this.listaAtualizada.urlRoot = 'rs/crud/listas/getListaDoAluno/lista/' + this.lista.get('id') + "/aluno/" + this.aluno.get('id');
 			
-			this.questaoAtual.url = 'rs/crud/questaos/responder/' + this.questaoAtual.get("id") + '/itemMarcado/' + itemMarcado +'/aluno/' + this.aluno.get("id");
+			this.questaoDesafioAtual.url = 'rs/crud/questaoDesafios/responder/' + this.questaoDesafioAtual.get("id") + '/resposta/' + this.nomeImagem +'/aluno/' + this.aluno.get("id");
 
-			this.questaoAtual.fetch({
+			this.questaoDesafioAtual.fetch({
 				 resetState : true,
 				 success : function(_coll, _resp, _opt) {
-					 that.desmarcarRadios();
 					 if(_resp) {
 						 
-						 console.log("questao correta");
-						 util.showMessage('success', 'Item correto!');
-						 
-						 that.alunoAtualizado.fetch({
-							resetState : true,
-							success : function(_coll, _resp, _opt) {
-								that._setInformacoesAluno(that.alunoAtualizado);
-							},
-							error : function(_coll, _resp, _opt) {
-								console.error(_coll, _resp, _opt)
-							}
-						});
+						 console.log("questao respondida");
+						 util.showMessage('success', 'Desafio respondido com sucesso!');
 						 
 					 } else {
-						 console.log("questao incorreta");
-						 util.showMessage('error', 'Item incorreto!');
+						 console.log("questao não respondida");
+						 util.showMessage('error', 'Problema ao responder desafio!');
 					 }
 					 
 					 that.listaAtualizada.fetch({
 						resetState : true,
 						success : function(_coll, _resp, _opt) {
-							if(that.listaAtualizada.get("concluida")) {
+							if(that.listaAtualizada.get("desafioConcluido")) {
 								
 								util.Bootbox.alert("<h3>Desafios da lista resolvidos com sucesso!</h3>", function() {});
 								util.goPage('app/listasExercicios/aluno/' + that.aluno.get("id") + '/disciplina/' + that.listaAtualizada.get("disciplina").id, true);
 								return;
 							}
 							if(that.listaAtualizada.get("desafioAtual")) {
-								that.indexQuestaoAtual = that.listaAtualizada.get("desafioAtual");
+								that.indexDesafioAtual = that.listaAtualizada.get("desafioAtual");
 							} 
 							that._setInformacoesLista(that.listaAtualizada);
-							that._setInformacoesQuestao(that.listaAtualizada.get("questaoDesafios"), that.indexDesafioAtual);
+							that._setInformacoesDesafio(that.listaAtualizada.get("questaoDesafios"), that.indexDesafioAtual);
+							that.ui.inputRespostaImage.attr('src', 'images/questao_desafio.jpg');
 						},
 						error : function(_coll, _resp, _opt) {
 							console.error(_coll, _resp, _opt)

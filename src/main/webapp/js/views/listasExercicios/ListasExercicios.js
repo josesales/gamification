@@ -37,13 +37,8 @@ define(function(require) {
 		},
 
 		events : {
-		// 'click #botao' : 'chamaUrl'
-
 		},
 
-		// chamaUrl : function() {
-		//
-		// },
 		ui : {
 			posicao1 : '#posicao1',
 			posicao2 : '#posicao2',
@@ -52,9 +47,6 @@ define(function(require) {
 			divPosicao1 : '#divPosicao1',
 			divPosicao2 : '#divPosicao2',
 			divPosicao3 : '#divPosicao3',
-		// horaAtual : '#horaAtual',
-		// mensagemExibida : '#mensagemExibida',
-		// imgLogoGestor : '#imgLogoGestor',
 		},
 
 		initialize : function(opt) {
@@ -136,7 +128,9 @@ define(function(require) {
 									for(var n = 0; n < tamanhoListaAluno; n++) {
 										if(that.listaCollection.at(i).get('id') == listaAluno.at(n).get('id')){
 											that.listaCollection.at(i).set('concluida', listaAluno.at(n).get('concluida'));
+											that.listaCollection.at(i).set('desafioConcluido', listaAluno.at(n).get('desafioConcluido'));
 											that.listaCollection.at(i).set('questaoAtual', listaAluno.at(n).get('questaoAtual'));
+											that.listaCollection.at(i).set('desafioAtual', listaAluno.at(n).get('desafioAtual'));
 										}
 									}
 								}
@@ -188,21 +182,16 @@ define(function(require) {
 				this.aluno.fetch({
 					resetState : true,
 					success : function(_coll, _resp, _opt) {
-//						that.ui.nomeAluno.text(_resp.nome);
-//						that.ui.xp.text(_resp.pontos ? 'XP ' + _resp.pontos : 'XP 0');
 					},
 					error : function(_coll, _resp, _opt) {
 						console.error(_coll, _resp, _opt);
 					}
 				});
 				
-//				this._setTop3();
-				
 				this.disciplina.fetch({
 					resetState : true,
 					success : function(_coll, _resp, _opt) {
 						that.ui.top3Disciplina.text(_resp.nome + " - Top 3");
-//						that.ui.xp.text(_resp.pontos ? 'XP ' + _resp.pontos : 'XP 0');
 					},
 					error : function(_coll, _resp, _opt) {
 						console.error(_coll, _resp, _opt);
@@ -313,9 +302,13 @@ define(function(require) {
 		_getResolverDesafios : function(model) {
 			if(!model.get('concluida')) {
 				util.showMessage("error", "Necessário concluir " + model.get("nome"));
-			}else {
-				util.goPage('app/listasExercicios/resolverDesafio/aluno/' + this.aluno.get("id") + '/disciplina/' + this.disciplina.get("id") + '/lista/' + model.get("id"), true);
+				return;
 			}
+			if(model.get('desafioConcluido')) {
+				util.showMessage("success", "Desafios de " + model.get("nome") + " concluídos.")
+				return;
+			}
+			util.goPage('app/listasExercicios/resolverDesafio/aluno/' + this.aluno.get("id") + '/disciplina/' + this.disciplina.get("id") + '/lista/' + model.get("id"), true);
 		},
 
 

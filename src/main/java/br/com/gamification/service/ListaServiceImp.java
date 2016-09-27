@@ -125,8 +125,25 @@ public class ListaServiceImp implements ListaService {
 		
 		for(ListaAluno listaAluno : listasDoAluno) {
 			Lista lista = listaAluno.getLista();
-			lista.setConcluida(listaAluno.getConcluida());
-			lista.setQuestaoAtual(listaAluno.getQuestaoAtual());
+			
+			if(listaAluno.getQuestaoAtual() != null ) {
+				lista.setQuestaoAtual(listaAluno.getQuestaoAtual());
+			}
+			if(listaAluno.getConcluida() != null ) {
+				lista.setConcluida(listaAluno.getConcluida());
+			}else {
+				lista.setConcluida(false);
+			}
+			if(listaAluno.getDesafioAtual() != null ) {
+				lista.setDesafioAtual(listaAluno.getDesafioAtual());
+			}
+			if(listaAluno.getDesafioConcluido() != null ) {
+				lista.setDesafioConcluido(listaAluno.getDesafioConcluido());
+			}else {
+				lista.setDesafioConcluido(false);
+			}
+			
+			
 			listas.add(lista);
 		}
 		

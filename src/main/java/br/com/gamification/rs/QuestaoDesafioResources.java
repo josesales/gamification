@@ -181,19 +181,19 @@ public class QuestaoDesafioResources {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	@Path("responder/{idQuestao}/itemMarcado/{itemMarcado}/aluno/{idAluno}")
-	public Response responder(@PathParam("idQuestao") Integer idQuestao, @PathParam("resposta") String resposta, @PathParam("idAluno") Integer idAluno) {
+	@Path("responder/{idQuestaoDesafio}/resposta/{resposta}/aluno/{idAluno}")
+	public Response responder(@PathParam("idQuestaoDesafio") Integer idQuestaoDesafio, @PathParam("resposta") String resposta, @PathParam("idAluno") Integer idAluno) {
 		try {
-			Boolean questaoRespondidaCorretamente = questaoDesafioService.responder(idQuestao, resposta, idAluno);
+			Boolean questaoRespondidaCorretamente = questaoDesafioService.responder(idQuestaoDesafio, resposta, idAluno);
 			return Response.ok().entity(questaoRespondidaCorretamente).build();
 		} catch (ValidationException e) {
-			String message = String.format("N�o foi possivel pontuar a questao [ %s ] parametros [ %s ]", e.getOrigem().getMessage(), idQuestao);
+			String message = String.format("N�o foi possivel pontuar a questao [ %s ] parametros [ %s ]", e.getOrigem().getMessage(), idQuestaoDesafio);
 			LOGGER.error(message, e.getOrigem());
 			return Response.serverError().entity(new JsonError(e, message, e.getLegalMessage())).build();
 		} catch (Exception e) {
-			String message = String.format("N�o foi possivel pontuar a questao [ %s ] parametros [ %s ]", e.getMessage(), idQuestao);
+			String message = String.format("N�o foi possivel pontuar a questao [ %s ] parametros [ %s ]", e.getMessage(), idQuestaoDesafio);
 			LOGGER.error(message, e);
-			return Response.serverError().entity(new JsonError(e, message, idQuestao)).build();
+			return Response.serverError().entity(new JsonError(e, message, idQuestaoDesafio)).build();
 		}
 	}
 }

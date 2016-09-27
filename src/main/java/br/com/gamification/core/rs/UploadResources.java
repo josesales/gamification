@@ -1,7 +1,6 @@
 package br.com.gamification.core.rs;
 
 import java.awt.image.BufferedImage;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -19,6 +18,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.cxf.jaxrs.ext.multipart.Attachment;
 
 import br.com.gamification.core.json.JsonError;
@@ -48,9 +48,15 @@ public class UploadResources {
 				String folder = uploadFolder + File.separator;
 				ByteArrayOutputStream bos = null;
 				if (contentType != null) {
+					
+					boolean isImagem = StringUtils.containsIgnoreCase(handler.getName(), ".jpg") || StringUtils.containsIgnoreCase(handler.getName(), ".jpeg") || StringUtils.containsIgnoreCase(handler.getName(), ".png");
+					if(!isImagem) {
+						throw new RuntimeException("Selecione uma imagem jpeg, jpg ou png.");
+					}
+					
 					if (contentType.toLowerCase().contains("image")) {
 						BufferedImage image = ImageIO.read(stream);
-
+						
 						ImageUtils.createThumbnail(image, THUMBNAIL_WIDTH, contentType, folder, nameFile);
 						ImageUtils.createFullHdImage(image, contentType, folder, nameFile);
 						ImageUtils.createHdImage(image, contentType, folder, nameFile);
@@ -70,6 +76,9 @@ public class UploadResources {
 					dataUpload = new DataUpload(contentType, "uploads/" + nameFile);
 				}
 				stream.close();
+			} catch (RuntimeException e) {
+				e.printStackTrace();
+				return Response.serverError().entity(new JsonError(e.getMessage(), nameFile)).build();
 			} catch (Exception e) {
 				e.printStackTrace();
 				return Response.serverError().entity(new JsonError("Problema durante upload da mídia [ " + nameFile + " ] error [" + e.getMessage() + "]", nameFile)).build();

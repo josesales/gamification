@@ -92,22 +92,25 @@ public class QuestaoDesafioServiceImp implements QuestaoDesafioService {
 	@Override
 	public Boolean responder(Integer idDesafio, String resposta, Integer idAluno) {
 		QuestaoDesafio questaoDesafio = daoQuestaoDesafio.find(idDesafio);
-		Aluno aluno = alunoService.get(idAluno);
-		Lista lista = questaoDesafio.getLista();
 		boolean retorno = true; 
 		
-		Integer desafioAtual = 0;
 		QuestaoDesafioAluno desafioAluno = daoQuestaoDesafioAluno.getQuestaoDesafioAluno(idAluno, idDesafio);
-		ListaAluno listaAluno = listaService.getListaAluno(idAluno, lista.getId());
+		if(desafioAluno == null) {
+			Aluno aluno = alunoService.get(idAluno);
+			desafioAluno = new QuestaoDesafioAluno();
+			desafioAluno.setAluno(aluno);
+			desafioAluno.setQuestaoDesafio(questaoDesafio);
+		}
 		
-		atualizarQuestaoAtual(idAluno, questaoDesafio.getLista());
-		
+		desafioAluno.setResposta(resposta);
+		daoQuestaoDesafioAluno.save(desafioAluno);
+		atualizarDesafioAtual(idAluno, questaoDesafio.getLista());
 		return retorno;
 	}
 	
-	private void atualizarQuestaoAtual(Integer idAluno, Lista lista) {
+	private void atualizarDesafioAtual(Integer idAluno, Lista lista) {
 		
-		Integer questaoAtual = 0;
+		Integer desafioAtual = 0;
 		ListaAluno listaAluno = listaService.getListaAluno(idAluno, lista.getId());
 		if(listaAluno == null) {
 			listaAluno = new ListaAluno();
@@ -116,13 +119,13 @@ public class QuestaoDesafioServiceImp implements QuestaoDesafioService {
 			listaAluno.setAluno(alunoTemp);
 			listaAluno.setLista(lista);
 		}
-		if(listaAluno.getQuestaoAtual() != null) {
-			questaoAtual = listaAluno.getQuestaoAtual();
+		if(listaAluno.getDesafioAtual() != null) {
+			desafioAtual = listaAluno.getDesafioAtual();
 		}
-		questaoAtual++;
-		listaAluno.setQuestaoAtual(questaoAtual);
-		if(questaoAtual >= lista.getQuestaos().size()) {
-			listaAluno.setConcluida(true);
+		desafioAtual++;
+		listaAluno.setDesafioAtual(desafioAtual);
+		if(desafioAtual >= lista.getQuestaoDesafios().size()) {
+			listaAluno.setDesafioConcluido(true);
 		}
 		listaService.save(listaAluno);
 	}

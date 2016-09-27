@@ -66,7 +66,7 @@ define(function(require) {
 		},
 		
 		exibirPerfilAluno : function() {
-			util.openNewWindow("#app/perfilAluno/" + this.ui.inputId.val());
+			util.goPage("app/perfilAluno/" + this.ui.inputId.val());
 		},
 
 		saveAndContinue : function() {

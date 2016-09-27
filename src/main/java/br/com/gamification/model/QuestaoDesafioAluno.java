@@ -55,5 +55,17 @@ public class QuestaoDesafioAluno extends AbstractTimestampEntity{
 	public void setResposta(String resposta) {
 		this.resposta = resposta;
 	}
+	public Aluno getAluno() {
+		return aluno;
+	}
+	public void setAluno(Aluno aluno) {
+		this.aluno = aluno;
+	}
+	public QuestaoDesafio getQuestaoDesafio() {
+		return questaoDesafio;
+	}
+	public void setQuestaoDesafio(QuestaoDesafio questaoDesafio) {
+		this.questaoDesafio = questaoDesafio;
+	}
 	
 }
