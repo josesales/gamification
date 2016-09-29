@@ -223,6 +223,8 @@ define(function(require) {
 
 		index : function(path) {
 			util.markActiveItem('dashboard');
+			// criar user e fazer get usuario logado criar metodo q devolve usuario logado no UserResource usando credenciais
+//			this.perfilAluno(50);
 			setTimeout(function() {
 				util.NProgress.done(false, true);
 			}, 500);
