@@ -26,4 +26,6 @@ public interface UserService {
     List<User> last(LocalDateTime lastSyncDate);		
 
 	Boolean delete(Integer id);
+
+	User cadastrarUsuarioAluno(User entity);
 }

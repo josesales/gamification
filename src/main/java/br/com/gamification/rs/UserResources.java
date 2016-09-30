@@ -13,7 +13,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
@@ -21,18 +20,16 @@ import org.apache.log4j.Logger;
 
 import br.com.gamification.core.json.JsonError;
 import br.com.gamification.core.json.JsonPaginator;
-import br.com.gamification.json.JsonUser;
-
-import br.com.gamification.model.User;
-
-import br.com.gamification.service.UserService;
-import br.com.gamification.model.filter.FilterUser;
 import br.com.gamification.core.persistence.pagination.Pager;
 import br.com.gamification.core.persistence.pagination.PaginationParams;
-import br.com.gamification.service.UserService;
-import br.com.gamification.core.utils.Parser;
 import br.com.gamification.core.rs.exception.ValidationException;
-import br.com.gamification.core.security.SpringSecurityUserContext;
+import br.com.gamification.core.utils.Parser;
+import br.com.gamification.json.JsonUser;
+import br.com.gamification.model.Role;
+import br.com.gamification.model.User;
+import br.com.gamification.model.filter.FilterUser;
+import br.com.gamification.service.RoleService;
+import br.com.gamification.service.UserService;
 /**
 *  generated: 23/08/2016 08:32:12
 **/
@@ -42,7 +39,8 @@ public class UserResources {
 
 	@Inject
 	UserService userService;
-	
+	@Inject
+	RoleService roleService;
 	
 	public static final Logger LOGGER = Logger.getLogger(UserResources.class);
 
@@ -177,6 +175,28 @@ public class UserResources {
 			String message = String.format("Não foi possivel remover o registro [ %s ] parametros [ %s ]", e.getMessage(), id);
 			LOGGER.error(message, e);
 			return Response.serverError().entity(new JsonError(e, message, id)).build();
+		}
+	}
+	
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("cadastrarUsuarioAluno")
+	public Response cadastrarUsuarioAluno(JsonUser jsonUser) {
+		try {
+
+			User user = Parser.toEntity(jsonUser);
+			user = userService.cadastrarUsuarioAluno(user);
+			
+			return Response.ok().entity(Parser.toJson(user)).build();
+		} catch (ValidationException e) {
+			String message = String.format("Não foi possivel salvar  o registro [ %s ] parametros [ %s ]", e.getOrigem().getMessage(), jsonUser.toString());
+			LOGGER.error(message, e.getOrigem());
+			return Response.serverError().entity(new JsonError(e, message, jsonUser, e.getLegalMessage())).build();
+		} catch (Exception e) {
+			String message = String.format("Não foi possivel salvar  user [ %s ] parametros [ %s ]", e.getMessage(), jsonUser.toString());
+			LOGGER.error(message, e);
+			return Response.serverError().entity(new JsonError(e, message, jsonUser)).build();
 		}
 	}
 }

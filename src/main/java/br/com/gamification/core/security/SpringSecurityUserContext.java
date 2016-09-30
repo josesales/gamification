@@ -2,7 +2,6 @@ package br.com.gamification.core.security;
 
 import java.util.Collection;
 
-
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -29,11 +28,16 @@ public class SpringSecurityUserContext implements UserContext {
 		if (authentication == null) {
 			return null;
 		}
-		org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
+		org.springframework.security.core.userdetails.User user = null;
+		
+		if(authentication.getPrincipal() instanceof org.springframework.security.core.userdetails.User) {
+			user = (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
+		}
 		if(user != null)
 			return user.getUsername();
 		return "USER_NOT_IN_SESSION";
 	}
+
 	public User getCurrentUser() {
 		return daoUser.findByUsername(getCurrentUserName());
 	}

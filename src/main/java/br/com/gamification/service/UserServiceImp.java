@@ -1,22 +1,23 @@
 package br.com.gamification.service;
 
+import java.util.ArrayList;
 import java.util.List;
-import org.apache.log4j.Logger;
+
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.util.ArrayList;
-import org.springframework.transaction.annotation.Transactional;
+
+import org.apache.log4j.Logger;
 import org.joda.time.LocalDateTime;
-
-
-import br.com.gamification.model.User;
-import br.com.gamification.persistence.DaoUser;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.com.gamification.core.persistence.pagination.Pager;
 import br.com.gamification.core.persistence.pagination.Pagination;
 import br.com.gamification.core.persistence.pagination.PaginationParams;
-import br.com.gamification.core.utils.DateUtil;
-import br.com.gamification.core.utils.Util;
+import br.com.gamification.model.Aluno;
+import br.com.gamification.model.Role;
+import br.com.gamification.model.User;
+import br.com.gamification.persistence.DaoUser;
 
 /**
 *  generated: 23/08/2016 08:32:12
@@ -30,6 +31,10 @@ public class UserServiceImp implements UserService {
 	
 	@Inject
 	DaoUser daoUser;
+	@Inject
+	AlunoService alunoService;
+	@Inject
+	RoleService roleService;
 
 	@Override
 	public User get(Integer id) {
@@ -66,6 +71,8 @@ public class UserServiceImp implements UserService {
 			
 	@Override
 	public User save(User entity) {
+		
+		entity.setPassword(criptografarSenha(entity.getPassword()));
 		return daoUser.save(entity);
 	}
 
@@ -78,6 +85,32 @@ public class UserServiceImp implements UserService {
 	public Boolean delete(Integer id) {
 		return daoUser.delete(id);
 	}
-
+	
+	@Override
+	public User cadastrarUsuarioAluno(User entity) {
+		
+		entity.setEnable(true);
+		//obtendo perfil do aluno
+		Role perfilAluno = roleService.get(1);
+		entity.addRoles(perfilAluno);
+		
+		//Criptografa senha
+		entity.setPassword(criptografarSenha(entity.getPassword()));
+		User usuarioSalvo = daoUser.save(entity);
+		//Salva aluno
+		Aluno aluno = new Aluno();
+		aluno.setNome(usuarioSalvo.getName());
+		aluno.setUsuario(usuarioSalvo);
+		alunoService.save(aluno);
+		
+		return usuarioSalvo;
+	}
+	
+	private String criptografarSenha(String senha) {
+		//Criptografa senha
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		String hashedPassword = passwordEncoder.encode(senha);
+		return hashedPassword;
+	}
 
 }
