@@ -8,12 +8,14 @@ import javax.inject.Named;
 
 import org.apache.log4j.Logger;
 import org.joda.time.LocalDateTime;
+import org.springframework.jca.context.SpringContextResourceAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.gamification.core.persistence.pagination.Pager;
 import br.com.gamification.core.persistence.pagination.Pagination;
 import br.com.gamification.core.persistence.pagination.PaginationParams;
+import br.com.gamification.core.security.SpringSecurityUserContext;
 import br.com.gamification.model.Aluno;
 import br.com.gamification.model.Role;
 import br.com.gamification.model.User;
@@ -35,6 +37,8 @@ public class UserServiceImp implements UserService {
 	AlunoService alunoService;
 	@Inject
 	RoleService roleService;
+	@Inject
+	SpringSecurityUserContext context;
 
 	@Override
 	public User get(Integer id) {
@@ -106,11 +110,17 @@ public class UserServiceImp implements UserService {
 		return usuarioSalvo;
 	}
 	
+	public User getUsuarioLogado() {
+		User user = context.getCurrentUser();
+		return user;
+	}
+	
 	private String criptografarSenha(String senha) {
 		//Criptografa senha
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		String hashedPassword = passwordEncoder.encode(senha);
 		return hashedPassword;
 	}
+	
 
 }

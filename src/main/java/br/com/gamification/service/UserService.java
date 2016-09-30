@@ -28,4 +28,6 @@ public interface UserService {
 	Boolean delete(Integer id);
 
 	User cadastrarUsuarioAluno(User entity);
+	
+	User getUsuarioLogado();
 }

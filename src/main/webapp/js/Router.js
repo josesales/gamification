@@ -223,6 +223,11 @@ define(function(require) {
 
 		index : function(path) {
 			util.markActiveItem('dashboard');
+//			var userModel = new UserModel();
+//			userModel.urlRoot = 'rs/crud/users/getUsuarioLogado';
+			//usar fetch
+			
+//			getUsuarioLogado
 			// criar user e fazer get usuario logado criar metodo q devolve usuario logado no UserResource usando credenciais
 //			this.perfilAluno(50);
 			setTimeout(function() {

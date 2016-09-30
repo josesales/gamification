@@ -25,7 +25,6 @@ import br.com.gamification.core.persistence.pagination.PaginationParams;
 import br.com.gamification.core.rs.exception.ValidationException;
 import br.com.gamification.core.utils.Parser;
 import br.com.gamification.json.JsonUser;
-import br.com.gamification.model.Role;
 import br.com.gamification.model.User;
 import br.com.gamification.model.filter.FilterUser;
 import br.com.gamification.service.RoleService;
@@ -197,6 +196,28 @@ public class UserResources {
 			String message = String.format("Não foi possivel salvar  user [ %s ] parametros [ %s ]", e.getMessage(), jsonUser.toString());
 			LOGGER.error(message, e);
 			return Response.serverError().entity(new JsonError(e, message, jsonUser)).build();
+		}
+	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("getUsuarioLogado")
+	public Response getUsuarioLogado() {
+		try {
+
+			User user = userService.getUsuarioLogado();
+			
+			if(user != null && user.getRoles() != null && !user.getRoles().isEmpty() ) {
+				return Response.ok().entity(Parser.toJson(user)).build();
+			}
+
+			return Response.noContent().build();
+
+		} catch (Exception e) {
+			String message = String.format("Não foi possivel carregar usuario logado");
+			LOGGER.error(message, e);
+			return Response.serverError().entity(new JsonError(e, message)).build();
 		}
 	}
 }
