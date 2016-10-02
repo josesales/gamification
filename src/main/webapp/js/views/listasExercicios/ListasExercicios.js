@@ -37,6 +37,7 @@ define(function(require) {
 		},
 
 		events : {
+			'click 	#voltar' : 'voltar',
 		},
 
 		ui : {
@@ -309,6 +310,10 @@ define(function(require) {
 				return;
 			}
 			util.goPage('app/listasExercicios/resolverDesafio/aluno/' + this.aluno.get("id") + '/disciplina/' + this.disciplina.get("id") + '/lista/' + model.get("id"), true);
+		},
+		
+		voltar : function() {
+			util.goPage("app/perfilAluno/" + this.aluno.get("id"));
 		},
 
 

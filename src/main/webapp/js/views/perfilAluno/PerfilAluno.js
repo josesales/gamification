@@ -327,7 +327,6 @@ define(function(require) {
 
 		_getListasExercicios : function(model) {
 			util.goPage('app/listasExercicios/aluno/' + this.aluno.get("id") + '/disciplina/' + model.get("id"), true);
-//			'app/listas/aluno/:idAluno/disciplina/:idDisciplina' : 'listas'
 		},
 
 		_descadastrar : function(model) {
@@ -394,92 +393,10 @@ define(function(require) {
 						}
 					});
 					
-					// TODO deletar do ranking
 				}
 			});
 		},
 
-		// Busca a mensagem a ser exibida e o logo gestor
-		buscaConfiguracaoInicial : function() {
-			// var that = this;
-			// this.configuracaoInicialPainel.fetch({
-			// resetState : true,
-			// data : {
-			// 'cnes' : that.cnes,
-			// },
-			// success : function(_coll, _resp, _opt) {
-			// if (_resp) {
-			// var configuracaoInicial = that.configuracaoInicialPainel;
-			// that.exibeConfiguracao(configuracaoInicial);
-			// }
-			// },
-			// error : function(_coll, _resp, _opt) {
-			// util.logError(_resp);
-			// }
-			// });
-
-		},
-
-	// exibeDataCorrente : function() {
-	// var dataCorrente = util.moment();
-	// this.ui.dataAtual.text(dataCorrente.format('DD/MM/YYYY'));
-	// this.ui.horaAtual.text(dataCorrente.format('HH:mm'));
-	// },
-	//
-	// exibeConfiguracao : function(painelAtendimento) {
-	// if (painelAtendimento.get('mensagemExibida')) {
-	// this.ui.mensagemExibida.text(painelAtendimento.get('mensagemExibida'));
-	// }
-	// if (painelAtendimento.get('logoGestorBase64')) {
-	// this.ui.imgLogoGestor.attr("src",
-	// painelAtendimento.get("logoGestorBase64"));
-	// }
-	// },
-	//
-	// exibePaciente : function(painelAtendimento) {
-	// this.informacoesPainel = new InformacoesPainel();
-	// var that = this;
-	// if (painelAtendimento.get('idAtendimento')) {
-	// util.stopResfresh();
-	// this.reiniciaVideo = true;
-	// this.painelAtendimentoRegion.show(this.informacoesPainel);
-	// this.informacoesPainel.setInformacoesPainel(painelAtendimento);
-	// this.informacoesPainel.chamadaDeVoz(painelAtendimento,
-	// this.urlTextToSpeech);
-	// }
-	//
-	// if (that.reiniciaVideo) {
-	// setTimeout(function() {
-	//
-	// var painelAtendimentoTemp = new PainelAtendimentoModel();
-	// painelAtendimentoTemp.set({
-	// "id" : painelAtendimento.get('idAtendimento')
-	// });
-	// painelAtendimentoTemp.urlRoot = 'rs/crud/painelAtendimento';
-	// painelAtendimentoTemp.destroy({
-	// success : function(_coll, _resp, _opt) {
-	// if (that.reiniciaVideo) {
-	// if(exibeVideo) {
-	// that.videoPainel = new VideoPainel();
-	// that.painelAtendimentoRegion.show(that.videoPainel);
-	// } else {
-	// that.painelAtendimentoRegion.reset();
-	// }
-	//								
-	// that.reiniciaVideo = false;
-	// util.resfresh(5, that.buscaInformacoesPainel);
-	// }
-	//
-	// },
-	// error : function(_coll, _resp, _opt) {
-	// util.logError(_resp);
-	// }
-	// });
-	//
-	// }, 30000);
-	// }
-	//
-	// },
 
 	});
 

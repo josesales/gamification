@@ -73,107 +73,109 @@
 		</div>
 	</div>
 	<div class="main-container" id="main-container">
-		<div id="sidebar" class="sidebar responsive sidebar-fixed">
-			<ul class="nav nav-list" id='nav-accordion'>
-				<li>
-					<a href="#">
-						<i class="menu-icon fa fa-home"></i>
-						<span class="menu-text"> Home </span>
-					</a>
-					<b class="arrow"></b>
-				</li>
-				<li class="">
-					<a href="#" class="dropdown-toggle">
-						<i class="menu-icon fa fa-file-text-o"></i>
-						<span class="menu-text"> Cadastros </span>
-						<b class="arrow fa fa-angle-down"></b>
-					</a>
-					<b class="arrow"></b>
-					<ul class="submenu">
-					
-					
-			<li id="alunos" class="">
-				<a href="#app/alunos">
-					<i class="menu-icon fa fa-caret-right"></i>
-					Aluno
-				</a>
-				<b class="arrow"></b>
-			</li>
-			
-			<li id="disciplinas" class="">
-				<a href="#app/disciplinas">
-					<i class="menu-icon fa fa-caret-right"></i>
-					Disciplina
-				</a>
-				<b class="arrow"></b>
-			</li>
-			
-			<li id="listas" class="">
-				<a href="#app/listas">
-					<i class="menu-icon fa fa-caret-right"></i>
-					Lista
-				</a>
-				<b class="arrow"></b>
-			</li>
-			
-			<li id="professors" class="">
-				<a href="#app/professors">
-					<i class="menu-icon fa fa-caret-right"></i>
-					Professor
-				</a>
-				<b class="arrow"></b>
-			</li>
-			
-			<li id="questaos" class="">
-				<a href="#app/questaos">
-					<i class="menu-icon fa fa-caret-right"></i>
-					Questão
-				</a>
-				<b class="arrow"></b>
-			</li>
-			
-			<li id="questaoDesafios" class="">
-				<a href="#app/questaoDesafios">
-					<i class="menu-icon fa fa-caret-right"></i>
-					Questão Desafio
-				</a>
-				<b class="arrow"></b>
-			</li>
-			
-			<li id="rankings" class="">
-				<a href="#app/rankings">
-					<i class="menu-icon fa fa-caret-right"></i>
-					Ranking
-				</a>
-				<b class="arrow"></b>
-			</li>
-			<security:authorize access="hasAnyRole('PROFESSOR')">
-				<li id="roles" class="">
-					<a href="#app/roles">
-						<i class="menu-icon fa fa-caret-right"></i>
-						Papel
-					</a>
-					<b class="arrow"></b>
-				</li>
-			</security:authorize>
-			
-			<li id="users" class="">
-				<a href="#app/users">
-					<i class="menu-icon fa fa-caret-right"></i>
-					Usuário
-				</a>
-				<b class="arrow"></b>
-			</li>
-			
-
+	
+		<security:authorize access="hasAnyRole('PROFESSOR')">	
+			<div id="sidebar" class="sidebar responsive sidebar-fixed">
+				<ul class="nav nav-list" id='nav-accordion'>
+					<li>
+						<a href="#">
+							<i class="menu-icon fa fa-home"></i>
+							<span class="menu-text"> Home </span>
+						</a>
+						<b class="arrow"></b>
+					</li>
+					<li class="">
+						<a href="#" class="dropdown-toggle">
+							<i class="menu-icon fa fa-file-text-o"></i>
+							<span class="menu-text"> Cadastros </span>
+							<b class="arrow fa fa-angle-down"></b>
+						</a>
+						<b class="arrow"></b>
+						<ul class="submenu">
 						
-					</ul>
+	<!-- 				<li id="alunos" class=""> -->
+	<!-- 					<a href="#app/alunos"> -->
+	<!-- 						<i class="menu-icon fa fa-caret-right"></i> -->
+	<!-- 						Aluno -->
+	<!-- 					</a> -->
+	<!-- 					<b class="arrow"></b> -->
+	<!-- 				</li> -->
+				
+				<li id="disciplinas" class="">
+					<a href="#app/disciplinas">
+						<i class="menu-icon fa fa-caret-right"></i>
+						Disciplina
+					</a>
+					<b class="arrow"></b>
 				</li>
-			</ul>
-			<div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
-				<i class="ace-icon fa fa-angle-double-left" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
+				
+				<li id="listas" class="">
+					<a href="#app/listas">
+						<i class="menu-icon fa fa-caret-right"></i>
+						Lista
+					</a>
+					<b class="arrow"></b>
+				</li>
+				
+				<li id="professors" class="">
+					<a href="#app/professors">
+						<i class="menu-icon fa fa-caret-right"></i>
+						Professor
+					</a>
+					<b class="arrow"></b>
+				</li>
+				
+				<li id="questaos" class="">
+					<a href="#app/questaos">
+						<i class="menu-icon fa fa-caret-right"></i>
+						Questão
+					</a>
+					<b class="arrow"></b>
+				</li>
+				
+				<li id="questaoDesafios" class="">
+					<a href="#app/questaoDesafios">
+						<i class="menu-icon fa fa-caret-right"></i>
+						Questão Desafio
+					</a>
+					<b class="arrow"></b>
+				</li>
+				
+	<!-- 			<li id="rankings" class=""> -->
+	<!-- 				<a href="#app/rankings"> -->
+	<!-- 					<i class="menu-icon fa fa-caret-right"></i> -->
+	<!-- 					Ranking -->
+	<!-- 				</a> -->
+	<!-- 				<b class="arrow"></b> -->
+	<!-- 			</li> -->
+	<!-- 				<li id="roles" class=""> -->
+	<!-- 					<a href="#app/roles"> -->
+	<!-- 						<i class="menu-icon fa fa-caret-right"></i> -->
+	<!-- 						Papel -->
+	<!-- 					</a> -->
+	<!-- 					<b class="arrow"></b> -->
+	<!-- 				</li> -->
+				
+				<li id="users" class="">
+					<a href="#app/users">
+						<i class="menu-icon fa fa-caret-right"></i>
+						Usuário
+					</a>
+					<b class="arrow"></b>
+				</li>
+				
+	
+							
+						</ul>
+					</li>
+				</ul>
+				<div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
+					<i class="ace-icon fa fa-angle-double-left" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
+				</div>
 			</div>
-		</div>
+		
+		</security:authorize>
+		
 		<div class="main-content">
 			<div class="main-content-inner">
 				<div class="breadcrumbs" id="breadcrumbs">
@@ -182,12 +184,12 @@
 							<i class="ace-icon fa fa-home home-icon"></i>
 							<a href="#">Home</a>
 						</li>
-						<li class="active">Cadastrar Pessoa</li>
+						<li class="active">Gamification</li>
 					</ul>
 				</div>
 				<div class="page-content">
 					<div class="page-header">
-						<h1>Home</h1>
+						<h1>Bem vindo Professor</h1>
 					</div>
 					<div class="main-principal">
 						<!-- AQUI DENTRO SERÃ INSERIDO VIA ENGINE DE TEMPLATES OS FORMS E PAGES-->

@@ -36,6 +36,7 @@ define(function(require) {
 		events : {
 			'change  #inputRespostaUploadImage' : 'startUpload',
 			'click  #inputRespostaImage' : 'uploadFile',
+			'click 	#voltar' : 'voltar',
 
 		},
 
@@ -208,7 +209,11 @@ define(function(require) {
 				 }
 			 });
 			
-		}
+		},
+		
+		voltar : function() {
+			util.goPage('app/listasExercicios/aluno/' + this.aluno.get("id") + '/disciplina/' + this.lista.get("disciplina").id, true);
+		},
 
 
 	});

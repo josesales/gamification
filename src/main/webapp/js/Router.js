@@ -8,6 +8,7 @@ define(function(require) {
 	var PageAluno = require('views/aluno/PageAluno');
 	var FormAluno = require('views/aluno/FormAluno');
 	var AlunoModel = require('models/AlunoModel');
+	var AlunoPageCollection = require('collections/AlunoPageCollection');
 	
 	var PageDisciplina = require('views/disciplina/PageDisciplina');
 	var FormDisciplina = require('views/disciplina/FormDisciplina');
@@ -126,6 +127,7 @@ define(function(require) {
 			'app/listasExercicios/aluno/:idAluno/disciplina/:idDisciplina' : 'listasExercicios',
 			'app/listasExercicios/resolverLista/aluno/:idAluno/disciplina/:idDisciplina/lista/:idLista' : 'resolverLista',
 			'app/listasExercicios/resolverDesafio/aluno/:idAluno/disciplina/:idDisciplina/lista/:idLista' : 'resolverDesafio',
+//			'app/perfilProfessor/:id' : 'perfilProfessor',
 			// hashs de Aluno
 			'app/alunos' : 'alunos',
 			'app/newAluno' : 'newAluno',
@@ -222,10 +224,48 @@ define(function(require) {
 		},
 
 		index : function(path) {
+			var that = this;
 			util.markActiveItem('dashboard');
-//			var userModel = new UserModel();
-//			userModel.urlRoot = 'rs/crud/users/getUsuarioLogado';
-			//usar fetch
+			var usuarioLogado = new UserModel();
+			usuarioLogado.urlRoot = 'rs/crud/users/getUsuarioLogado';
+			usuarioLogado.fetch({
+				success : function(model) {
+					var temPerfil = false;
+					if(model.get("roles")[0].id == 1) {
+						temPerfil = true;
+						// encaminha para pagina de perfil do aluno
+						var aluno = new AlunoPageCollection();
+						aluno.state.pageSize = 5;
+						aluno.on('fetching', this._startFetch, this);
+						aluno.on('fetched', this._stopFetch, this);
+
+						aluno.filterQueryParams = {
+							usuario : model.get("id"),
+						}
+
+						aluno.fetch({
+							resetState : true,
+							success : function(_coll, _resp, _opt) {
+								var idAluno = _resp.itens[0].id;
+								that.perfilAluno(idAluno);
+							},
+							error : function(_coll, _resp, _opt) {
+								console.error(_coll, _resp, _opt)
+							}
+						});
+					}else if(model.get("roles")[0].id == 2) {
+						temPerfil = true;
+						//encaminha para pagina de perfil do professor
+					}
+					
+					if(!temPerfil) {
+						alert("Seu usuario nao possui um perfil associado.");
+					}
+				},
+				error : function(x, y, z) {
+					console.error(x, y, z);
+				}
+			})
 			
 //			getUsuarioLogado
 			// criar user e fazer get usuario logado criar metodo q devolve usuario logado no UserResource usando credenciais

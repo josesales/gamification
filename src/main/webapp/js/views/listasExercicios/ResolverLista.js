@@ -34,7 +34,8 @@ define(function(require) {
 		},
 
 		events : {
-			'click #responder' : 'responder'
+			'click #responder' : 'responder',
+			'click 	#voltar' : 'voltar',
 
 		},
 
@@ -254,7 +255,11 @@ define(function(require) {
 				 }
 			 });
 			
-		}
+		},
+		
+		voltar : function() {
+			util.goPage('app/listasExercicios/aluno/' + this.aluno.get("id") + '/disciplina/' + this.lista.get("disciplina").id, true);
+		},
 
 
 	});

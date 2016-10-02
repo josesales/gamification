@@ -17,7 +17,10 @@ import br.com.gamification.model.Aluno;
 import br.com.gamification.model.Lista;
 import br.com.gamification.model.ListaAluno;
 import br.com.gamification.model.Questao;
+import br.com.gamification.model.QuestaoAluno;
+import br.com.gamification.model.QuestaoDesafioAluno;
 import br.com.gamification.persistence.DaoQuestao;
+import br.com.gamification.persistence.DaoQuestaoAluno;
 
 /**
 *  generated: 23/08/2016 08:32:12
@@ -37,6 +40,8 @@ public class QuestaoServiceImp implements QuestaoService {
 	ListaService listaService;
 	@Inject
 	RankingService rankingService;
+	@Inject
+	DaoQuestaoAluno daoQuestaoAluno;
 
 	@Override
 	public Questao get(Integer id) {
@@ -100,6 +105,7 @@ public class QuestaoServiceImp implements QuestaoService {
 		}
 		
 		atualizarQuestaoAtual(idAluno, questao.getLista());
+		inserirItemMarcado(questao, aluno, itemMarcado);
 		
 		return retorno;
 	}
@@ -124,6 +130,18 @@ public class QuestaoServiceImp implements QuestaoService {
 			listaAluno.setConcluida(true);
 		}
 		listaService.save(listaAluno);
+	}
+	
+	private void inserirItemMarcado(Questao questao, Aluno aluno, String itemMarcado) {
+		QuestaoAluno questaoAluno = daoQuestaoAluno.getQuestaoAluno(aluno.getId(), questao.getId());
+		if(questaoAluno == null) {
+			questaoAluno = new QuestaoAluno();
+			questaoAluno.setAluno(aluno);
+			questaoAluno.setQuestao(questao);
+		}
+		
+		questaoAluno.setItemMarcado(itemMarcado);
+		daoQuestaoAluno.save(questaoAluno);
 	}
 
 

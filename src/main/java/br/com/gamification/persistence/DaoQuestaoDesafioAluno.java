@@ -37,17 +37,4 @@ public class DaoQuestaoDesafioAluno extends AccessibleHibernateDao<QuestaoDesafi
 		return questaoDesafioAluno.get(0);
 	}
 	
-//	public List<QuestaoDesafioAluno> getQuestaoDesafioAlunoPorDisciplina(int idAluno, int idDisciplina) {
-//		String hql = "select desafio from QuestaoDesafioAluno desafio where desafio.aluno.id = :idAluno and desafio.questaoDesafio.lista.disciplina.id = :idDisciplina";
-//		List<QuestaoDesafioAluno> questoesDesafioAluno = new ArrayList<QuestaoDesafioAluno>();
-//		
-//		Query query = query(hql);
-//		query.setParameter("idAluno", idAluno);
-//		query.setParameter("idDisciplina", idDisciplina);
-//		questoesDesafioAluno.addAll(query.list());
-//		
-//		return questoesDesafioAluno;
-//	}
-	
-	
 }
