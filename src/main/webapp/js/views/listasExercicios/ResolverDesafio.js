@@ -173,8 +173,8 @@ define(function(require) {
 				 success : function(_coll, _resp, _opt) {
 					 if(_resp) {
 						 
-						 console.log("questao respondida");
-						 util.showMessage('success', 'Desafio respondido com sucesso!');
+						 console.log("desafio respondido");
+						 util.showMessage('success', 'Upload de resposta feito sucesso!');
 						 
 					 } else {
 						 console.log("questao não respondida");
@@ -186,7 +186,7 @@ define(function(require) {
 						success : function(_coll, _resp, _opt) {
 							if(that.listaAtualizada.get("desafioConcluido")) {
 								
-								util.Bootbox.alert("<h3>Desafios da lista resolvidos com sucesso!</h3>", function() {});
+								util.Bootbox.alert("<h3>Respostas de desafios da lista armazenadas com sucesso!</h3>", function() {});
 								util.goPage('app/listasExercicios/aluno/' + that.aluno.get("id") + '/disciplina/' + that.listaAtualizada.get("disciplina").id, true);
 								return;
 							}

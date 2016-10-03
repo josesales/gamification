@@ -15,6 +15,7 @@ define(function(require) {
 	var DisciplinaModel = require('models/DisciplinaModel');
 	
 	//Paginas da aplicacao
+	var PerfilProfessor = require('views/perfilProfessor/PerfilProfessor');
 	var PerfilAluno = require('views/perfilAluno/PerfilAluno');
 	var ListasExercicios = require('views/listasExercicios/ListasExercicios');
 	var ResolverLista = require('views/listasExercicios/ResolverLista');
@@ -27,6 +28,7 @@ define(function(require) {
 	var PageProfessor = require('views/professor/PageProfessor');
 	var FormProfessor = require('views/professor/FormProfessor');
 	var ProfessorModel = require('models/ProfessorModel');
+	var ProfessorPageCollection = require('collections/ProfessorPageCollection');
 	
 	var PageQuestao = require('views/questao/PageQuestao');
 	var FormQuestao = require('views/questao/FormQuestao');
@@ -123,11 +125,11 @@ define(function(require) {
 		routes : {
 			'' : 'index',
 			//hashs da Aplicacao
+			'app/perfilProfessor/:id' : 'perfilProfessor',
 			'app/perfilAluno/:id' : 'perfilAluno',
 			'app/listasExercicios/aluno/:idAluno/disciplina/:idDisciplina' : 'listasExercicios',
 			'app/listasExercicios/resolverLista/aluno/:idAluno/disciplina/:idDisciplina/lista/:idLista' : 'resolverLista',
 			'app/listasExercicios/resolverDesafio/aluno/:idAluno/disciplina/:idDisciplina/lista/:idLista' : 'resolverDesafio',
-//			'app/perfilProfessor/:id' : 'perfilProfessor',
 			// hashs de Aluno
 			'app/alunos' : 'alunos',
 			'app/newAluno' : 'newAluno',
@@ -256,6 +258,25 @@ define(function(require) {
 					}else if(model.get("roles")[0].id == 2) {
 						temPerfil = true;
 						//encaminha para pagina de perfil do professor
+						var professor = new ProfessorPageCollection();
+						professor.state.pageSize = 5;
+						professor.on('fetching', this._startFetch, this);
+						professor.on('fetched', this._stopFetch, this);
+
+						professor.filterQueryParams = {
+							usuario : model.get("id"),
+						}
+
+						professor.fetch({
+							resetState : true,
+							success : function(_coll, _resp, _opt) {
+								var idProfessor = _resp.itens[0].id;
+								that.perfilProfessor(idProfessor);
+							},
+							error : function(_coll, _resp, _opt) {
+								console.error(_coll, _resp, _opt)
+							}
+						});
 					}
 					
 					if(!temPerfil) {
@@ -276,12 +297,21 @@ define(function(require) {
 		},
 		
 		//configuracoes da aplicacao
-		perfilAluno : function(id) {
-			util.markActiveItem('perfilAluno');
-			this.perfilAluno = new PerfilAluno({
+		
+		perfilProfessor : function(id) {
+			util.markActiveItem('perfilProfessor');
+			this.pagePerfilProfessor = new PerfilProfessor({
 				id : id,
 			});
-			this.App.mainRegion.show(this.perfilAluno);
+			this.App.mainRegion.show(this.pagePerfilProfessor);
+		},
+		
+		perfilAluno : function(id) {
+			util.markActiveItem('perfilAluno');
+			this.pagePerfilAluno = new PerfilAluno({
+				id : id,
+			});
+			this.App.mainRegion.show(this.pagePerfilAluno);
 		},
 		
 		listasExercicios : function(idAluno, idDisciplina) {

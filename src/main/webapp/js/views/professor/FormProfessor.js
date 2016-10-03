@@ -140,7 +140,7 @@ define(function(require) {
 			if (id && nome) {
 				usuario = {
 					id : id,
-					nome : nome,
+					name : nome,
 				}
 			}
 			return usuario;
@@ -153,7 +153,7 @@ define(function(require) {
 		_selectUsuario : function(usuario) {
 			this.searchUsuarioModal.hidePage();	
 			this.ui.inputUsuarioId.val(usuario.get('id'));
-			this.ui.inputUsuarioNome.val(usuario.get('nome'));		
+			this.ui.inputUsuarioNome.val(usuario.get('name'));		
 		},
 				
 		
