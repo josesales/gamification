@@ -31,6 +31,12 @@ define(function(require) {
 			rankingGeralCounterRegion : '#counter_ranking_geral',
 			rankingGeralGridRegion : '#grid_ranking_geral',
 			rankingGeralPaginatorRegion : '#paginator_ranking_geral',
+//			rankingDisciplinaCounterRegion : '#counter_ranking_disciplina',
+//			rankingDisciplinaGridRegion : '#grid_ranking_disciplina',
+//			rankingDisciplinaPaginatorRegion : '#paginator_ranking_disciplina',
+			alunoCounterRegion : '#counter_aluno',
+			alunoGridRegion : '#grid_aluno',
+			alunoPaginatorRegion : '#paginator_aluno',
 		},
 
 		events : {
@@ -39,6 +45,9 @@ define(function(require) {
 
 		ui : {
 			nomeProfessor : '#nomeProfessor',
+			groupAlunos : '#groupAlunos',
+			labelAlunosDisciplina : '#labelAlunosDisciplina',
+//			labelRankingDisciplina : '#labelRankingDisciplina',
 //			xp : '#xp',
 //			level : '#level',
 //			barraProximoLevel : '#barraProximoLevel',
@@ -129,6 +138,50 @@ define(function(require) {
 				className : 'dataTables_paginate paging_simple_numbers',
 				uiClassName : 'pagination',
 			});
+			
+			
+			//Alunos da disciplina
+			this.alunoCollection = new AlunoPageCollection();
+			this.alunoCollection.state.pageSize = 5;
+			this.alunoCollection.on('fetching', this._startFetch, this);
+			this.alunoCollection.on('fetched', this._stopFetch, this);
+			
+			this.disciplinaClicada = null;
+
+//			this.alunoCollection.filterQueryParams = {
+//				comPontos : true,
+//			}
+
+//			this.alunoCollection.fetch({
+//				resetState : true,
+//				success : function(_coll, _resp, _opt) {
+//					// caso queira algum tratamento de sucesso adicional
+//				},
+//				error : function(_coll, _resp, _opt) {
+//					console.error(_coll, _resp, _opt)
+//				}
+//			});
+
+			this.alunoGrid = new Backgrid.Grid({
+				row : RowClick,
+				className : 'table backgrid table-striped table-bordered table-hover dataTable no-footer  ',
+				columns : this._getAlunoColumns(),
+				emptyText : "Sem registros",
+				collection : this.alunoCollection,
+				emptyText : "Sem registros para exibir."
+
+			});
+
+			this.alunoCounter = new Counter({
+				collection : this.alunoCollection,
+			});
+
+			this.alunoPaginator = new Backgrid.Extension.Paginator({
+				columns : this._getAlunoColumns(),
+				collection : this.alunoCollection,
+				className : 'dataTables_paginate paging_simple_numbers',
+				uiClassName : 'pagination',
+			});
 
 			this.on('show', function() {
 
@@ -165,6 +218,12 @@ define(function(require) {
 				that.rankingGeralGridRegion.show(that.rankingGeralGrid);
 				that.rankingGeralCounterRegion.show(that.rankingGeralCounter);
 				that.rankingGeralPaginatorRegion.show(that.rankingGeralPaginator);
+				
+				//alunos
+//				that.ui.groupAlunos.prop("hidden", false);
+//				that.alunoGridRegion.show(that.alunoGrid);
+//				that.alunoCounterRegion.show(that.alunoCounter);
+//				that.alunoPaginatorRegion.show(that.alunoPaginator);
 			});
 
 		},
@@ -188,7 +247,7 @@ define(function(require) {
 				}),
 			}, {
 				name : "acoes",
-				label : "Listas",
+				label : "Alunos",
 				sortable : false,
 				cell : GeneralActionsCell.extend({
 					buttons : this._getDisciplinasCellButtons(),
@@ -221,8 +280,43 @@ define(function(require) {
 			}];
 			return columns;
 		},
+		
+		_getAlunoColumns : function() {
+			var columns = [
+			{
+				name : "nome",
+				editable : false,
+				sortable : true,
+				label 	 : "Aluno",
+				cell 	 : "string",
+			}, {
+				name : "acoes",
+				label : "Listas",
+				sortable : false,
+				cell : GeneralActionsCell.extend({
+					buttons : this._getListasAlunoCellButtons(),
+					context : this,
+				})
+			}];
+			return columns;
+		},
 
 		_getDisciplinasCellButtons : function() {
+			var that = this;
+			var buttons = [];
+			buttons.push({
+				id : 'lista_button',
+				type : 'primary',
+				icon : 'fa-pencil',
+				hint : 'Alunos da Disciplina',
+				onClick : that._getAlunosDisciplina,
+
+			});
+
+			return buttons;
+		},
+		
+		_getListasAlunoCellButtons : function() {
 			var that = this;
 			var buttons = [];
 			buttons.push({
@@ -236,9 +330,22 @@ define(function(require) {
 
 			return buttons;
 		},
-
+		
 		_getListasExercicios : function(model) {
-			util.goPage('app/listasExercicios/aluno/' + this.professor.get("id") + '/disciplina/' + model.get("id"), true);
+			//TODO encaminhar para tela de listas do perfil professor
+			util.goPage('app/listasCorrecao/aluno/' + model.get("id") + '/disciplina/' + this.disciplinaClicada.get("id"), true);
+		},
+
+		_getAlunosDisciplina : function(model) {
+			this.disciplinaClicada = model;
+			
+			this.alunoCollection.add(model.get("alunos"));
+			this.ui.labelAlunosDisciplina.text("Alunos de " + model.get("nome"));
+			
+			this.ui.groupAlunos.prop("hidden", false);
+			this.alunoGridRegion.show(this.alunoGrid);
+			this.alunoCounterRegion.show(this.alunoCounter);
+			this.alunoPaginatorRegion.show(this.alunoPaginator);
 		},
 
 	});

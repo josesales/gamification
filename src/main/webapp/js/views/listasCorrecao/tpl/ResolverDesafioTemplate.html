@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<link rel="icon" href="images/ico/favicon.png" type="image/png">
+	<title>Resolução de Listas</title>
+</head>
+
+<body>
+
+<div class="page-content">
+	<form id="formListaDesafio" action="rs/crud/uploads/file" method="post">
+		<div class="row">
+			<div class="col-xs-12 col-sm-12">
+				<div class="page-header">
+					<h1 id="listaNome"></h1>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="col-xs-12 col-sm-12">
+				<div class="main-content">
+					
+					<div class="row">
+						<div id="messages_div"></div>
+					</div>
+			
+					<div class="page-header">
+						<h3 id="pergunta"></h3>
+					</div>
+					
+					<div class="input-group">
+						<div class="row">
+							<h4 class="header smaller lighter blue">Clique na figura abaixo para fazer o upload da imagem que representa sua resposta.</h4>
+							<input id='inputRespostaUploadImage' type="file" name="files[]" style="display: none">
+							<div class="col-lg-3 col-md-3 col-sm-12">
+								<div class="profile-avatar">
+									<img height="170" id="inputRespostaImage" style="cursor: pointer;" class="" src="{{'images/questao_desafio.jpg'}}" >
+								</div>
+							</div>
+						</div>
+				    
+				    <br>
+				    
+				</div>
+				
+				<div class="clearfix form-actions">
+					<a id="voltar" class="go-back-link btn btn-light">
+						<i class="ace-icon fa fa-undo bigger-110"></i>
+						Voltar
+					</a>
+				</div>
+			
+			</div>
+		</div>
+	
+	</form>
+</div>
+
+
+</body>
