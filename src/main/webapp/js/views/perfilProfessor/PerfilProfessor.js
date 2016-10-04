@@ -148,19 +148,6 @@ define(function(require) {
 			
 			this.disciplinaClicada = null;
 
-//			this.alunoCollection.filterQueryParams = {
-//				comPontos : true,
-//			}
-
-//			this.alunoCollection.fetch({
-//				resetState : true,
-//				success : function(_coll, _resp, _opt) {
-//					// caso queira algum tratamento de sucesso adicional
-//				},
-//				error : function(_coll, _resp, _opt) {
-//					console.error(_coll, _resp, _opt)
-//				}
-//			});
 
 			this.alunoGrid = new Backgrid.Grid({
 				row : RowClick,
@@ -189,20 +176,6 @@ define(function(require) {
 					resetState : true,
 					success : function(_coll, _resp, _opt) {
 						that.ui.nomeProfessor.text("Bem Vindo, " + _resp.nome);
-//						that.ui.xp.text(_resp.pontos ? 'XP ' + _resp.pontos : 'XP 0');
-//						that.ui.level.text(_resp.level ? 'Level ' + _resp.level : 'Level 1');
-//						that.ui.barraProximoLevel.prop("aria-valuenow", '' + _resp.proximoLevel ? _resp.proximoLevel : 0);
-//						that.ui.barraProximoLevel.prop("style", '' + "width:" + (_resp.proximoLevel ? _resp.proximoLevel : 0) + "%");
-//						var proxLevel = _resp.proximoLevel ? _resp.proximoLevel : 0;
-//						if (proxLevel >= 0 && proxLevel <= 30) {
-//							that.ui.barraProximoLevel.prop('class', 'progress-bar progress-bar-danger');
-//						} else if (proxLevel > 30 && proxLevel < 50) {
-//							that.ui.barraProximoLevel.prop('class', 'progress-bar progress-bar-warning');
-//						} else if (proxLevel >= 50 && proxLevel < 60) {
-//							that.ui.barraProximoLevel.prop('class', 'progress-bar progress-bar-info');
-//						} else if (proxLevel >= 60) {
-//							that.ui.barraProximoLevel.prop('class', 'progress-bar progress-bar-success');
-//						}
 					},
 					error : function(_coll, _resp, _opt) {
 						console.error(_coll, _resp, _opt)
@@ -219,11 +192,6 @@ define(function(require) {
 				that.rankingGeralCounterRegion.show(that.rankingGeralCounter);
 				that.rankingGeralPaginatorRegion.show(that.rankingGeralPaginator);
 				
-				//alunos
-//				that.ui.groupAlunos.prop("hidden", false);
-//				that.alunoGridRegion.show(that.alunoGrid);
-//				that.alunoCounterRegion.show(that.alunoCounter);
-//				that.alunoPaginatorRegion.show(that.alunoPaginator);
 			});
 
 		},
@@ -332,8 +300,7 @@ define(function(require) {
 		},
 		
 		_getListasExercicios : function(model) {
-			//TODO encaminhar para tela de listas do perfil professor
-			util.goPage('app/listasCorrecao/aluno/' + model.get("id") + '/disciplina/' + this.disciplinaClicada.get("id"), true);
+			util.goPage('app/listasCorrecao/professor/' + this.professor.get("id") + '/aluno/' + model.get("id") + '/disciplina/' + this.disciplinaClicada.get("id"), true);
 		},
 
 		_getAlunosDisciplina : function(model) {

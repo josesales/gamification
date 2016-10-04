@@ -3,6 +3,7 @@ package br.com.gamification.json;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
@@ -28,6 +29,7 @@ public class JsonQuestao implements Serializable {
 	private String itemCorreto;
 	private Integer pontos;
 	private JsonLista lista;		
+	private String itemMarcado;
 	
 	public  JsonQuestao() {
 		
@@ -106,6 +108,13 @@ public class JsonQuestao implements Serializable {
 	
 	public void setSyncOperation (SyncOperation  syncOperation){
 		this.syncOperation = syncOperation;
+	}
+	
+	public String getItemMarcado() {
+		return itemMarcado;
+	}
+	public void setItemMarcado(String itemMarcado) {
+		this.itemMarcado = itemMarcado;
 	}
 	
 }

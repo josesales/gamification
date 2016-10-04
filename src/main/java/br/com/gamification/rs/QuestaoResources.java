@@ -24,6 +24,7 @@ import br.com.gamification.core.json.JsonPaginator;
 import br.com.gamification.json.JsonQuestao;
 import br.com.gamification.model.Aluno;
 import br.com.gamification.model.Disciplina;
+import br.com.gamification.model.Lista;
 import br.com.gamification.model.Questao;
 import br.com.gamification.service.QuestaoService;
 import br.com.gamification.model.filter.FilterQuestao;
@@ -189,13 +190,31 @@ public class QuestaoResources {
 			Boolean questaoRespondidaCorretamente = questaoService.responder(idQuestao, itemMarcado, idAluno);
 			return Response.ok().entity(questaoRespondidaCorretamente).build();
 		} catch (ValidationException e) {
-			String message = String.format("Não foi possivel pontuar a questao [ %s ] parametros [ %s ]", e.getOrigem().getMessage(), idQuestao);
+			String message = String.format("Nï¿½o foi possivel pontuar a questao [ %s ] parametros [ %s ]", e.getOrigem().getMessage(), idQuestao);
 			LOGGER.error(message, e.getOrigem());
 			return Response.serverError().entity(new JsonError(e, message, e.getLegalMessage())).build();
 		} catch (Exception e) {
-			String message = String.format("Não foi possivel pontuar a questao [ %s ] parametros [ %s ]", e.getMessage(), idQuestao);
+			String message = String.format("Nï¿½o foi possivel pontuar a questao [ %s ] parametros [ %s ]", e.getMessage(), idQuestao);
 			LOGGER.error(message, e);
 			return Response.serverError().entity(new JsonError(e, message, idQuestao)).build();
+		}
+	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("getQuestoesComRespostas/lista/{idLista}/aluno/{idAluno}")
+	public Response getQuestoesComRespostas(@PathParam("idLista") Integer idLista, @PathParam("idAluno") Integer idAluno) {
+		try {
+
+			List<Questao> questoes = questaoService.getQuestoesComRespostas(idLista, idAluno);
+
+			return Response.ok().entity(Parser.toListJsonQuestaos(questoes)).build();
+
+		} catch (Exception e) {
+			String message = String.format("NÃ£o foi possivel carregar o registro. [ %s ] parametros [ %d ]", e.getMessage(), idLista);
+			LOGGER.error(message, e);
+			return Response.serverError().entity(new JsonError(e, message, idLista)).build();
 		}
 	}
 }

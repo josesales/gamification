@@ -15,17 +15,22 @@ import javax.persistence.OneToOne;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.ManyToMany;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import org.hibernate.annotations.Type;
 import org.hibernate.envers.Audited;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+
+
 
 
 import br.com.gamification.core.serialization.CustomLocalDateTimeSerializer;
@@ -64,7 +69,10 @@ public class Questao extends AbstractTimestampEntity{
 	private String itemCorreto;		
 		
 	@Column(name = "PONTOS")
-	private Integer pontos;  			
+	private Integer pontos;
+	
+	@Transient
+	private String itemMarcado;
 	
 	@ManyToOne
 	@JoinColumn(name = "ID_LISTA")
@@ -136,6 +144,14 @@ public class Questao extends AbstractTimestampEntity{
 	
 	public void setLista(Lista lista) {
 		this.lista = lista;
+	}
+	
+	public String getItemMarcado() {
+		return itemMarcado;
+	}
+	
+	public void setItemMarcado(String itemMarcado) {
+		this.itemMarcado = itemMarcado;
 	}
 	
 	

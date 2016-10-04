@@ -18,7 +18,6 @@ import br.com.gamification.model.Lista;
 import br.com.gamification.model.ListaAluno;
 import br.com.gamification.model.Questao;
 import br.com.gamification.model.QuestaoAluno;
-import br.com.gamification.model.QuestaoDesafioAluno;
 import br.com.gamification.persistence.DaoQuestao;
 import br.com.gamification.persistence.DaoQuestaoAluno;
 
@@ -142,6 +141,19 @@ public class QuestaoServiceImp implements QuestaoService {
 		
 		questaoAluno.setItemMarcado(itemMarcado);
 		daoQuestaoAluno.save(questaoAluno);
+	}
+	
+	public List<Questao> getQuestoesComRespostas(Integer idLista,  Integer idAluno) {
+		List<QuestaoAluno> questoesAluno = daoQuestaoAluno.getQuestoesAluno(idLista, idAluno);
+		List<Questao> questoes = new ArrayList<Questao>();
+		
+		for(QuestaoAluno questaoAluno : questoesAluno) {
+			Questao questao = new Questao();
+			questao = questaoAluno.getQuestao();
+			questao.setItemMarcado(questaoAluno.getItemMarcado());
+			questoes.add(questao);
+		}
+		return questoes;
 	}
 
 

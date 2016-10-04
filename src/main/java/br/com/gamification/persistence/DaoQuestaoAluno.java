@@ -9,6 +9,7 @@ import org.apache.log4j.Logger;
 import org.hibernate.Query;
 
 import br.com.gamification.core.persistence.AccessibleHibernateDao;
+import br.com.gamification.model.ListaAluno;
 import br.com.gamification.model.QuestaoAluno;
 /**
 *  generated: 23/08/2016 08:32:11
@@ -35,6 +36,18 @@ public class DaoQuestaoAluno extends AccessibleHibernateDao<QuestaoAluno> {
 			return null;
 		}
 		return questaoAluno.get(0);
+	}
+	
+	public List<QuestaoAluno> getQuestoesAluno(int idLista, int idAluno) {
+		String hql = "select q from QuestaoAluno q where q.questao.lista.id = :idLista and q.aluno.id = :idAluno";
+		List<QuestaoAluno> questoesAluno = new ArrayList<QuestaoAluno>();
+		
+		Query query = query(hql);
+		query.setParameter("idAluno", idAluno);
+		query.setParameter("idLista", idLista);
+		questoesAluno.addAll(query.list());
+		
+		return questoesAluno;
 	}
 	
 }

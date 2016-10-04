@@ -14,6 +14,7 @@ define(function(require) {
 	var CustomStringCell = require('views/components/CustomStringCell');
 	var CustomNumberCell = require('views/components/CustomNumberCell');
 	var GeneralActionsCell = require('views/components/GeneralActionsCell');
+	var ExpandableCell = require('views/components/ExpandableCell');
 
 	var ListasCorrecaoTemplate = require('text!views/listasCorrecao/tpl/ListasCorrecaoTemplate.html');
 	var DisciplinaPageCollection = require('collections/DisciplinaPageCollection');
@@ -23,6 +24,9 @@ define(function(require) {
 	var ListaModel = require('models/ListaModel');
 	var ListaCollection = require('collections/ListaCollection');
 	var ListaPageCollection = require('collections/ListaPageCollection');
+	var QuestaoModel = require('models/QuestaoModel');
+	var QuestaoCollection = require('collections/QuestaoCollection');
+	var QuestaoPageCollection = require('collections/QuestaoPageCollection');
 
 	var ListasCorrecao = Marionette.LayoutView.extend({
 		template : _.template(ListasCorrecaoTemplate),
@@ -34,6 +38,9 @@ define(function(require) {
 			listaCounterRegion : '#counter_lista',
 			listaGridRegion : '#grid_lista',
 			listaPaginatorRegion : '#paginator_lista',
+//			questaoCounterRegion : '#counter_questao',
+			questaoGridRegion : '#grid_questao',
+			questaoPaginatorRegion : '#paginator_questao',
 		},
 
 		events : {
@@ -48,10 +55,13 @@ define(function(require) {
 			divPosicao1 : '#divPosicao1',
 			divPosicao2 : '#divPosicao2',
 			divPosicao3 : '#divPosicao3',
+			labelQuestao : '#labelQuestao',
+			groupQuestoes : '#groupQuestoes',
 		},
 
 		initialize : function(opt) {
 			var that = this;
+			this.idProfessor = opt.idProfessor;
 			this.aluno = new AlunoModel();
 			this.aluno.urlRoot = 'rs/crud/alunos/' + opt.idAluno;
 			
@@ -173,6 +183,33 @@ define(function(require) {
 				className : 'dataTables_paginate paging_simple_numbers',
 				uiClassName : 'pagination',
 			});
+			
+			//Questoes da disciplina
+			this.questaoCollection = new QuestaoPageCollection();
+			this.questaoCollection.state.pageSize = 5;
+			this.questaoCollection.on('fetching', this._startFetch, this);
+			this.questaoCollection.on('fetched', this._stopFetch, this);
+			this.questaoCollection.mode = "client";
+			
+			this.listaClicada = null;
+
+
+			this.questaoGrid = new Backgrid.Grid({
+				row : RowClick,
+				className : 'table backgrid table-striped table-bordered table-hover dataTable no-footer  ',
+				columns : this._getQuestaoColumns(),
+				emptyText : "Sem registros",
+				collection : this.questaoCollection,
+				emptyText : "Sem registros para exibir."
+
+			});
+
+			this.questaoPaginator = new Backgrid.Extension.Paginator({
+				columns : this._getQuestaoColumns(),
+				collection : this.questaoCollection,
+				className : 'dataTables_paginate paging_simple_numbers',
+				uiClassName : 'pagination',
+			});
 
 			this.on('show', function() {
 				
@@ -260,7 +297,7 @@ define(function(require) {
 				cell : "string",
 			}, {
 				name : "acoes",
-				label : "Resolver",
+				label : "Respostas",
 				sortable : false,
 				cell : GeneralActionsCell.extend({
 					buttons : this._getListaCellButtons(),
@@ -278,7 +315,7 @@ define(function(require) {
 				type : 'primary',
 				icon : 'fa-pencil',
 				hint : 'Questões',
-				onClick : that._getResolverLista,
+				onClick : that._getQuestoes,
 
 			},{
 				id : 'lista_desafio_button',
@@ -291,29 +328,67 @@ define(function(require) {
 
 			return buttons;
 		},
+		
+		_getQuestoes : function(model) {
+			var that = this;
+			this.listaClicada = model;
+			this.ui.labelQuestao.text("Questões de " + model.get("nome"));
+			var questaoAluno = new QuestaoCollection();
+			questaoAluno.url = "rs/crud/questaos/getQuestoesComRespostas/lista/" + model.get("id") + "/aluno/" + this.aluno.get("id");
+			questaoAluno.fetch({
+				resetState : true,
+				success : function(_coll, _resp, _opt) {
+					that.questaoCollection.add(_resp);
+					
+					that.ui.groupQuestoes.prop("hidden", false);
+					that.questaoGridRegion.show(that.questaoGrid);
+					that.questaoPaginatorRegion.show(that.questaoPaginator);
+				},
+				error : function(_coll, _resp, _opt) {
+					console.error(_coll, _resp, _opt);
+				}
+			});
+			
+		},
+		
+		_getQuestaoColumns : function() {
+			var columns = [
+			{
+				name : "pergunta",
+				editable : false,
+				sortable : true,
+				label 	 : "Pergunta",
+				cell 	 : ExpandableCell.extend({
+					accordion: true,
+				    expand: function (el, model) {
 
-		_getResolverLista : function(model) {
-			if(model.get('concluida')) {
-				util.showMessage("success", model.get("nome") + " concluída.")
-			}else {
-				util.goPage('app/listasCorrecao/resolverLista/aluno/' + this.aluno.get("id") + '/disciplina/' + this.disciplina.get("id") + '/lista/' + model.get("id"), true);
+				      $(el).append($('<div>').html(model.get("pergunta")));
+
+				    }
+				})
+			},
+			
+			{
+				name : "itemCorreto",
+				editable : false,
+				sortable : true,
+				label 	 : "Item Correto",
+				cell 	 : "string",
+			},
+			
+			{
+				name : "itemMarcado",
+				editable : false,
+				sortable : true,
+				label 	 : "Item Marcado",
+				cell 	 : "string",
 			}
+			];
+			return columns;
 		},
-		
-		_getResolverDesafios : function(model) {
-			if(!model.get('concluida')) {
-				util.showMessage("error", "Necessário concluir " + model.get("nome"));
-				return;
-			}
-			if(model.get('desafioConcluido')) {
-				util.showMessage("success", "Desafios de " + model.get("nome") + " concluídos.")
-				return;
-			}
-			util.goPage('app/listasCorrecao/resolverDesafio/aluno/' + this.aluno.get("id") + '/disciplina/' + this.disciplina.get("id") + '/lista/' + model.get("id"), true);
-		},
-		
+
 		voltar : function() {
-			util.goPage("app/perfilAluno/" + this.aluno.get("id"));
+			util.goPage("app/perfilProfessor/" + this.aluno.get("id"));
 		},
 
 

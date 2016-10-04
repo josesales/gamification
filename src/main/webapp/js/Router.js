@@ -134,7 +134,7 @@ define(function(require) {
 			'app/listasExercicios/aluno/:idAluno/disciplina/:idDisciplina' : 'listasExercicios',
 			'app/listasExercicios/resolverLista/aluno/:idAluno/disciplina/:idDisciplina/lista/:idLista' : 'resolverLista',
 			'app/listasExercicios/resolverDesafio/aluno/:idAluno/disciplina/:idDisciplina/lista/:idLista' : 'resolverDesafio',
-			'app/listasCorrecao/aluno/:idAluno/disciplina/:idDisciplina' : 'listasCorrecao',
+			'app/listasCorrecao/professor/:idProfessor/aluno/:idAluno/disciplina/:idDisciplina' : 'listasCorrecao',
 			// hashs de Aluno
 			'app/alunos' : 'alunos',
 			'app/newAluno' : 'newAluno',
@@ -348,9 +348,10 @@ define(function(require) {
 			this.App.mainRegion.show(this.resolverDesafio);
 		},
 		
-		listasCorrecao : function(idAluno, idDisciplina) {
+		listasCorrecao : function(idProfessor, idAluno, idDisciplina) {
 			util.markActiveItem('listasCorrecao');
 			this.pageListasCorrecao = new ListasCorrecao({
+				idProfessor : idProfessor,
 				idAluno : idAluno,
 				idDisciplina : idDisciplina,
 			});

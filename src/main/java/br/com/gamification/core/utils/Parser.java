@@ -514,6 +514,7 @@ public class Parser {
 	    jsonQuestao.setItemD(questao.getItemD());
 	    jsonQuestao.setItemCorreto(questao.getItemCorreto());
 	    jsonQuestao.setPontos(questao.getPontos());
+	    jsonQuestao.setItemMarcado(questao.getItemMarcado());
 	}	
 	private static void applyBasicEntityValues(Questao questao, JsonQuestao jsonQuestao) {
 		questao.setId(jsonQuestao.getId());
@@ -524,6 +525,7 @@ public class Parser {
 		questao.setItemD(jsonQuestao.getItemD());
 		questao.setItemCorreto(jsonQuestao.getItemCorreto());
 		questao.setPontos(jsonQuestao.getPontos());
+		questao.setItemMarcado(jsonQuestao.getItemMarcado());
 	}	
 	
 	public static JsonQuestao toJson(Questao questao) {
