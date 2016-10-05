@@ -22,6 +22,7 @@ import org.apache.log4j.Logger;
 import br.com.gamification.core.json.JsonError;
 import br.com.gamification.core.json.JsonPaginator;
 import br.com.gamification.json.JsonQuestaoDesafio;
+import br.com.gamification.model.Questao;
 import br.com.gamification.model.QuestaoDesafio;
 import br.com.gamification.service.QuestaoDesafioService;
 import br.com.gamification.model.filter.FilterQuestaoDesafio;
@@ -194,6 +195,24 @@ public class QuestaoDesafioResources {
 			String message = String.format("N�o foi possivel pontuar a questao [ %s ] parametros [ %s ]", e.getMessage(), idQuestaoDesafio);
 			LOGGER.error(message, e);
 			return Response.serverError().entity(new JsonError(e, message, idQuestaoDesafio)).build();
+		}
+	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("getQuestoesDesafioComRespostas/lista/{idLista}/aluno/{idAluno}")
+	public Response getQuestoesDesafioComRespostas(@PathParam("idLista") Integer idLista, @PathParam("idAluno") Integer idAluno) {
+		try {
+
+			List<QuestaoDesafio> questoesDesafio = questaoDesafioService.getQuestoesDesafioComRespostas(idLista, idAluno);
+
+			return Response.ok().entity(Parser.toListJsonQuestaoDesafios(questoesDesafio)).build();
+
+		} catch (Exception e) {
+			String message = String.format("Não foi possivel carregar o registro. [ %s ] parametros [ %d ]", e.getMessage(), idLista);
+			LOGGER.error(message, e);
+			return Response.serverError().entity(new JsonError(e, message, idLista)).build();
 		}
 	}
 }

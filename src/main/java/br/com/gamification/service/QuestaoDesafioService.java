@@ -30,4 +30,6 @@ public interface QuestaoDesafioService {
 	Boolean delete(Integer id);
 	
 	Boolean responder(Integer idQuestao, String resposta, Integer idAluno);
+	
+	List<QuestaoDesafio> getQuestoesDesafioComRespostas(Integer idLista,  Integer idAluno);
 }

@@ -27,6 +27,9 @@ define(function(require) {
 	var QuestaoModel = require('models/QuestaoModel');
 	var QuestaoCollection = require('collections/QuestaoCollection');
 	var QuestaoPageCollection = require('collections/QuestaoPageCollection');
+	var QuestaoDesafioModel = require('models/QuestaoDesafioModel');
+	var QuestaoDesafioCollection = require('collections/QuestaoDesafioCollection');
+	var QuestaoDesafioPageCollection = require('collections/QuestaoDesafioPageCollection');
 
 	var ListasCorrecao = Marionette.LayoutView.extend({
 		template : _.template(ListasCorrecaoTemplate),
@@ -38,9 +41,10 @@ define(function(require) {
 			listaCounterRegion : '#counter_lista',
 			listaGridRegion : '#grid_lista',
 			listaPaginatorRegion : '#paginator_lista',
-//			questaoCounterRegion : '#counter_questao',
 			questaoGridRegion : '#grid_questao',
 			questaoPaginatorRegion : '#paginator_questao',
+			desafioGridRegion : '#grid_desafio',
+			desafioPaginatorRegion : '#paginator_desafio',
 		},
 
 		events : {
@@ -57,6 +61,8 @@ define(function(require) {
 			divPosicao3 : '#divPosicao3',
 			labelQuestao : '#labelQuestao',
 			groupQuestoes : '#groupQuestoes',
+			labelDesafio : '#labelDesafio',
+			groupDesafios : '#groupDesafios',
 		},
 
 		initialize : function(opt) {
@@ -184,6 +190,8 @@ define(function(require) {
 				uiClassName : 'pagination',
 			});
 			
+			this.listaClicada = null;
+			
 			//Questoes da disciplina
 			this.questaoCollection = new QuestaoPageCollection();
 			this.questaoCollection.state.pageSize = 5;
@@ -191,9 +199,6 @@ define(function(require) {
 			this.questaoCollection.on('fetched', this._stopFetch, this);
 			this.questaoCollection.mode = "client";
 			
-			this.listaClicada = null;
-
-
 			this.questaoGrid = new Backgrid.Grid({
 				row : RowClick,
 				className : 'table backgrid table-striped table-bordered table-hover dataTable no-footer  ',
@@ -207,6 +212,30 @@ define(function(require) {
 			this.questaoPaginator = new Backgrid.Extension.Paginator({
 				columns : this._getQuestaoColumns(),
 				collection : this.questaoCollection,
+				className : 'dataTables_paginate paging_simple_numbers',
+				uiClassName : 'pagination',
+			});
+			
+			//Questoes desafios da disciplina
+			this.desafioCollection = new QuestaoDesafioPageCollection();
+			this.desafioCollection.state.pageSize = 5;
+			this.desafioCollection.on('fetching', this._startFetch, this);
+			this.desafioCollection.on('fetched', this._stopFetch, this);
+			this.desafioCollection.mode = "client";
+			
+			this.desafioGrid = new Backgrid.Grid({
+				row : RowClick,
+				className : 'table backgrid table-striped table-bordered table-hover dataTable no-footer  ',
+				columns : this._getDesafioColumns(),
+				emptyText : "Sem registros",
+				collection : this.desafioCollection,
+				emptyText : "Sem registros para exibir."
+
+			});
+
+			this.desafioPaginator = new Backgrid.Extension.Paginator({
+				columns : this._getDesafioColumns(),
+				collection : this.desafioCollection,
 				className : 'dataTables_paginate paging_simple_numbers',
 				uiClassName : 'pagination',
 			});
@@ -322,7 +351,7 @@ define(function(require) {
 				type : 'primary',
 				icon : 'fa-star-o',
 				hint : 'Desafios',
-				onClick : that._getResolverDesafios,
+				onClick : that._getDesafios,
 
 			});
 
@@ -340,7 +369,9 @@ define(function(require) {
 				success : function(_coll, _resp, _opt) {
 					that.questaoCollection.add(_resp);
 					
+					that.ui.groupDesafios.prop("hidden", true);
 					that.ui.groupQuestoes.prop("hidden", false);
+					
 					that.questaoGridRegion.show(that.questaoGrid);
 					that.questaoPaginatorRegion.show(that.questaoPaginator);
 				},
@@ -382,13 +413,112 @@ define(function(require) {
 				sortable : true,
 				label 	 : "Item Marcado",
 				cell 	 : "string",
-			}
+			},
+			
+			{
+				name : "pontos",
+				editable : false,
+				sortable : true,
+				label 	 : "Pontos",
+				cell 	 : "string",
+			},
 			];
 			return columns;
 		},
+		
+		_getDesafios : function(model) {
+			var that = this;
+			this.listaClicada = model;
+			this.ui.labelDesafio.text("Desafios de " + model.get("nome"));
+			var desafioAluno = new QuestaoDesafioCollection();
+			desafioAluno.url = "rs/crud/questaoDesafios/getQuestoesDesafioComRespostas/lista/" + model.get("id") + "/aluno/" + this.aluno.get("id");
+			desafioAluno.fetch({
+				resetState : true,
+				success : function(_coll, _resp, _opt) {
+					that.desafioCollection.add(_resp);
+					
+					that.ui.groupQuestoes.prop("hidden", true);
+					that.ui.groupDesafios.prop("hidden", false);
+					that.desafioGridRegion.show(that.desafioGrid);
+					that.desafioPaginatorRegion.show(that.desafioPaginator);
+				},
+				error : function(_coll, _resp, _opt) {
+					console.error(_coll, _resp, _opt);
+				}
+			});
+			
+		},
+		
+		_getDesafioColumns : function() {
+			var columns = [
+			{
+				name : "pergunta",
+				editable : false,
+				sortable : true,
+				label 	 : "Pergunta",
+				cell 	 : ExpandableCell.extend({
+					accordion: true,
+				    expand: function (el, model) {
+
+				      $(el).append($('<div>').html(model.get("pergunta")));
+
+				    }
+				})
+			},
+			{
+				name : "pontos",
+				editable : false,
+				sortable : true,
+				label 	 : "Pontos",
+				cell 	 : "string",
+			},
+			{
+				name : "acoes",
+				label : "Respostas",
+				sortable : false,
+				cell : GeneralActionsCell.extend({
+					buttons : this._getDesafioCellButtons(),
+					context : this,
+				})
+			}
+			
+			];
+			return columns;
+		},
+		
+		_getDesafioCellButtons : function() {
+			var that = this;
+			var buttons = [];
+			buttons.push({
+				id : 'desafio_button',
+				type : 'primary',
+				icon : 'fa-pencil',
+				hint : 'Desafios',
+				onClick : that._getRespostaDesafio,
+
+			});
+
+			return buttons;
+		},
+		
+		_getRespostaDesafio : function(model) {
+//			util.goPage("app/perfilProfessor/" + this.idProfessor);
+			
+			var imagemResposta = $('<img id="imgagemResposta">'); //Equivalent: $(document.createElement('img'))
+			imagemResposta.attr('src', 'images/' + model.get("resposta"));
+//			imgagemResposta.attr();
+//			
+//		    largeImage.style.display = 'block';
+//		    largeImage.style.width=200+"px";
+//		    largeImage.style.height=200+"px";
+//		    var url=largeImage.getAttribute('src');
+			util.openNewWindow(imagemResposta.attr('src'));
+			
+			
+		},
 
 		voltar : function() {
-			util.goPage("app/perfilProfessor/" + this.aluno.get("id"));
+			util.goPage("app/perfilProfessor/" + this.idProfessor);
 		},
 
 

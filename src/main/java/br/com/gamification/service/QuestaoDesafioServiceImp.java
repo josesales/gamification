@@ -129,6 +129,20 @@ public class QuestaoDesafioServiceImp implements QuestaoDesafioService {
 		}
 		listaService.save(listaAluno);
 	}
+	
+	public List<QuestaoDesafio> getQuestoesDesafioComRespostas(Integer idLista,  Integer idAluno) {
+		List<QuestaoDesafioAluno> questoesDesafioAluno = daoQuestaoDesafioAluno.getQuestoesDesafioAluno(idLista, idAluno);
+		List<QuestaoDesafio> questoesDesafio = new ArrayList<QuestaoDesafio>();
+		
+		for(QuestaoDesafioAluno questaoDesafioAluno : questoesDesafioAluno) {
+			QuestaoDesafio questaoDesafio = new QuestaoDesafio();
+			questaoDesafio = questaoDesafioAluno.getQuestaoDesafio();
+			questaoDesafio.setResposta(questaoDesafioAluno.getResposta());
+			questoesDesafio.add(questaoDesafio);
+		}
+		return questoesDesafio;
+	}
+	
 
 
 }
