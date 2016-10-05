@@ -63,6 +63,7 @@ define(function(require) {
 			groupQuestoes : '#groupQuestoes',
 			labelDesafio : '#labelDesafio',
 			groupDesafios : '#groupDesafios',
+			inputRespostaImage : '#inputRespostaImage',
 		},
 
 		initialize : function(opt) {
@@ -370,7 +371,9 @@ define(function(require) {
 					that.questaoCollection.add(_resp);
 					
 					that.ui.groupDesafios.prop("hidden", true);
+					that.ui.inputRespostaImage.prop("hidden", true);
 					that.ui.groupQuestoes.prop("hidden", false);
+					
 					
 					that.questaoGridRegion.show(that.questaoGrid);
 					that.questaoPaginatorRegion.show(that.questaoPaginator);
@@ -502,19 +505,8 @@ define(function(require) {
 		},
 		
 		_getRespostaDesafio : function(model) {
-//			util.goPage("app/perfilProfessor/" + this.idProfessor);
-			
-			var imagemResposta = $('<img id="imgagemResposta">'); //Equivalent: $(document.createElement('img'))
-			imagemResposta.attr('src', 'images/' + model.get("resposta"));
-//			imgagemResposta.attr();
-//			
-//		    largeImage.style.display = 'block';
-//		    largeImage.style.width=200+"px";
-//		    largeImage.style.height=200+"px";
-//		    var url=largeImage.getAttribute('src');
-			util.openNewWindow(imagemResposta.attr('src'));
-			
-			
+			this.ui.inputRespostaImage.attr('src', 'uploads/' + model.get("resposta"));
+			this.ui.inputRespostaImage.prop("hidden", false);
 		},
 
 		voltar : function() {

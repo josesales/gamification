@@ -17,9 +17,10 @@ import org.apache.log4j.Logger;
 import org.imgscalr.Scalr.Method;
 
 public class ImageUtils {
-
+	
 	private static final int FULL_HD_WIDTH = 1920;
 	private static final int HD_WIDTH = 1080;
+	private static final int NORMAL_WIDTH = 720;
 	private static final Logger LOGGER = Logger.getLogger(ImageUtils.class);
 	private static final Map<String, String> FORMATS = new HashMap<String, String>();
 	static {
@@ -89,6 +90,10 @@ public class ImageUtils {
 		createImage(stream, FULL_HD_WIDTH, contentType, folder, "FULL_HD_" + fileName);
 	}
 
+	public static void createNormalImage(BufferedImage stream, String contentType, String folder, String fileName) throws IOException {
+		createImage(stream, NORMAL_WIDTH, contentType, folder, fileName);
+	}
+	
 	public static void createHdImage(BufferedImage stream, String contentType, String folder, String fileName) throws IOException {
 		createImage(stream, HD_WIDTH, contentType, folder, "HD_" + fileName);
 	}

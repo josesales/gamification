@@ -57,9 +57,10 @@ public class UploadResources {
 					if (contentType.toLowerCase().contains("image")) {
 						BufferedImage image = ImageIO.read(stream);
 						
-						ImageUtils.createThumbnail(image, THUMBNAIL_WIDTH, contentType, folder, nameFile);
+//						ImageUtils.createThumbnail(image, THUMBNAIL_WIDTH, contentType, folder, nameFile);
 						ImageUtils.createFullHdImage(image, contentType, folder, nameFile);
-						ImageUtils.createHdImage(image, contentType, folder, nameFile);
+//						ImageUtils.createHdImage(image, contentType, folder, nameFile);
+//						ImageUtils.createNormalImage(image, contentType, folder, nameFile);
 						ImageUtils.saveImage(image, contentType, folder, nameFile);
 					} else {
 						bos = new ByteArrayOutputStream();

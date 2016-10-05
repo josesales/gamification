@@ -105,9 +105,9 @@ define(function(require) {
 				
 				success : function(responseText) {
 					
-					that.ui.inputRespostaImage.attr('src', responseText.dataUrl);
 					that.nomeImagem = responseText.dataUrl.split("/");
-					that.nomeImagem = that.nomeImagem[1];
+					that.nomeImagem = "FULL_HD_" + that.nomeImagem[1];
+					that.ui.inputRespostaImage.attr('src','uploads/' + that.nomeImagem);
 					that.responder();
 				},
 

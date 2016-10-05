@@ -22,8 +22,7 @@ define(function(require) {
 	var ResolverDesafio = require('views/listasExercicios/ResolverDesafio');
 	
 	var ListasCorrecao = require('views/listasCorrecao/ListasCorrecao');
-//	var ResolverLista = require('views/listasExercicios/ResolverLista');
-//	var ResolverDesafio = require('views/listasExercicios/ResolverDesafio');
+	var RespostaDesafio = require('views/listasCorrecao/RespostaDesafio');
 	
 	var PageLista = require('views/lista/PageLista');
 	var FormLista = require('views/lista/FormLista');
@@ -135,6 +134,7 @@ define(function(require) {
 			'app/listasExercicios/resolverLista/aluno/:idAluno/disciplina/:idDisciplina/lista/:idLista' : 'resolverLista',
 			'app/listasExercicios/resolverDesafio/aluno/:idAluno/disciplina/:idDisciplina/lista/:idLista' : 'resolverDesafio',
 			'app/listasCorrecao/professor/:idProfessor/aluno/:idAluno/disciplina/:idDisciplina' : 'listasCorrecao',
+			'app/listasCorrecao/respostaDesafio/:caminhoImagem' : 'respostaDesafio',
 			// hashs de Aluno
 			'app/alunos' : 'alunos',
 			'app/newAluno' : 'newAluno',
@@ -356,6 +356,14 @@ define(function(require) {
 				idDisciplina : idDisciplina,
 			});
 			this.App.mainRegion.show(this.pageListasCorrecao);
+		},
+		
+		respostaDesafio : function(caminhoImagem) {
+			util.markActiveItem('respostaDesafio');
+			this.pageRespostaDesafio = new RespostaDesafio({
+				caminhoImagem : caminhoImagem,
+			});
+			this.App.mainRegion.show(this.pageRespostaDesafio);
 		},
 		
 		//configuração das rotas de Aluno

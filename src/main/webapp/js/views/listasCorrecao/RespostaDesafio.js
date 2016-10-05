@@ -15,7 +15,7 @@ define(function(require) {
 	var CustomNumberCell = require('views/components/CustomNumberCell');
 	var GeneralActionsCell = require('views/components/GeneralActionsCell');
 
-	var ResolverDesafioTemplate = require('text!views/listasExercicios/tpl/ResolverDesafioTemplate.html');
+	var RespostaDesafioTemplate = require('text!views/listasCorrecao/tpl/RespostaDesafioTemplate.html');
 	var DisciplinaPageCollection = require('collections/DisciplinaPageCollection');
 	var DisciplinaModel = require('models/DisciplinaModel');
 	var AlunoModel = require('models/AlunoModel');
@@ -27,8 +27,8 @@ define(function(require) {
 	var QuestaoDesafioCollection = require('collections/QuestaoDesafioCollection');
 	
 
-	var ResolverDesafio = Marionette.LayoutView.extend({
-		template : _.template(ResolverDesafioTemplate),
+	var RespostaDesafio = Marionette.LayoutView.extend({
+		template : _.template(RespostaDesafioTemplate),
 
 		regions : {
 		},
@@ -218,5 +218,5 @@ define(function(require) {
 
 	});
 
-	return ResolverDesafio;
+	return RespostaDesafio;
 });
