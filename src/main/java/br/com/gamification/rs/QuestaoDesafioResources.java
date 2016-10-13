@@ -182,10 +182,10 @@ public class QuestaoDesafioResources {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	@Path("responder/{idQuestaoDesafio}/resposta/{resposta}/aluno/{idAluno}")
-	public Response responder(@PathParam("idQuestaoDesafio") Integer idQuestaoDesafio, @PathParam("resposta") String resposta, @PathParam("idAluno") Integer idAluno) {
+	@Path("responder/{idQuestaoDesafio}/respostaTexto/{respostaTexto}/resposta/{resposta}/aluno/{idAluno}")
+	public Response responder(@PathParam("idQuestaoDesafio") Integer idQuestaoDesafio, @PathParam("respostaTexto") String respostaTexto, @PathParam("resposta") String resposta, @PathParam("idAluno") Integer idAluno) {
 		try {
-			Boolean questaoRespondidaCorretamente = questaoDesafioService.responder(idQuestaoDesafio, resposta, idAluno);
+			Boolean questaoRespondidaCorretamente = questaoDesafioService.responder(idQuestaoDesafio, respostaTexto, resposta, idAluno);
 			return Response.ok().entity(questaoRespondidaCorretamente).build();
 		} catch (ValidationException e) {
 			String message = String.format("N�o foi possivel pontuar a questao [ %s ] parametros [ %s ]", e.getOrigem().getMessage(), idQuestaoDesafio);
@@ -213,6 +213,24 @@ public class QuestaoDesafioResources {
 			String message = String.format("Não foi possivel carregar o registro. [ %s ] parametros [ %d ]", e.getMessage(), idLista);
 			LOGGER.error(message, e);
 			return Response.serverError().entity(new JsonError(e, message, idLista)).build();
+		}
+	}
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("cadastrarResposta/{id}/aluno/{idAluno}/{isCorreta}")
+	public Response cadastrarResposta(@PathParam("id") Integer id, @PathParam("idAluno") Integer idAluno, @PathParam("isCorreta") Boolean isCorreta) {
+		try {
+
+			Boolean respostaCadatrada = questaoDesafioService.cadastrarResposta(id, idAluno, isCorreta);
+
+			return Response.ok().entity(respostaCadatrada).build();
+
+		} catch (Exception e) {
+			String message = String.format("Não foi possivel carregar o registro. [ %s ] parametros [ %d ]", e.getMessage(), id);
+			LOGGER.error(message, e);
+			return Response.serverError().entity(false).build();
 		}
 	}
 }

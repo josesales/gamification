@@ -586,12 +586,16 @@ public class Parser {
 	    jsonQuestaoDesafio.setPontos(questaoDesafio.getPontos());
 	    jsonQuestaoDesafio.setPergunta(questaoDesafio.getPergunta());
 	    jsonQuestaoDesafio.setResposta(questaoDesafio.getResposta());
+	    jsonQuestaoDesafio.setRespostaTexto(questaoDesafio.getRespostaTexto());
+	    jsonQuestaoDesafio.setRespostaCorreta(questaoDesafio.getRespostaCorreta());
 	}	
 	private static void applyBasicEntityValues(QuestaoDesafio questaoDesafio, JsonQuestaoDesafio jsonQuestaoDesafio) {
 		questaoDesafio.setId(jsonQuestaoDesafio.getId());
 		questaoDesafio.setPontos(jsonQuestaoDesafio.getPontos());
 		questaoDesafio.setPergunta(jsonQuestaoDesafio.getPergunta());
 		questaoDesafio.setResposta(jsonQuestaoDesafio.getResposta());
+		questaoDesafio.setRespostaTexto(jsonQuestaoDesafio.getRespostaTexto());
+		questaoDesafio.setRespostaCorreta(jsonQuestaoDesafio.getRespostaCorreta());
 	}	
 	
 	public static JsonQuestaoDesafio toJson(QuestaoDesafio questaoDesafio) {

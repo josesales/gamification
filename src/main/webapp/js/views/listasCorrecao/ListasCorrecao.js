@@ -64,6 +64,7 @@ define(function(require) {
 			labelDesafio : '#labelDesafio',
 			groupDesafios : '#groupDesafios',
 			inputRespostaImage : '#inputRespostaImage',
+			inputResposta : '#inputResposta',
 		},
 
 		initialize : function(opt) {
@@ -372,6 +373,7 @@ define(function(require) {
 					
 					that.ui.groupDesafios.prop("hidden", true);
 					that.ui.inputRespostaImage.prop("hidden", true);
+					that.ui.inputResposta.prop("hidden", true);
 					that.ui.groupQuestoes.prop("hidden", false);
 					
 					
@@ -499,6 +501,22 @@ define(function(require) {
 				hint : 'Desafios',
 				onClick : that._getRespostaDesafio,
 
+			},
+			{
+				id : 'regular_button',
+				type : 'success',
+				icon : 'fa fa-thumbs-down',
+				hint : 'Resposta Correta',
+				onClick : that._cadastrarRespostaCorreta,
+
+			},
+			{
+				id : 'regular_button',
+				type : 'danger',
+				icon : 'fa fa-thumbs-down',
+				hint : 'Resposta Incorreta',
+				onClick : that._cadastrarRespostaIncorreta,
+
 			});
 
 			return buttons;
@@ -506,7 +524,42 @@ define(function(require) {
 		
 		_getRespostaDesafio : function(model) {
 			this.ui.inputRespostaImage.attr('src', 'uploads/' + model.get("resposta"));
+			this.ui.inputResposta.text(model.get("respostaTexto"));
 			this.ui.inputRespostaImage.prop("hidden", false);
+			this.ui.inputResposta.prop("hidden", false);
+		},
+		
+		_cadastrarRespostaCorreta : function(model) {
+			var desafioModel = new QuestaoDesafioModel();
+			
+			desafioModel.url = "rs/crud/questaoDesafios/cadastrarResposta/" + model.get("id") + "/aluno/" + this.aluno.get("id") + "/isCorreta/" + true;
+			
+			desafioModel.fetch({
+				resetState : true,
+				success : function(_coll, _resp, _opt) {
+					util.showSuccessMessage('Resposta correta cadastrada com sucecesso!');
+				},
+				error : function(_coll, _resp, _opt) {
+					console.error(_coll, _resp, _opt);
+				}
+			});
+			
+		},
+		
+		_cadastrarRespostaIncorreta : function(model) {
+			var desafioModel = new QuestaoDesafioModel();
+			
+			desafioModel.url = "rs/crud/questaoDesafios/cadastrarResposta/" + model.get("id") + "/aluno/" + this.aluno.get("id") + "/isCorreta/" + false;
+			
+			desafioModel.fetch({
+				resetState : true,
+				success : function(_coll, _resp, _opt) {
+					util.showSuccessMessage('Resposta incorreta cadastrada com sucecesso!');
+				},
+				error : function(_coll, _resp, _opt) {
+					console.error(_coll, _resp, _opt);
+				}
+			});
 		},
 
 		voltar : function() {

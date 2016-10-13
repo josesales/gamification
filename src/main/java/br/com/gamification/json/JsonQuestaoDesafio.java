@@ -1,14 +1,13 @@
 package br.com.gamification.json;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import br.com.gamification.core.json.SyncOperation;
-import br.com.gamification.core.serialization.CustomSyncObjectIdDeserializer;
 import br.com.gamification.core.serialization.CustomDoubleDeserializer;
+import br.com.gamification.core.serialization.CustomSyncObjectIdDeserializer;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 /**
 *  generated: 23/08/2016 08:32:12
@@ -24,7 +23,9 @@ public class JsonQuestaoDesafio implements Serializable {
 	private Double pontos;
 	private String pergunta;
 	private String resposta;
-	private JsonLista lista;		
+	private JsonLista lista;
+	private Boolean respostaCorreta;
+	private String respostaTexto;
 	
 	public  JsonQuestaoDesafio() {
 		
@@ -75,6 +76,34 @@ public class JsonQuestaoDesafio implements Serializable {
 	
 	public void setSyncOperation (SyncOperation  syncOperation){
 		this.syncOperation = syncOperation;
+	}
+
+	/**
+	 * @return the respostaCorreta
+	 */
+	public Boolean getRespostaCorreta() {
+		return respostaCorreta;
+	}
+
+	/**
+	 * @param respostaCorreta the respostaCorreta to set
+	 */
+	public void setRespostaCorreta(Boolean respostaCorreta) {
+		this.respostaCorreta = respostaCorreta;
+	}
+
+	/**
+	 * @return the respostaTexto
+	 */
+	public String getRespostaTexto() {
+		return respostaTexto;
+	}
+
+	/**
+	 * @param respostaTexto the respostaTexto to set
+	 */
+	public void setRespostaTexto(String respostaTexto) {
+		this.respostaTexto = respostaTexto;
 	}
 	
 }

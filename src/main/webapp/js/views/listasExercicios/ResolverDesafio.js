@@ -37,6 +37,7 @@ define(function(require) {
 			'change  #inputRespostaUploadImage' : 'startUpload',
 			'click  #inputRespostaImage' : 'uploadFile',
 			'click 	#voltar' : 'voltar',
+			'click #responder' : 'responder',
 
 		},
 
@@ -46,6 +47,7 @@ define(function(require) {
 			pergunta : '#pergunta',
 			inputRespostaUploadImage : '#inputRespostaUploadImage',
 			inputRespostaImage : '#inputRespostaImage',
+			inputResposta : '#inputResposta',
 		},
 
 		initialize : function(opt) {
@@ -108,7 +110,6 @@ define(function(require) {
 					that.nomeImagem = responseText.dataUrl.split("/");
 					that.nomeImagem = "FULL_HD_" + that.nomeImagem[1];
 					that.ui.inputRespostaImage.attr('src','uploads/' + that.nomeImagem);
-					that.responder();
 				},
 
 				error : function(response, paran, paran2) {
@@ -150,7 +151,6 @@ define(function(require) {
 				
 		    	pergunta : desafioAtual.pergunta,
 				
-				
 		    	pontos : desafioAtual.pontos, 
 		    	
 		    	lista : that.lista,
@@ -166,7 +166,7 @@ define(function(require) {
 			this.listaAtualizada = new ListaModel();
 			this.listaAtualizada.urlRoot = 'rs/crud/listas/getListaDoAluno/lista/' + this.lista.get('id') + "/aluno/" + this.aluno.get('id');
 			
-			this.questaoDesafioAtual.url = 'rs/crud/questaoDesafios/responder/' + this.questaoDesafioAtual.get("id") + '/resposta/' + this.nomeImagem +'/aluno/' + this.aluno.get("id");
+			this.questaoDesafioAtual.url = 'rs/crud/questaoDesafios/responder/' + this.questaoDesafioAtual.get("id") + '/respostaTexto/' + this.ui.inputResposta.text() + '/resposta/' + this.nomeImagem + '/aluno/' + this.aluno.get("id");
 
 			this.questaoDesafioAtual.fetch({
 				 resetState : true,

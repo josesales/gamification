@@ -21,6 +21,8 @@ define(function(require) {
 	    	pergunta : '',    	
 	    	resposta : '',    	
 			lista : null,
+			respostaCorreta : '',
+			respostaTexto : '',
 		
 		}
 	});

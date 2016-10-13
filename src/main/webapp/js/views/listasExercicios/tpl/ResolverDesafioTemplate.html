@@ -34,12 +34,16 @@
 					
 					<div class="input-group">
 						<div class="row">
-							<h4 class="header smaller lighter blue">Clique na figura abaixo para fazer o upload da imagem que representa sua resposta.</h4>
+							<h4 class="header smaller lighter blue">Responda na caixa de texto ou clique na figura abaixo para fazer o upload da imagem que representa sua resposta.</h4>
 							<input id='inputRespostaUploadImage' type="file" name="files[]" style="display: none">
 <!-- 							<div class="col-lg-3 col-md-3 col-sm-12"> -->
 								<div class="profile-avatar">
 									<img id="inputRespostaImage" style="max-width:1000px; max-height:1000px; width: auto; height: auto;" class="" src="{{'images/questao_desafio.jpg'}}" >
 								</div>
+<!-- 							</div> -->
+<!-- 							<div id="groupInputPergunta" class="form-group"> -->
+<!-- 								<label class="control-label" for="inputResposta"></label> -->
+								<textarea rows="4" maxlength="4000" id="inputResposta" placeholder="Resposta"  class="form-control"></textarea> 
 <!-- 							</div> -->
 						</div>
 				    
@@ -48,6 +52,10 @@
 				</div>
 				
 				<div class="clearfix form-actions">
+					<a href="javascript:void(0)" id="responder"  class="save btn btn-primary">
+						<i class="ace-icon save fa fa-check bigger-110"></i>
+						Responder
+					</a>
 					<a id="voltar" class="go-back-link btn btn-light">
 						<i class="ace-icon fa fa-undo bigger-110"></i>
 						Voltar

@@ -90,7 +90,7 @@ public class QuestaoDesafioServiceImp implements QuestaoDesafioService {
 
 
 	@Override
-	public Boolean responder(Integer idDesafio, String resposta, Integer idAluno) {
+	public Boolean responder(Integer idDesafio, String respostaTexto, String resposta, Integer idAluno) {
 		QuestaoDesafio questaoDesafio = daoQuestaoDesafio.find(idDesafio);
 		boolean retorno = true; 
 		
@@ -102,6 +102,7 @@ public class QuestaoDesafioServiceImp implements QuestaoDesafioService {
 			desafioAluno.setQuestaoDesafio(questaoDesafio);
 		}
 		
+		desafioAluno.setRespostaTexto(respostaTexto);
 		desafioAluno.setResposta(resposta);
 		daoQuestaoDesafioAluno.save(desafioAluno);
 		atualizarDesafioAtual(idAluno, questaoDesafio.getLista());
@@ -138,9 +139,18 @@ public class QuestaoDesafioServiceImp implements QuestaoDesafioService {
 			QuestaoDesafio questaoDesafio = new QuestaoDesafio();
 			questaoDesafio = questaoDesafioAluno.getQuestaoDesafio();
 			questaoDesafio.setResposta(questaoDesafioAluno.getResposta());
+			questaoDesafio.setRespostaTexto(questaoDesafioAluno.getRespostaTexto());
+			questaoDesafio.setRespostaCorreta(questaoDesafioAluno.getRespostaCorreta());
 			questoesDesafio.add(questaoDesafio);
 		}
 		return questoesDesafio;
+	}
+	
+	public Boolean cadastrarResposta(Integer idQuestaoDesafio, Integer idAluno, Boolean isCorreta) {
+		QuestaoDesafioAluno questaoDesafioAluno = daoQuestaoDesafioAluno.getQuestaoDesafioAluno(idAluno, idQuestaoDesafio);
+		questaoDesafioAluno.setRespostaCorreta(isCorreta);
+		daoQuestaoDesafioAluno.save(questaoDesafioAluno);
+		return true;
 	}
 	
 

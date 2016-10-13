@@ -36,7 +36,13 @@ public class QuestaoDesafioAluno extends AbstractTimestampEntity{
 	private QuestaoDesafio questaoDesafio;
 		
 	@Column(name = "RESPOSTA")
-	private String resposta;		
+	private String resposta;
+	
+	@Column(name = "RESPOSTA_TEXTO")
+	private String respostaTexto;
+	
+	@Column(name = "RESPOSTA_CORRETA")
+	private Boolean respostaCorreta;
 	
 	public  QuestaoDesafioAluno() {
 		
@@ -66,6 +72,18 @@ public class QuestaoDesafioAluno extends AbstractTimestampEntity{
 	}
 	public void setQuestaoDesafio(QuestaoDesafio questaoDesafio) {
 		this.questaoDesafio = questaoDesafio;
+	}
+	public String getRespostaTexto() {
+		return respostaTexto;
+	}
+	public void setRespostaTexto(String respostaTexto) {
+		this.respostaTexto = respostaTexto;
+	}
+	public Boolean getRespostaCorreta() {
+		return respostaCorreta;
+	}
+	public void setRespostaCorreta(Boolean respostaCorreta) {
+		this.respostaCorreta = respostaCorreta;
 	}
 	
 }

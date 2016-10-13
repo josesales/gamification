@@ -35,7 +35,13 @@ public class QuestaoDesafio extends AbstractTimestampEntity{
 	private String pergunta;		
 		
 	@Transient
-	private String resposta;		
+	private String resposta;
+	
+	@Transient
+	private String respostaTexto;
+
+	@Transient
+	private Boolean respostaCorreta;
 	
 	@ManyToOne
 	@JoinColumn(name = "ID_LISTA")
@@ -79,6 +85,18 @@ public class QuestaoDesafio extends AbstractTimestampEntity{
 	
 	public void setLista(Lista lista) {
 		this.lista = lista;
+	}
+	public Boolean getRespostaCorreta() {
+		return respostaCorreta;
+	}
+	public void setRespostaCorreta(Boolean respostaCorreta) {
+		this.respostaCorreta = respostaCorreta;
+	}
+	public String getRespostaTexto() {
+		return respostaTexto;
+	}
+	public void setRespostaTexto(String respostaTexto) {
+		this.respostaTexto = respostaTexto;
 	}
 	
 	

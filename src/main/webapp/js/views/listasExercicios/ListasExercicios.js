@@ -14,6 +14,7 @@ define(function(require) {
 	var CustomStringCell = require('views/components/CustomStringCell');
 	var CustomNumberCell = require('views/components/CustomNumberCell');
 	var GeneralActionsCell = require('views/components/GeneralActionsCell');
+	var ExpandableCell = require('views/components/ExpandableCell');
 
 	var ListasExerciciosTemplate = require('text!views/listasExercicios/tpl/ListasExerciciosTemplate.html');
 	var DisciplinaPageCollection = require('collections/DisciplinaPageCollection');
@@ -23,6 +24,9 @@ define(function(require) {
 	var ListaModel = require('models/ListaModel');
 	var ListaCollection = require('collections/ListaCollection');
 	var ListaPageCollection = require('collections/ListaPageCollection');
+	var QuestaoDesafioModel = require('models/QuestaoDesafioModel');
+	var QuestaoDesafioCollection = require('collections/QuestaoDesafioCollection');
+	var QuestaoDesafioPageCollection = require('collections/QuestaoDesafioPageCollection');
 
 	var ListasExercicios = Marionette.LayoutView.extend({
 		template : _.template(ListasExerciciosTemplate),
@@ -34,6 +38,8 @@ define(function(require) {
 			listaCounterRegion : '#counter_lista',
 			listaGridRegion : '#grid_lista',
 			listaPaginatorRegion : '#paginator_lista',
+			desafioGridRegion : '#grid_desafio',
+			desafioPaginatorRegion : '#paginator_desafio',
 		},
 
 		events : {
@@ -48,6 +54,8 @@ define(function(require) {
 			divPosicao1 : '#divPosicao1',
 			divPosicao2 : '#divPosicao2',
 			divPosicao3 : '#divPosicao3',
+			labelDesafio : '#labelDesafio',
+			groupDesafios : '#groupDesafios',
 		},
 
 		initialize : function(opt) {
@@ -143,9 +151,6 @@ define(function(require) {
 						}
 					});
 					 
-					 
-					 
-					 
 					 //caso queira algum tratamento de sucesso adicional
 				 },
 				 error : function(_coll, _resp, _opt) {
@@ -170,6 +175,30 @@ define(function(require) {
 			this.listaPaginator = new Backgrid.Extension.Paginator({
 				columns : this._getListaColumns(),
 				collection : this.listaCollection,
+				className : 'dataTables_paginate paging_simple_numbers',
+				uiClassName : 'pagination',
+			});
+			
+			//Questoes desafios da disciplina
+			this.desafioCollection = new QuestaoDesafioPageCollection();
+			this.desafioCollection.state.pageSize = 5;
+			this.desafioCollection.on('fetching', this._startFetch, this);
+			this.desafioCollection.on('fetched', this._stopFetch, this);
+			this.desafioCollection.mode = "client";
+			
+			this.desafioGrid = new Backgrid.Grid({
+				row : RowClick,
+				className : 'table backgrid table-striped table-bordered table-hover dataTable no-footer  ',
+				columns : this._getDesafioColumns(),
+				emptyText : "Sem registros",
+				collection : this.desafioCollection,
+				emptyText : "Sem registros para exibir."
+
+			});
+
+			this.desafioPaginator = new Backgrid.Extension.Paginator({
+				columns : this._getDesafioColumns(),
+				collection : this.desafioCollection,
 				className : 'dataTables_paginate paging_simple_numbers',
 				uiClassName : 'pagination',
 			});
@@ -300,6 +329,42 @@ define(function(require) {
 			}
 		},
 		
+		_getDesafioColumns : function() {
+			var columns = [
+			{
+				name : "pergunta",
+				editable : false,
+				sortable : true,
+				label 	 : "Pergunta",
+				cell 	 : ExpandableCell.extend({
+					accordion: true,
+				    expand: function (el, model) {
+
+				      $(el).append($('<div>').html(model.get("pergunta")));
+
+				    }
+				})
+			},
+			{
+				name : "pontos",
+				editable : false,
+				sortable : true,
+				label 	 : "Pontos",
+				cell 	 : "string",
+			},
+			
+			{
+				name : "respostaCorreta",
+				editable : false,
+				sortable : true,
+				label 	 : "Resposta Correta?",
+				cell 	 : "boolean",
+			}
+			
+			];
+			return columns;
+		},
+		
 		_getResolverDesafios : function(model) {
 			if(!model.get('concluida')) {
 				util.showMessage("error", "Necessário concluir " + model.get("nome"));
@@ -307,9 +372,32 @@ define(function(require) {
 			}
 			if(model.get('desafioConcluido')) {
 				util.showMessage("success", "Desafios de " + model.get("nome") + " concluídos.")
+				this._getDesafios(model);
 				return;
 			}
 			util.goPage('app/listasExercicios/resolverDesafio/aluno/' + this.aluno.get("id") + '/disciplina/' + this.disciplina.get("id") + '/lista/' + model.get("id"), true);
+		},
+		
+		_getDesafios : function(model) {
+			var that = this;
+			this.listaClicada = model;
+			this.ui.labelDesafio.text("Desafios de " + model.get("nome"));
+			var desafioAluno = new QuestaoDesafioCollection();
+			desafioAluno.url = "rs/crud/questaoDesafios/getQuestoesDesafioComRespostas/lista/" + model.get("id") + "/aluno/" + this.aluno.get("id");
+			desafioAluno.fetch({
+				resetState : true,
+				success : function(_coll, _resp, _opt) {
+					that.desafioCollection.add(_resp);
+					
+					that.ui.groupDesafios.prop("hidden", false);
+					that.desafioGridRegion.show(that.desafioGrid);
+					that.desafioPaginatorRegion.show(that.desafioPaginator);
+				},
+				error : function(_coll, _resp, _opt) {
+					console.error(_coll, _resp, _opt);
+				}
+			});
+			
 		},
 		
 		voltar : function() {

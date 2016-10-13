@@ -2,6 +2,8 @@ package br.com.gamification.service;
 
 import java.util.List;
 
+import javax.ws.rs.PathParam;
+
 import org.joda.time.LocalDateTime;
 
 import br.com.gamification.model.QuestaoDesafio;
@@ -29,7 +31,9 @@ public interface QuestaoDesafioService {
 
 	Boolean delete(Integer id);
 	
-	Boolean responder(Integer idQuestao, String resposta, Integer idAluno);
+	Boolean responder(Integer idQuestao, String respostaTexto, String resposta, Integer idAluno);
 	
 	List<QuestaoDesafio> getQuestoesDesafioComRespostas(Integer idLista,  Integer idAluno);
+	
+	Boolean cadastrarResposta(Integer id, Integer idAluno, Boolean isCorreta);
 }
