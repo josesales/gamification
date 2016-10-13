@@ -219,7 +219,7 @@ public class QuestaoDesafioResources {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	@Path("cadastrarResposta/{id}/aluno/{idAluno}/{isCorreta}")
+	@Path("cadastrarResposta/{id}/aluno/{idAluno}/isCorreta/{isCorreta}")
 	public Response cadastrarResposta(@PathParam("id") Integer id, @PathParam("idAluno") Integer idAluno, @PathParam("isCorreta") Boolean isCorreta) {
 		try {
 

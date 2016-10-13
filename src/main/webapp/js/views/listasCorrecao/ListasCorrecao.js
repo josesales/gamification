@@ -507,7 +507,7 @@ define(function(require) {
 				type : 'success',
 				icon : 'fa fa-thumbs-up',
 				hint : 'Resposta Correta',
-				onClick : that._cadastrarRespostaCorreta,
+				onClick : that._respostaCorreta,
 
 			},
 			{
@@ -515,7 +515,7 @@ define(function(require) {
 				type : 'danger',
 				icon : 'fa fa-thumbs-down',
 				hint : 'Resposta Incorreta',
-				onClick : that._cadastrarRespostaIncorreta,
+				onClick : that._respostaIncorreta,
 
 			});
 
@@ -529,7 +529,7 @@ define(function(require) {
 			this.ui.inputResposta.prop("hidden", false);
 		},
 		
-		_cadastrarRespostaCorreta : function(model) {
+		_respostaCorreta : function(model) {
 			var desafioModel = new QuestaoDesafioModel();
 			
 			desafioModel.url = "rs/crud/questaoDesafios/cadastrarResposta/" + model.get("id") + "/aluno/" + this.aluno.get("id") + "/isCorreta/" + true;
@@ -546,7 +546,7 @@ define(function(require) {
 			
 		},
 		
-		_cadastrarRespostaIncorreta : function(model) {
+		_respostaIncorreta : function(model) {
 			var desafioModel = new QuestaoDesafioModel();
 			
 			desafioModel.url = "rs/crud/questaoDesafios/cadastrarResposta/" + model.get("id") + "/aluno/" + this.aluno.get("id") + "/isCorreta/" + false;
