@@ -358,7 +358,18 @@ define(function(require) {
 				editable : false,
 				sortable : true,
 				label 	 : "Resposta Correta?",
-				cell 	 : "boolean",
+				cell 	 : "string",
+				formatter : _.extend({},Backgrid.CellFormatter.prototype,{
+					fromRaw : function(_respostaCorreta){
+						if(_respostaCorreta == false){
+							return 'Não'; 
+						}else if(_respostaCorreta == true){
+							return 'Sim';
+						}
+						
+						return '';
+					}
+				})
 			}
 			
 			];

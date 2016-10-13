@@ -505,7 +505,7 @@ define(function(require) {
 			{
 				id : 'regular_button',
 				type : 'success',
-				icon : 'fa fa-thumbs-down',
+				icon : 'fa fa-thumbs-up',
 				hint : 'Resposta Correta',
 				onClick : that._cadastrarRespostaCorreta,
 
