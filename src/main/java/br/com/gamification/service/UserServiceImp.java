@@ -131,7 +131,7 @@ public class UserServiceImp implements UserService {
 		filterUser.setUsername(user.getUsername());
 		List<User> listaUsuario = daoUser.filter(filterUser);
 		if(listaUsuario != null && !listaUsuario.isEmpty()) {
-			throw new ValidationException("Usuário já cadastrado!");
+			throw new ValidationException("Cadastro não realizado. Usuário já existente!");
 		}
 	}
 	
