@@ -61,7 +61,7 @@ define(function(require) {
 			//Questao atual respondida
 			this.desafioAtual = new QuestaoDesafioModel();
 			this.indexDesafioAtual = 0;
-			this.nomeImagem = '';
+			this.nomeImagem = 'questao_desafio.jpg';
 			
 			this.on('show', function() {
 
@@ -160,13 +160,20 @@ define(function(require) {
 		},
 		
 		responder : function() {
+			
+			if(!this.ui.inputResposta.val() && this.ui.inputRespostaImage.attr('src') == 'images/questao_desafio.jpg') {
+				util.showMessage('error', 'Digite a resposta na caixa de texto ou realize o upload');
+				return;
+			}
+			
 			var that = this;
 			this.questaoDesafioAtual = this._getQuestaoDesafioAtualModel();
 			
 			this.listaAtualizada = new ListaModel();
 			this.listaAtualizada.urlRoot = 'rs/crud/listas/getListaDoAluno/lista/' + this.lista.get('id') + "/aluno/" + this.aluno.get('id');
+			var respostaTexto = this.ui.inputResposta.val() ? this.ui.inputResposta.val() : 'Sem resposta na caixa de texto';
 			
-			this.questaoDesafioAtual.url = 'rs/crud/questaoDesafios/responder/' + this.questaoDesafioAtual.get("id") + '/respostaTexto/' + this.ui.inputResposta.text() + '/resposta/' + this.nomeImagem + '/aluno/' + this.aluno.get("id");
+			this.questaoDesafioAtual.url = 'rs/crud/questaoDesafios/responder/' + this.questaoDesafioAtual.get("id") + '/respostaTexto/' + respostaTexto + '/resposta/' + this.nomeImagem + '/aluno/' + this.aluno.get("id");
 
 			this.questaoDesafioAtual.fetch({
 				 resetState : true,
@@ -196,6 +203,7 @@ define(function(require) {
 							that._setInformacoesLista(that.listaAtualizada);
 							that._setInformacoesDesafio(that.listaAtualizada.get("questaoDesafios"), that.indexDesafioAtual);
 							that.ui.inputRespostaImage.attr('src', 'images/questao_desafio.jpg');
+							that.ui.inputResposta.val('');
 						},
 						error : function(_coll, _resp, _opt) {
 							console.error(_coll, _resp, _opt)

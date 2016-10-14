@@ -101,4 +101,31 @@ public class DaoUser extends AccessibleHibernateDao<User> {
 		list.addAll(searchCriteria.list());
 		return list;
 	}
+	
+	public List<User> filter(FilterUser filterUser) {
+		List<User> list = new ArrayList<User>();
+		Criteria searchCriteria = criteria();
+		if (filterUser.getName() != null) {
+			searchCriteria.add(Restrictions.eq("name", filterUser.getName()));
+		}
+		if (filterUser.getUsername() != null) {
+			searchCriteria.add(Restrictions.eq("username", filterUser.getUsername()));
+		}
+		if (filterUser.getPassword() != null) {
+			searchCriteria.add(Restrictions.eq("password", filterUser.getPassword()));
+		}
+		if (filterUser.getEnable() != null) {
+			searchCriteria.add(Restrictions.eq("enable", filterUser.getEnable()));
+		}
+		if (filterUser.getImage() != null) {
+			searchCriteria.add(Restrictions.eq("image", filterUser.getImage()));
+		}
+		if (filterUser.getOwner() != null) {
+			searchCriteria.createAlias("owner", "owner_");
+			searchCriteria.add(Restrictions.eq("owner_.id", filterUser.getOwner()));
+		}
+
+		list.addAll(searchCriteria.list());
+		return list;
+	}
 }

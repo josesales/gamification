@@ -62,7 +62,13 @@ $(document).ready(function() {
 		        success: function(data) {
 		        	alert("Cadastro realizado com sucesso.");
 		        	window.location.replace("login.html");
-		        }
+		        },
+		        error : function(error) {
+					if (error && error.responseText) {
+						alert(error.responseText);
+					}
+
+				}
 		    });
 			
 		}

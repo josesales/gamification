@@ -65,6 +65,7 @@ define(function(require) {
 			groupDesafios : '#groupDesafios',
 			inputRespostaImage : '#inputRespostaImage',
 			inputResposta : '#inputResposta',
+			groupInputResposta : '#groupInputResposta',
 		},
 
 		initialize : function(opt) {
@@ -373,7 +374,7 @@ define(function(require) {
 					
 					that.ui.groupDesafios.prop("hidden", true);
 					that.ui.inputRespostaImage.prop("hidden", true);
-					that.ui.inputResposta.prop("hidden", true);
+					that.ui.groupInputResposta.prop("hidden", true);
 					that.ui.groupQuestoes.prop("hidden", false);
 					
 					
@@ -478,6 +479,24 @@ define(function(require) {
 				cell 	 : "string",
 			},
 			{
+				name : "respostaCorreta",
+				editable : false,
+				sortable : true,
+				label 	 : "Resposta Correta?",
+				cell 	 : "string",
+				formatter : _.extend({},Backgrid.CellFormatter.prototype,{
+					fromRaw : function(_respostaCorreta){
+						if(_respostaCorreta == false){
+							return 'Não'; 
+						}else if(_respostaCorreta == true){
+							return 'Sim';
+						}
+						
+						return '';
+					}
+				})
+			},
+			{
 				name : "acoes",
 				label : "Respostas",
 				sortable : false,
@@ -498,24 +517,24 @@ define(function(require) {
 				id : 'desafio_button',
 				type : 'primary',
 				icon : 'fa-pencil',
-				hint : 'Desafios',
+				hint : 'Visualizar',
 				onClick : that._getRespostaDesafio,
 
 			},
 			{
-				id : 'regular_button',
+				id : 'resposta_correta_button',
 				type : 'success',
 				icon : 'fa fa-thumbs-up',
-				hint : 'Resposta Correta',
-				onClick : that._respostaCorreta,
+				hint : 'Cadastrar Resposta Correta',
+				onClick : that._cadastrarRespostaCorreta,
 
 			},
 			{
-				id : 'regular_button',
+				id : 'resposta_incorreta_button',
 				type : 'danger',
 				icon : 'fa fa-thumbs-down',
-				hint : 'Resposta Incorreta',
-				onClick : that._respostaIncorreta,
+				hint : 'Cadastrar Resposta Incorreta',
+				onClick : that._cadastrarRespostaIncorreta,
 
 			});
 
@@ -526,10 +545,11 @@ define(function(require) {
 			this.ui.inputRespostaImage.attr('src', 'uploads/' + model.get("resposta"));
 			this.ui.inputResposta.text(model.get("respostaTexto"));
 			this.ui.inputRespostaImage.prop("hidden", false);
-			this.ui.inputResposta.prop("hidden", false);
+			this.ui.groupInputResposta.prop("hidden", false);
 		},
 		
-		_respostaCorreta : function(model) {
+		_cadastrarRespostaCorreta : function(model) {
+			var that = this;
 			var desafioModel = new QuestaoDesafioModel();
 			
 			desafioModel.url = "rs/crud/questaoDesafios/cadastrarResposta/" + model.get("id") + "/aluno/" + this.aluno.get("id") + "/isCorreta/" + true;
@@ -538,6 +558,13 @@ define(function(require) {
 				resetState : true,
 				success : function(_coll, _resp, _opt) {
 					util.showSuccessMessage('Resposta correta cadastrada com sucecesso!');
+					
+					for(var i = 0; i < that.desafioCollection.length ; i++) {
+						if(that.desafioCollection.at(i).get('id') == model.get('id')){
+							that.desafioCollection.at(i).set('respostaCorreta', true);
+						}
+					}
+					
 				},
 				error : function(_coll, _resp, _opt) {
 					console.error(_coll, _resp, _opt);
@@ -546,7 +573,8 @@ define(function(require) {
 			
 		},
 		
-		_respostaIncorreta : function(model) {
+		_cadastrarRespostaIncorreta : function(model) {
+			var that = this;
 			var desafioModel = new QuestaoDesafioModel();
 			
 			desafioModel.url = "rs/crud/questaoDesafios/cadastrarResposta/" + model.get("id") + "/aluno/" + this.aluno.get("id") + "/isCorreta/" + false;
@@ -555,6 +583,12 @@ define(function(require) {
 				resetState : true,
 				success : function(_coll, _resp, _opt) {
 					util.showSuccessMessage('Resposta incorreta cadastrada com sucecesso!');
+					
+					for(var i = 0; i < that.desafioCollection.length ; i++) {
+						if(that.desafioCollection.at(i).get('id') == model.get('id')){
+							that.desafioCollection.at(i).set('respostaCorreta', false);
+						}
+					}
 				},
 				error : function(_coll, _resp, _opt) {
 					console.error(_coll, _resp, _opt);

@@ -15,10 +15,12 @@ import org.springframework.transaction.annotation.Transactional;
 import br.com.gamification.core.persistence.pagination.Pager;
 import br.com.gamification.core.persistence.pagination.Pagination;
 import br.com.gamification.core.persistence.pagination.PaginationParams;
+import br.com.gamification.core.rs.exception.ValidationException;
 import br.com.gamification.core.security.SpringSecurityUserContext;
 import br.com.gamification.model.Aluno;
 import br.com.gamification.model.Role;
 import br.com.gamification.model.User;
+import br.com.gamification.model.filter.FilterUser;
 import br.com.gamification.persistence.DaoUser;
 
 /**
@@ -92,7 +94,7 @@ public class UserServiceImp implements UserService {
 	
 	@Override
 	public User cadastrarUsuarioAluno(User entity) {
-		
+		validar(entity);
 		entity.setEnable(true);
 		//obtendo perfil do aluno
 		Role perfilAluno = roleService.get(1);
@@ -120,6 +122,17 @@ public class UserServiceImp implements UserService {
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		String hashedPassword = passwordEncoder.encode(senha);
 		return hashedPassword;
+	}
+	
+	private void validar(User user){
+		//verifica se ja nao existe usuario com o mesmo nome
+		
+		FilterUser filterUser = new FilterUser();
+		filterUser.setUsername(user.getUsername());
+		List<User> listaUsuario = daoUser.filter(filterUser);
+		if(listaUsuario != null && !listaUsuario.isEmpty()) {
+			throw new ValidationException("Usuário já cadastrado!");
+		}
 	}
 	
 

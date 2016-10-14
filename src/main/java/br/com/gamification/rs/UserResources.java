@@ -189,9 +189,8 @@ public class UserResources {
 			
 			return Response.ok().entity(Parser.toJson(user)).build();
 		} catch (ValidationException e) {
-			String message = String.format("Não foi possivel salvar  o registro [ %s ] parametros [ %s ]", e.getOrigem().getMessage(), jsonUser.toString());
-			LOGGER.error(message, e.getOrigem());
-			return Response.serverError().entity(new JsonError(e, message, jsonUser, e.getLegalMessage())).build();
+			String message = String.format(e.getLegalMessage());
+			return Response.serverError().entity(message).build();
 		} catch (Exception e) {
 			String message = String.format("Não foi possivel salvar  user [ %s ] parametros [ %s ]", e.getMessage(), jsonUser.toString());
 			LOGGER.error(message, e);
