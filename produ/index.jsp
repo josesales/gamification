@@ -11,7 +11,7 @@
 <meta name="description" content="">
 <meta name="author" content="ThemeBucket">
 <link rel="icon" href="images/ico/favicon.png" type="image/png">
-<title>gamification</title>
+<title>Estudy Game</title>
 <link href="css/main-built.min.css" rel="stylesheet">
 <!--[if lt IE 9]><script src="js/ie8/ie8-responsive-file-warning.js"></script><![endif]-->
 <!--[if lt IE 9]>
@@ -47,7 +47,7 @@
 				<a href="#" class="navbar-brand">
 					<small>
 						<i class="fa fa-desktop"></i>
-						&nbsp;&nbsp;gamification
+						&nbsp;&nbsp;Estudy Game
 					</small>
 				</a>
 			</div>
@@ -204,7 +204,7 @@
 			<div class="footer-inner">
 				<div class="footer-content">
 					<span class="bigger-120">
-						<span class="blue bolder">Gamification</span>
+						<span class="blue bolder">Estudy Game</span>
 						2016.2
 					</span>
 				</div>

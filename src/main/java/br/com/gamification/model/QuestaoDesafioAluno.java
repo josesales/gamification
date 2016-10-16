@@ -11,6 +11,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.hibernate.envers.Audited;
+import org.hibernate.validator.constraints.Length;
 
 import br.com.gamification.core.model.AbstractTimestampEntity;
 /**
@@ -38,7 +39,7 @@ public class QuestaoDesafioAluno extends AbstractTimestampEntity{
 	@Column(name = "RESPOSTA")
 	private String resposta;
 	
-	@Column(name = "RESPOSTA_TEXTO")
+	@Column(name = "RESPOSTA_TEXTO", columnDefinition="TEXT")
 	private String respostaTexto;
 	
 	@Column(name = "RESPOSTA_CORRETA")
