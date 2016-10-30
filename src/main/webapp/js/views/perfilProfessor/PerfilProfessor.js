@@ -28,9 +28,9 @@ define(function(require) {
 			disciplinaCounterRegion : '#counter_disciplina',
 			disciplinaGridRegion : '#grid_disciplina',
 			disciplinaPaginatorRegion : '#paginator_disciplina',
-			rankingGeralCounterRegion : '#counter_ranking_geral',
-			rankingGeralGridRegion : '#grid_ranking_geral',
-			rankingGeralPaginatorRegion : '#paginator_ranking_geral',
+//			rankingGeralCounterRegion : '#counter_ranking_geral',
+//			rankingGeralGridRegion : '#grid_ranking_geral',
+//			rankingGeralPaginatorRegion : '#paginator_ranking_geral',
 //			rankingDisciplinaCounterRegion : '#counter_ranking_disciplina',
 //			rankingDisciplinaGridRegion : '#grid_ranking_disciplina',
 //			rankingDisciplinaPaginatorRegion : '#paginator_ranking_disciplina',
@@ -99,45 +99,45 @@ define(function(require) {
 			});
 
 			//Ranking Geral
-			this.rankingGeralCollection = new AlunoPageCollection();
-			this.rankingGeralCollection.state.pageSize = 5;
-			this.rankingGeralCollection.on('fetching', this._startFetch, this);
-			this.rankingGeralCollection.on('fetched', this._stopFetch, this);
-
-			this.rankingGeralCollection.filterQueryParams = {
-				comPontos : true,
-			}
-
-			this.rankingGeralCollection.fetch({
-				resetState : true,
-				success : function(_coll, _resp, _opt) {
-					// caso queira algum tratamento de sucesso adicional
-				},
-				error : function(_coll, _resp, _opt) {
-					console.error(_coll, _resp, _opt)
-				}
-			});
-
-			this.rankingGeralGrid = new Backgrid.Grid({
-				row : RowClick,
-				className : 'table backgrid table-striped table-bordered table-hover dataTable no-footer  ',
-				columns : this._getRankingGeralColumns(),
-				emptyText : "Sem registros",
-				collection : this.rankingGeralCollection,
-				emptyText : "Sem registros para exibir."
-
-			});
-
-			this.rankingGeralCounter = new Counter({
-				collection : this.rankingGeralCollection,
-			});
-
-			this.rankingGeralPaginator = new Backgrid.Extension.Paginator({
-				columns : this._getRankingGeralColumns(),
-				collection : this.rankingGeralCollection,
-				className : 'dataTables_paginate paging_simple_numbers',
-				uiClassName : 'pagination',
-			});
+//			this.rankingGeralCollection = new AlunoPageCollection();
+//			this.rankingGeralCollection.state.pageSize = 5;
+//			this.rankingGeralCollection.on('fetching', this._startFetch, this);
+//			this.rankingGeralCollection.on('fetched', this._stopFetch, this);
+//
+//			this.rankingGeralCollection.filterQueryParams = {
+//				comPontos : true,
+//			}
+//
+//			this.rankingGeralCollection.fetch({
+//				resetState : true,
+//				success : function(_coll, _resp, _opt) {
+//					// caso queira algum tratamento de sucesso adicional
+//				},
+//				error : function(_coll, _resp, _opt) {
+//					console.error(_coll, _resp, _opt)
+//				}
+//			});
+//
+//			this.rankingGeralGrid = new Backgrid.Grid({
+//				row : RowClick,
+//				className : 'table backgrid table-striped table-bordered table-hover dataTable no-footer  ',
+//				columns : this._getRankingGeralColumns(),
+//				emptyText : "Sem registros",
+//				collection : this.rankingGeralCollection,
+//				emptyText : "Sem registros para exibir."
+//
+//			});
+//
+//			this.rankingGeralCounter = new Counter({
+//				collection : this.rankingGeralCollection,
+//			});
+//
+//			this.rankingGeralPaginator = new Backgrid.Extension.Paginator({
+//				columns : this._getRankingGeralColumns(),
+//				collection : this.rankingGeralCollection,
+//				className : 'dataTables_paginate paging_simple_numbers',
+//				uiClassName : 'pagination',
+//			});
 			
 			
 			//Alunos da disciplina
@@ -188,9 +188,9 @@ define(function(require) {
 				that.disciplinaPaginatorRegion.show(that.disciplinaPaginator);
 
 				// ranking geral
-				that.rankingGeralGridRegion.show(that.rankingGeralGrid);
-				that.rankingGeralCounterRegion.show(that.rankingGeralCounter);
-				that.rankingGeralPaginatorRegion.show(that.rankingGeralPaginator);
+//				that.rankingGeralGridRegion.show(that.rankingGeralGrid);
+//				that.rankingGeralCounterRegion.show(that.rankingGeralCounter);
+//				that.rankingGeralPaginatorRegion.show(that.rankingGeralPaginator);
 				
 			});
 
@@ -225,29 +225,29 @@ define(function(require) {
 			return columns;
 		},
 
-		_getRankingGeralColumns : function() {
-			var columns = [
-			{
-				name : "posicao",
-				editable : false,
-				sortable : true,
-				label : "Posição",
-				cell : "string",
-			}, {
-				name : "nome",
-				editable : false,
-				sortable : true,
-				label 	 : "Aluno",
-				cell 	 : "string",
-			},{
-				name : "pontos",
-				editable : false,
-				sortable : true,
-				label 	 : "Pontos",
-				cell 	 : "string",
-			}];
-			return columns;
-		},
+//		_getRankingGeralColumns : function() {
+//			var columns = [
+//			{
+//				name : "posicao",
+//				editable : false,
+//				sortable : true,
+//				label : "Posição",
+//				cell : "string",
+//			}, {
+//				name : "nome",
+//				editable : false,
+//				sortable : true,
+//				label 	 : "Aluno",
+//				cell 	 : "string",
+//			},{
+//				name : "pontos",
+//				editable : false,
+//				sortable : true,
+//				label 	 : "Pontos",
+//				cell 	 : "string",
+//			}];
+//			return columns;
+//		},
 		
 		_getAlunoColumns : function() {
 			var columns = [
