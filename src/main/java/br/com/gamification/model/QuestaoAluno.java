@@ -21,6 +21,7 @@ import br.com.gamification.core.model.AbstractTimestampEntity;
 @Table(name = "QUESTAO_ALUNO")
 @SequenceGenerator(name = "QUESTAOALUNO_SEQUENCE", sequenceName = "QUESTAOALUNO_SEQUENCE")
 public class QuestaoAluno extends AbstractTimestampEntity{
+	
 	private static final long serialVersionUID = 1L;
 	
 	@Id
