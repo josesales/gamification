@@ -16,6 +16,7 @@ import br.com.gamification.core.persistence.pagination.PaginationParams;
 import br.com.gamification.model.Aluno;
 import br.com.gamification.model.Lista;
 import br.com.gamification.model.ListaAluno;
+import br.com.gamification.model.Questao;
 import br.com.gamification.model.QuestaoDesafio;
 import br.com.gamification.model.QuestaoDesafioAluno;
 import br.com.gamification.persistence.DaoQuestaoDesafio;
@@ -85,6 +86,9 @@ public class QuestaoDesafioServiceImp implements QuestaoDesafioService {
 
 	@Override
 	public Boolean delete(Integer id) {
+		QuestaoDesafio desafioBanco = daoQuestaoDesafio.find(id);
+		desafioBanco.setLista(null);
+		daoQuestaoDesafio.save(desafioBanco);
 		return daoQuestaoDesafio.delete(id);
 	}
 

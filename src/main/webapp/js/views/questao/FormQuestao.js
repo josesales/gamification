@@ -76,25 +76,45 @@ define(function(require) {
 			var questao = that._getModel();
 
 			if (this._isValid()) {
-				questao.save({}, {
-					success : function(_model, _resp, _options) {
-						util.showSuccessMessage('Questao salvo com sucesso!');
-						that.clearForm();
-
-						if (continua != true) {
-							util.goPage('app/questaos');
+				if(this._validarItemCorreto()) {
+					
+					questao = that._getModel();
+					questao.save({}, {
+						success : function(_model, _resp, _options) {
+							util.showSuccessMessage('Questao salvo com sucesso!');
+							that.clearForm();
+	
+							if (continua != true) {
+								util.goPage('app/questaos');
+							}
+						},
+	
+						error : function(_model, _resp, _options) {
+							util.showErrorMessage('Problema ao salvar registro',_resp);
 						}
-					},
-
-					error : function(_model, _resp, _options) {
-						util.showErrorMessage('Problema ao salvar registro',_resp);
-					}
-				});
+					});
+					
+				}else {
+					util.showMessage('error', 'Para o campo item correto digite apenas o caracter correspondente ao item a, b, c ou d');
+				}
 			} else {
 				util.showMessage('error', 'Verifique campos em destaque!');
 			}
 		},
 
+		_validarItemCorreto : function() {
+			var retorno = false;
+			var itemCorreto = this.ui.inputItemCorreto.val();
+			if(itemCorreto) {
+				itemCorreto = itemCorreto.toLowerCase();
+				if(itemCorreto == 'a' || itemCorreto == 'b' || itemCorreto == 'c' || itemCorreto == 'd') {
+					this.ui.inputItemCorreto.val(itemCorreto);
+					retorno = true;
+				}
+			}
+			
+			return retorno;
+		},
 		
 		clearForm : function() {
 			util.clear('inputId');

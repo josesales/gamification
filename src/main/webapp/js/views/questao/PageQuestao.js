@@ -193,10 +193,10 @@ define(function(require) {
 				if (yes) {
 					model.destroy({
 						success : function() {
-							util.showSuccessMessage('Questao removido com sucesso!');
+							util.showSuccessMessage('Questão removida com sucesso!');
 						},
 						error : function(_model, _resp) {
-							util.showErrorMessage('Problema ao salvar registro',_resp);
+							util.showErrorMessage('Problema ao deletar questão, verifique se a mesma já está sendo resolvida pelos alunos',_resp);
 						}
 					});
 				}

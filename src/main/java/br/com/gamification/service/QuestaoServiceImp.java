@@ -87,6 +87,9 @@ public class QuestaoServiceImp implements QuestaoService {
 
 	@Override
 	public Boolean delete(Integer id) {
+		Questao questaoBanco = daoQuestao.find(id);
+		questaoBanco.setLista(null);
+		daoQuestao.save(questaoBanco);
 		return daoQuestao.delete(id);
 	}
 

@@ -158,13 +158,6 @@ define(function(require) {
 				cell 	 : "string",
 			}, 
 			{
-				name : "resposta",
-				editable : false,
-				sortable : true,
-				label 	 : "Resposta",
-				cell 	 : "string",
-			}, 
-			{
 				name : "lista.nome",
 				editable : false,
 				sortable : true,  //já é possivel ordenar por esses atributos compostos.
@@ -192,10 +185,10 @@ define(function(require) {
 				if (yes) {
 					model.destroy({
 						success : function() {
-							util.showSuccessMessage('QuestaoDesafio removido com sucesso!');
+							util.showSuccessMessage('Desafio removido com sucesso!');
 						},
 						error : function(_model, _resp) {
-							util.showErrorMessage('Problema ao salvar registro',_resp);
+							util.showErrorMessage('Problema ao deletar desafio, verifique se o mesmo já está sendo resolvido pelos alunos',_resp);
 						}
 					});
 				}
