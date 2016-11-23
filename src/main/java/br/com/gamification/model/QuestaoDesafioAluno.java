@@ -39,7 +39,7 @@ public class QuestaoDesafioAluno extends AbstractTimestampEntity{
 	@Column(name = "RESPOSTA")
 	private String resposta;
 	
-	@Column(name = "RESPOSTA_TEXTO", columnDefinition="TEXT")
+	@Column(name = "RESPOSTA_ESCRITA", columnDefinition="TEXT")
 	private String respostaTexto;
 	
 	@Column(name = "RESPOSTA_CORRETA")
